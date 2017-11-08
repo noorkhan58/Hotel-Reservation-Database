@@ -27,7 +27,7 @@ CREATE TABLE ROOMS
     HANDICAP BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (rNumber)
 );
-# insert reservation(uID, rNumber, startDate, endDate) value(1,1,'2017-11-8', '2017-11-12')
+
 DROP TABLE IF EXISTS reservation;
 CREATE TABLE reservation
 (
@@ -66,9 +66,7 @@ create table Parking(
 	PRIMARY KEY (pID),
 );
 
-# need to test these views 
-#works create view v as select uID, uName as value from user;
-#works
+
 drop view IF EXISTS BanV;
 create view banV as select uID, uName as value from user where banned is false;
  
