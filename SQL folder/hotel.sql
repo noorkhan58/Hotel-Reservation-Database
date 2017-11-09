@@ -80,7 +80,7 @@ drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber as value from ROOMS where rNumber not in (select rNumber from ROOMS) and not rType = 'Facilities' and not rStatus = 'Taken';
 
 drop view FacilitiesAvaliable;
-create view IF EXISTS FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Avaliable';
+create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Avaliable';
 
 drop view IF EXISTS RoomTypes;
 create view RoomTypes AS select rtype, count(rtype) as amount from rooms group by rtype;
