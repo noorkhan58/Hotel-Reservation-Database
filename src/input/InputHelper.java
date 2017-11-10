@@ -28,7 +28,11 @@ public class InputHelper {
 
 	public static int getIntegerInput(String prompt) throws NumberFormatException {
 		String input = getInput(prompt);
-		return Integer.parseInt(input);	
+		if(input != null && !("".equals(input))) {
+			return Integer.parseInt(input);	
+		}else {
+			return 0;
+		}
 	}
 	
 	public static boolean getBooleanInput(String prompt) {

@@ -1,24 +1,20 @@
 package manager;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import connection.SQLConnection;
 import sampleUser.User;
 
 public class UserManager {
-    private static final String USERNAME = "dbuser";
-    private static final String PASSWORD = "Evergreen2013";
-    private static final String M_CONN_STRING =
-            "jdbc:mysql://localhost/hotel";
     
 	public static void displayAllRows() throws SQLException{
-		String sql = "Select uID, uName, uStars from user";
+		String sql = "Select * from user";
 		try (
-			Connection conn = DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
+			Connection conn = SQLConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 		) {
@@ -27,23 +23,28 @@ public class UserManager {
 				bf.append(rs.getInt("uID") + ": ");
 				bf.append(rs.getString("uName")+ " ");
 				bf.append(rs.getInt("uStars"));
+				bf.append("\t");
+				bf.append(rs.getDate("memberSince"));
 				System.out.println(bf.toString());
 			}
 		}
 	}
 	
 	public static boolean insertUser(User user) throws SQLException {
-		String sql = "insert into user (uName, uStars, membersince, banned) values"
-				+ "(?, ?, ?, ?)";
+		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, refrence) values"
+				+ "(?, ?, ?, ?, ?, ?, ?)";
 		ResultSet rs = null;
 		try(
-				Connection conn = DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
+				Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				) {
 			stmt.setString(1, user.getuName());
-			stmt.setInt(2, user.getuStars());
+			stmt.setInt(2, 5);
 			stmt.setTimestamp(3, user.getMemberSince());
-			stmt.setBoolean(4, user.isBanned());
+			stmt.setBoolean(4, false);
+			stmt.setInt(5, user.getDays());
+			stmt.setInt(6, user.getReferrals());
+			stmt.setInt(7, user.getRefrence());
 			int affected = stmt.executeUpdate();
 			
 			if (affected == 1) {
@@ -71,7 +72,7 @@ public class UserManager {
 		String sql = "Update user set uName = ?, uStars = ?, memberSince = ? where uID = ?";
 		
 		try(
-				Connection conn = DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
+				Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				) {
 			
@@ -86,6 +87,27 @@ public class UserManager {
 					return false;
 				}
 		}catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}
+		
+	}
+	
+	public static boolean deleteUser(int userID) throws Exception {
+		String sql = "Delete from user where uID = ?";
+		try(
+				Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				) {
+			stmt.setInt(1, userID);
+			int affected = stmt.executeUpdate();
+			if(affected == 1) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		catch (SQLException e) {
 			System.err.println(e);
 			return false;
 		}

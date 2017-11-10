@@ -5,12 +5,13 @@ import java.sql.Timestamp;
 public class User {
 	private int uID;
 	private String uName;
-	private int uStars = 3;
+	private int uStars = 5;
 	private Timestamp memberSince;
 	private boolean isBanned = false;
-	private int days;
-	private int referrals;
-	private int refrence;
+	private int days = 0;
+	private int referrals = 0;
+	private int refrence = 0;
+	
 	public int getuID() {
 		return uID;
 	}
