@@ -1,12 +1,14 @@
 package manager;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import connection.SQLConnection;
 import sampleFacilities.Facilities;
+import sampleUser.User;
 
 public class FacilitiesManager {
 	public static void dispalyReservation() throws SQLException {
@@ -19,7 +21,7 @@ public class FacilitiesManager {
 				while(rs.next()) {
 					StringBuffer bf = new StringBuffer();
 					bf.append(rs.getString("fName")+ " ");
-					bf.append(rs.getInt("fNumber") + ": ");
+					bf.append(rs.getInt("rNumber") + ": ");
 					bf.append(rs.getString("fType")+ " ");
 					bf.append(rs.getString("fStatus")+ " ");
 					bf.append(rs.getDate("startDate") + " ");
@@ -27,6 +29,27 @@ public class FacilitiesManager {
 					System.out.println(bf.toString());
 				}
 			}
+	}
+	
+	public static boolean deleteFacilities(String fName) throws Exception {
+		String sql = "Delete from facilities where fName = ?";
+		try(
+				Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				) {
+			stmt.setString(1, fName);
+			int affected = stmt.executeUpdate();
+			if(affected == 1) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}
+		
 	}
 	
 
