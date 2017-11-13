@@ -9,7 +9,7 @@ import connection.SQLConnection;
 
 public class ParkingManager {
 	public static void dispalyParking() throws SQLException {
-		String sql = "Select * from reservation";
+		String sql = "Select * from parking";
 		try (
 				Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
