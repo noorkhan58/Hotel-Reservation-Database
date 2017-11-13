@@ -94,30 +94,31 @@ create view OpenParking as select pID, uID as value from Parking where pStatus =
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
-drop trigger IF EXISTS checkingout;
-delimiter //
-create trigger checkingout
-After Update on reservation.checkout
-for each row 
-begin 
-	if(reservation.checkout is True and reservation.payed is True) then
-		update USER set Days = Days + daycount where USER.uID = reservation.uID and #need to fix logic
-        (select daycount from daysofReservation where rID = reservation.rID); # not sure if right
-        update USER set u1.Referrals = u1.Referrals + 1 and u2.refrence = null where #not right
-        (select uID from User u1, User u2 where u1.uID = u2.refrence);
-        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
-    elseif(reservation.checkout is True and reservation.payed is False) then
-		update USER set user.BANNED = true where user.uid = reservation.uID; 
-        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
-    end if;
-end;//
-delimiter ;
+#still working on commented out stuff
+#drop trigger IF EXISTS checkingout;
+#delimiter //
+#create trigger checkingout
+#After Update on reservation.checkout
+#for each row 
+#begin 
+#	if(reservation.checkout is True and reservation.payed is True) then
+#		update USER set Days = Days + daycount where USER.uID = reservation.uID and #need to fix logic
+#        (select daycount from daysofReservation where rID = reservation.rID); # not sure if right
+#        update USER set u1.Referrals = u1.Referrals + 1 and u2.refrence = null where #not right
+#        (select uID from User u1, User u2 where u1.uID = u2.refrence);
+#        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
+#    elseif(reservation.checkout is True and reservation.payed is False) then
+#		update USER set user.BANNED = true where user.uid = reservation.uID; 
+#        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
+#    end if;
+#end;//
+#delimiter ;
 
 
-drop trigger IF EXISTS setReservation;
-delimiter //
-create trigger setReservation BEFORE UPDATE on reservation for each row begin if(CheckedIn = false and new.Checkedin = true) THEN update ROOMS set rStatus = 'Taken' where reservation.rNumber = Rooms.rNumber; end if; end;//
-delimiter ;
+#drop trigger IF EXISTS setReservation;
+#delimiter //
+#create trigger setReservation BEFORE UPDATE on reservation for each row begin if(CheckedIn = false and new.Checkedin = true) THEN update ROOMS set rStatus = 'Taken' where reservation.rNumber = Rooms.rNumber; end if; end;//
+#delimiter ;
 
 drop trigger IF EXISTS banUser;
 delimiter //
