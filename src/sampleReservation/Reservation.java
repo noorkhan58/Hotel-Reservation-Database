@@ -7,8 +7,8 @@ public class Reservation {
 	private int uID;
 	private int rNumber;
 	private int reservationID;
-	private Date checkedIn;
-	private Date checkedOut;
+	private boolean checkedIn;
+	private boolean checkedOut;
 	private boolean paid;
 	private Date startDate;
 	private Date endDate;
@@ -59,28 +59,28 @@ public class Reservation {
 	 * gets status on user check in
 	 * @return checkedIn if user has checked in
 	 */
-	public Date getCheckIn() {
+	public boolean getCheckIn() {
 		return checkedIn;
 	}
 	/**
 	 * sets status for user check in
 	 * @param checkIn if user has checked in or not
 	 */
-	public void setCheckIn(Date checkIn) {
+	public void setCheckIn(boolean checkIn) {
 		this.checkedIn = checkIn;
 	}
 	/**
 	 * gets status on user check out
 	 * @return checkedOut if user has checked out
 	 */
-	public Date getCheckOut() {
+	public boolean getCheckOut() {
 		return checkedOut;
 	}
 	/**
 	 * sets status for user check out
 	 * @param checkedOut if user has checked out or not
 	 */
-	public void setCheckOut(Date checkOut) {
+	public void setCheckOut(boolean checkOut) {
 		this.checkedOut = checkOut;
 	}
 	/**
