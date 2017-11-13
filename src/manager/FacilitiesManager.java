@@ -11,6 +11,10 @@ import sampleFacilities.Facilities;
 import sampleUser.User;
 
 public class FacilitiesManager {
+	/**
+	 * displaces the reservations in table
+	 * @throws SQLException
+	 */
 	public static void dispalyReservation() throws SQLException {
 		String sql = "Select * from facilities";
 		try (
@@ -30,7 +34,12 @@ public class FacilitiesManager {
 				}
 			}
 	}
-	
+	/**
+	 * deletes Facilities by name
+	 * @param fName the Facilities to delete
+	 * @return boolean if done or not
+	 * @throws Exception
+	 */
 	public static boolean deleteFacilities(String fName) throws Exception {
 		String sql = "Delete from facilities where fName = ?";
 		try(
