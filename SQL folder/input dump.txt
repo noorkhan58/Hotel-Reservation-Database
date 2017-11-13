@@ -1,0 +1,94 @@
+insert into rooms(rNumber, rStatus, price, rType, handicap) value
+(001, null, null, 'Facilities', true),
+(002, null, null, 'Facilities', true),
+(003, null, null, 'Facilities', true),
+(004, null, null, 'Facilities', true),
+(005, null, null, 'Facilities', true),
+(006, null, null, 'Facilities', true),
+(007, null, null, 'Facilities', true),
+(008, null, null, 'Facilities', true),
+(009, null, null, 'Facilities', true),
+(010, null, null, 'Facilities', true),
+(101,'Avaliable', 72, 'studio', true), 
+(102,'Avaliable', 72, 'studio',true), 
+(103,'Avaliable', 72, 'studio',true), 
+(104,'Avaliable', 72, 'studio',true), 
+(105,'Avaliable', 72, 'studio',true), 
+(106,'Avaliable', 100, 'single',true), 
+(107,'Avaliable', 100, 'single',true),
+(108,'Avaliable', 100, 'single',true),
+(109,'Avaliable', 100, 'single',true),
+(110,'Avaliable', 100, 'single',true),
+(111,'Avaliable', 150, 'double',true),
+(112,'Avaliable', 150, 'double',true),
+(113,'Avaliable', 150, 'double',true),
+(114,'Avaliable', 150, 'double',true),
+(115,'Avaliable', 220, 'triple',true),
+(201,'Avaliable', 72, 'studio',false), 
+(202,'Avaliable', 72, 'studio',false), 
+(203,'Avaliable', 72, 'studio',false), 
+(204,'Avaliable', 72, 'studio',false), 
+(205,'Avaliable', 72, 'studio',false), 
+(206,'Avaliable', 100, 'single',false), 
+(207,'Avaliable', 100, 'single',false),
+(208,'Avaliable', 100, 'single',false),
+(209,'Avaliable', 100, 'single',false),
+(210,'Avaliable', 100, 'single',false),
+(211,'Avaliable', 150, 'double',false),
+(212,'Avaliable', 150, 'double',false),
+(213,'Avaliable', 150, 'double',false),
+(214,'Avaliable', 150, 'double',false),
+(215,'Avaliable', 220, 'triple',false);
+
+insert into facilities(fName, rNumber, fStatus, Handicap) value
+('Lobby', 001, 'open', true),
+('Gym', 002, 'open', true),
+('Pool', 003, 'open', true),
+('Landry Room', 004, 'open', true),
+('Meeting Room 1', 005, 'open', true),
+('Meeting Room 2', 006, 'open', true),
+('Meeting Room 3', 007, 'open', true),
+('Resturant', 008, 'open', true),
+('Gift Shop', 009, 'open', true),
+('Game Room', 010, 'open', true);
+
+
+insert into USER(uName) value
+('geoff'),
+('notIt'),
+('memelord'),
+('adam'),
+('ray'),
+('dog1'),
+('wabbit'),
+('hunter2'),
+('feith'),
+('cdub'),
+('solo'),
+('PizzaGuy'),
+('cooldog'),
+('hui'),
+('best guy'),
+('noor'),
+('khoi'),
+('raidome'),
+('nair'),
+('macbook'),
+('morningperson');
+
+
+insert into reservation(Uid, rnumber, startDate, endDate) Value
+(23, 105, '2017-11-20', '2017-11-25');
+
+
+
+insert into parking(uid, pStatus, pType, startDate, endDate) value
+(23, 'taken', normal, '2017-11-20', '2017-11-25');
+
+
+
+insert into parking(uid, pStatus, pType, startDate, endDate);
+insert into reservation(Uid, rnumber, startDate, startDate);
+insert into USER(uName);
+insert into facilities(fName, rNumber,fStatus, Handicap);
+insert into room(rNumber, rStatus, price, rType, handicap);
