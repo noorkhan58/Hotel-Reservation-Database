@@ -26,7 +26,11 @@ public class Main {
        ReservationManager.dispalyReservation();
        
     }
-    
+    /**
+     * 
+     * @param newUser
+     * @throws SQLException
+     */
     private static void insertUser(User newUser) throws SQLException {
     	System.out.println("Enter following, press enter if answer is none\n");
     	newUser.setuName(InputHelper.getInput("Enter User Name: "));
@@ -43,7 +47,11 @@ public class Main {
         	System.out.println("Whoops, Something wrong. User not added");
         }
     }
-
+    /**
+     * 
+     * @param newUser
+     * @throws SQLException
+     */
     private static void updateUser(User newUser) throws SQLException {
     	System.out.println("Enter following, press enter if answer is none\n");
     	int uID = InputHelper.getIntegerInput("Enter the row/uID you want to update:");
@@ -59,7 +67,10 @@ public class Main {
      	   System.err.println("Whoops, something wrong. User not updated");
         }
     }
-
+    /**
+     * 
+     * @throws Exception
+     */
     private static void deleteUser() throws Exception {
     	int uID = InputHelper.getIntegerInput("Enter the row/uID you want to delete: ");
     	boolean result = UserManager.deleteUser(uID);
@@ -69,7 +80,11 @@ public class Main {
          	System.out.println("Whoops, Something wrong. User not deleted");
          }
     }
-
+    /**
+     * 
+     * @param newRoom
+     * @throws SQLException
+     */
     private static void insertRoom(Room newRoom) throws SQLException {
     	newRoom.setrNumber(InputHelper.getIntegerInput("Enter new room number: "));
     	newRoom.setrStatus(newRoom.getrStatus());
@@ -83,7 +98,10 @@ public class Main {
     		System.err.println("Whoops, Something wrong. Room not inserted");
     	}
     }
-
+    /**
+     * 
+     * @param newRoom
+     */
     private static void updateRoom(Room newRoom) {
     	int rNumber  = InputHelper.getIntegerInput("Enter the room number you want to update: ");
     	newRoom.setrNumber(rNumber);
@@ -99,7 +117,9 @@ public class Main {
          }
     	
     }
-
+    /**
+     * 
+     */
     private static void deleteRoom() {
     	int rNumber = InputHelper.getIntegerInput("Enter the row/uID you want to delete: ");
     	boolean result = RoomManager.deleteRoom(rNumber);

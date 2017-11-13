@@ -10,7 +10,10 @@ import connection.SQLConnection;
 import sampleRoom.Room;
 
 public class RoomManager {
-
+	/**
+	 * displays the rooms tale
+	 * @throws SQLException error
+	 */
 	public static void displayRooms() throws SQLException {
 		String sql = "Select * from rooms";
 		try (
@@ -30,7 +33,12 @@ public class RoomManager {
 				}
 			}
 	}
-	
+	/**
+	 * adds a room into the table
+	 * @param room the room to input into sql table
+	 * @return boolean if table was inserted
+	 * @throws SQLException error
+	 */
 	public static boolean insertRoom(Room room) throws SQLException {
 		String sql = "insert into Rooms (rNumber, rStatus, price, rType, handicap)"
 				+ "values(?, ?, ?, ?, ?)";
@@ -62,7 +70,11 @@ public class RoomManager {
 		}
 		}
 	}
-	
+	/**
+	 * updates the room in the table
+	 * @param room the room to update in the table
+	 * @return returns if updated
+	 */
 	public static boolean updateRoom(Room room) {
 		String sql = "Update rooms set rStatus = ?, price = ? where rNumber = ?";
 		try(
@@ -84,7 +96,11 @@ public class RoomManager {
 			return false;
 		}
 	}
-
+	/**
+	 * deletes a room from the table
+	 * @param rNumber the room to delete
+	 * @return returns if delete or not
+	 */
 	public static boolean deleteRoom(int rNumber) {
 		String sql = "Delete from rooms where rNumber = ?";
 		try(

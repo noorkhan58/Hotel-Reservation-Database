@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import connection.SQLConnection;
+import sampleFacilities.Facilities;
 
 public class FacilitiesManager {
 	public static void dispalyReservation() throws SQLException {

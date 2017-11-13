@@ -5,7 +5,11 @@ import java.io.InputStreamReader;
 import java.sql.Timestamp;
 
 public class InputHelper {
-
+	/**
+	 * gets the string input form user
+	 * @param prompt the raw string input
+	 * @return the line of input read in
+	 */
 	public static String getInput(String prompt) {
 		BufferedReader stdin = new BufferedReader(
 				new InputStreamReader(System.in));

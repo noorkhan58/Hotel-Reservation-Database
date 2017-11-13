@@ -10,7 +10,10 @@ import connection.SQLConnection;
 import sampleUser.User;
 
 public class UserManager {
-    
+    /**
+     * displaces the Users rows
+     * @throws SQLException
+     */
 	public static void displayAllRows() throws SQLException{
 		String sql = "Select * from user";
 		try (
@@ -29,7 +32,12 @@ public class UserManager {
 			}
 		}
 	}
-	
+	/**
+	 * adds a user into the mysql table
+	 * @param user user to add into table
+	 * @return boolean if the insert was done
+	 * @throws SQLException error
+	 */
 	public static boolean insertUser(User user) throws SQLException {
 		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, refrence) values"
 				+ "(?, ?, ?, ?, ?, ?, ?)";
@@ -67,7 +75,12 @@ public class UserManager {
 		}
 		return true;
 	}
-	
+	/**
+	 * updates the user in the sql table
+	 * @param user the user to update
+	 * @return  boolean if update or not
+	 * @throws SQLException error
+	 */
 	public static boolean update(User user) throws SQLException {
 		String sql = "Update user set uName = ?, uStars = ?, memberSince = ? where uID = ?";
 		
@@ -92,7 +105,12 @@ public class UserManager {
 		}
 		
 	}
-	
+	/**
+	 * deletes user form table form uID primary key
+	 * @param userID the user to delete form key
+	 * @return returns if done or not
+	 * @throws Exception error
+	 */
 	public static boolean deleteUser(int userID) throws Exception {
 		String sql = "Delete from user where uID = ?";
 		try(

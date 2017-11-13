@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import connection.SQLConnection;
+import sampleReservation.Reservation;
 
 public class ReservationManager {
 

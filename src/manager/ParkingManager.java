@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import connection.SQLConnection;
+import sampleParking.Parking;
 
 public class ParkingManager {
 	public static void dispalyParking() throws SQLException {
