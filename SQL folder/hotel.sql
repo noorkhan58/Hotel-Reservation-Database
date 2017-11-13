@@ -57,7 +57,7 @@ CREATE TABLE facilities(
 
 drop table if exists Parking;
 create table Parking(
-	pID int,
+	pID INT AUTO_INCREMENT,
 	uID int,
 	pStatus VARCHAR(20),
 	pType VARCHAR(20),
@@ -79,7 +79,7 @@ create view DiscountRef as select uID, uname as value from USER where Referrals 
 drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber as value from ROOMS where rNumber not in (select rNumber from ROOMS) and not rType = 'Facilities' and not rStatus = 'Taken';
 
-drop view FacilitiesAvaliable;
+drop view IF EXISTS FacilitiesAvaliable;
 create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Avaliable';
 
 drop view IF EXISTS RoomTypes;
@@ -89,14 +89,14 @@ drop view IF EXISTS ReservationDays;
 create view ReservationDays as select reservationID, DATEDIFF(reservation.endDate, reservation.startDate) as daycount from reservation; 
 
 drop view IF EXISTS OpenParking;
-create view OpenParking as select pID, uID as value from Parking where pStatus = 'Open';
+create view OpenParking as select pID, uID as value from Parking where pStatus = 'Avaliable';
 
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
 #still working on commented out stuff
 #drop trigger IF EXISTS checkingout;
-#delimiter //
+#xx`delimiter //
 #create trigger checkingout
 #After Update on reservation.checkout
 #for each row 
@@ -113,17 +113,18 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 #    end if;
 #end;//
 #delimiter ;
+#
+#
+#
 
-
-#drop trigger IF EXISTS setReservation;
-#delimiter //
-#create trigger setReservation BEFORE UPDATE on reservation for each row begin if(CheckedIn = false and new.Checkedin = true) THEN update ROOMS set rStatus = 'Taken' where reservation.rNumber = Rooms.rNumber; end if; end;//
-#delimiter ;
+drop trigger IF EXISTS CheckInReservation;
+delimiter //
+create trigger CheckInReservation AFTER UPDATE on reservation for each row begin if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber)THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber)THEN update ROOMS set rStatus = 'Avaliable' where new.rNumber = Rooms.rNumber;  END IF; END;//
+delimiter ;
 
 drop trigger IF EXISTS banUser;
 delimiter //
 CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
-
 delimiter ;
 
 
