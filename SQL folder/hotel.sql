@@ -12,7 +12,8 @@ CREATE TABLE USER
     Days int DEFAULT 0,
     Referrals int DEFAULT 0,
     refrence VARCHAR(50) DEFAULT null,
-	PRIMARY KEY (uNAME)
+	PRIMARY KEY (uNAME),
+	FOREIGN KEY (refrence) references USER (uNAME)
 );
 
 DROP TABLE IF EXISTS ROOMS;
