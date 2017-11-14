@@ -32,6 +32,36 @@ public class FacilitiesManager {
 			}
 		}
 	}
+	
+	public static boolean insertUser(Facilities Facilities) throws SQLException {
+		String sql = "insert into Facilities (fName, rNumber, fStatus, Handicap) values"
+				+ "(?, ?, ?, ?)";
+		ResultSet rs = null;
+		try (Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql,
+						Statement.RETURN_GENERATED_KEYS);) {
+			stmt.setString(1, Facilities.getfName());
+			stmt.setInt(2, Facilities.getrNumber());
+			stmt.setString(3, Facilities.getfStatus());
+			stmt.setBoolean(4, Facilities.isHandicap());
+			int affected = stmt.executeUpdate();
+
+			if (affected == 1) {
+				return true;
+			} else {
+				System.err.println("No rows affected");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+		}
+	}
 	/**
 	 * updates a user
 	 * 

@@ -32,7 +32,43 @@ public class ParkingManager {
 			}
 		}
 	}
-	
+	/**
+	 * adds the parking into the table
+	 * @param Parking the parking to add
+	 * @return boolean if added or not
+	 * @throws SQLException
+	 */
+	public static boolean insertUser(Parking Parking) throws SQLException {
+		String sql = "insert into Parking(pNumber, uName, pStatus, pType, startDate, endDate) values"
+				+ "(?,?, ?, ?, ?, ?)";
+		ResultSet rs = null;
+		try (Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql,
+						Statement.RETURN_GENERATED_KEYS);) {
+			stmt.setInt(1, Parking.getpID());
+			stmt.setString(2, Parking.getuName());
+			stmt.setString(3, Parking.getpStatus());
+			stmt.setString(4, Parking.getpType());
+			stmt.setDate(5, Parking.getStartDate());
+			stmt.setDate(6, Parking.getEndDate());
+			int affected = stmt.executeUpdate();
+
+			if (affected == 1) {
+				return true;
+			} else {
+				System.err.println("No rows affected");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+		}
+	}
 	/**
 	 * updates Facilities 
 	 *  

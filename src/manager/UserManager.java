@@ -48,9 +48,9 @@ public class UserManager {
 				PreparedStatement stmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);) {
 			stmt.setString(1, user.getuName());
-			stmt.setInt(2, 5);
+			stmt.setInt(2, user.getuStars());
 			stmt.setTimestamp(3, user.getMemberSince());
-			stmt.setBoolean(4, false);
+			stmt.setBoolean(4, user.isBanned());
 			stmt.setInt(5, user.getDays());
 			stmt.setInt(6, user.getReferrals());
 			stmt.setString(7, user.getRefrence());
@@ -115,11 +115,11 @@ public class UserManager {
 	 * @throws Exception
 	 *             error
 	 */
-	public static boolean deleteUser(int userID) throws Exception {
-		String sql = "Delete from user where uID = ?";
+	public static boolean deleteUser(String uNAME) throws Exception {
+		String sql = "Delete from user where uName = ?";
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
-			stmt.setInt(1, userID);
+			stmt.setString(1, uNAME);
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;

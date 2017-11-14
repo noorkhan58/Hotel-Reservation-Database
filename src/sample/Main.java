@@ -72,8 +72,8 @@ public class Main {
      * @throws Exception
      */
     private static void deleteUser() throws Exception {
-    	int uID = InputHelper.getIntegerInput("Enter the row/uID you want to delete: ");
-    	boolean result = UserManager.deleteUser(uID);
+    	String uID = InputHelper.getInput("Enter the row/uname you want to delete: ");
+    	boolean result = UserManager.deleteUser( uID);
     	if(result) {
       	   System.out.println("User has been deleted");
          }else {

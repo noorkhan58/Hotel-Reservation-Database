@@ -54,7 +54,7 @@ public class RoomManager {
 			stmt.setString(2, room.getrStatus());
 			stmt.setInt(3, room.getPrice());
 			stmt.setString(4, room.getrType());
-			stmt.setBoolean(5, true);
+			stmt.setBoolean(5, room.isHandicap());
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {

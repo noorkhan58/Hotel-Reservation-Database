@@ -35,6 +35,42 @@ public class ReservationManager {
 		}
 	}
 	/**
+	 * adds a reveration into the table
+	 * @param Reservation the reservation to add
+	 * @return boolean if done or not
+	 * @throws SQLException
+	 */
+	public static boolean insertUser(Reservation Reservation) throws SQLException {
+		String sql = "insert into Reservation (uName,rNumber, startDate, endDate) values"
+				+ "(?, ?, ?, ?)";
+		ResultSet rs = null;
+		try (Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql,
+						Statement.RETURN_GENERATED_KEYS);) {
+			stmt.setString(1, Reservation.getuName());
+			stmt.setInt(2, Reservation.getrNumber());
+			stmt.setDate(3, Reservation.getStartDate());
+			stmt.setDate(4, Reservation.getEndDate());
+			int affected = stmt.executeUpdate();
+
+			if (affected == 1) {
+				return true;
+			} else {
+				System.err.println("No rows affected");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+		}
+	}
+	
+	/**
 	 * update reservation of existing 
 	 * @param Reservation the reservation to updated
 	 * @return boolean return if done or not
