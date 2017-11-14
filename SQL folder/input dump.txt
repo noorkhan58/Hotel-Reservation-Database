@@ -119,7 +119,7 @@ insert into parking(pNumber ,uName, pStatus, pType, startDate, endDate) value
 (34 ,null, 'Avaliable', 'normal', null, null),
 (35 ,null, 'Avaliable', 'normal', null, null);
 
-insert into parking(uName,pStatus, pType, startDate, endDate);
+insert into parking(pNumber,uName,pStatus, pType, startDate, endDate);
 insert into reservation(uName, rnumber, startDate, startDate);
 insert into USER(uName);
 insert into facilities(fName, rNumber,fStatus, Handicap);
