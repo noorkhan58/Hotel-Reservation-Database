@@ -22,9 +22,9 @@ public class ReservationManager {
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append(rs.getInt("uID") + ": ");
-				bf.append(rs.getInt("rNumber") + " ");
 				bf.append(rs.getInt("reservationID") + " ");
+				bf.append(rs.getString("uName") + ": ");
+				bf.append(rs.getInt("rNumber") + " ");
 				bf.append(rs.getDate("checkedIn") + " ");
 				bf.append(rs.getDate("checkedOut") + " ");
 				bf.append(rs.getBoolean("paid") + " ");
@@ -42,12 +42,11 @@ public class ReservationManager {
 	 */
 
 	public static boolean update(Reservation Reservation) throws SQLException {
-		String sql = "Update Reservation set uID = ?, rNumber = ?, CheckIn = ?, CheckOut = ?, Paid = ?, StartDate = ?, EndDate = ? where reservationID = ?";
+		String sql = "Update Reservation set uName = ?, rNumber = ?, CheckIn = ?, CheckOut = ?, Paid = ?, StartDate = ?, EndDate = ? where reservationID = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-			stmt.setInt(1, Reservation.getuID() );
+			stmt.setString(1, Reservation.getuName() );
 			stmt.setInt(2, Reservation.getrNumber() );
 			stmt.setBoolean(3, Reservation.getCheckIn() );
 			stmt.setBoolean(4, Reservation.getCheckOut() );

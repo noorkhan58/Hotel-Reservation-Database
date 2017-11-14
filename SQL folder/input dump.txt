@@ -77,18 +77,50 @@ insert into USER(uName) value
 ('morningperson');
 
 
-insert into reservation(Uid, rnumber, startDate, endDate) Value
-(23, 105, '2017-11-20', '2017-11-25');
+insert into reservation(uNAme, rnumber, startDate, endDate) Value
+(19, 105, '2017-11-20', '2017-11-25');
 
 
 
-insert into parking(uid, pStatus, pType, startDate, endDate) value
-(23, 'taken', normal, '2017-11-20', '2017-11-25');
+insert into parking(pNumber ,uName, pStatus, pType, startDate, endDate) value
+(1 ,null, 'Avaliable', 'HandiCap', null, null),
+(2 ,null, 'Avaliable', 'HandiCap', null, null),
+(3 ,null, 'Avaliable', 'HandiCap', null, null),
+(4 ,null, 'Avaliable', 'HandiCap', null, null),
+(5 ,null, 'Avaliable', 'HandiCap', null, null),
+(6 ,null, 'Avaliable', 'compact', null, null),
+(7 ,null, 'Avaliable', 'compact', null, null),
+(8 ,null, 'Avaliable', 'compact', null, null),
+(9 ,null, 'Avaliable', 'compact', null, null),
+(10 ,null, 'Avaliable', 'compact', null, null),
+(11 ,null, 'Avaliable', 'compact', null, null),
+(12 ,null, 'Avaliable', 'compact', null, null),
+(13 ,null, 'Avaliable', 'compact', null, null),
+(14 ,null, 'Avaliable', 'compact', null, null),
+(15 ,null, 'Avaliable', 'compact', null, null),
+(16 ,null, 'Avaliable', 'normal', null, null),
+(17 ,null, 'Avaliable', 'normal', null, null),
+(18 ,null, 'Avaliable', 'normal', null, null),
+(19 ,null, 'Avaliable', 'normal', null, null),
+(20 ,null, 'Avaliable', 'normal', null, null),
+(21 ,null, 'Avaliable', 'normal', null, null),
+(22 ,null, 'Avaliable', 'normal', null, null),
+(23 ,null, 'Avaliable', 'normal', null, null),
+(24 ,null, 'Avaliable', 'normal', null, null),
+(25 ,null, 'Avaliable', 'normal', null, null),
+(26 ,null, 'Avaliable', 'normal', null, null),
+(27 ,null, 'Avaliable', 'normal', null, null),
+(28 ,null, 'Avaliable', 'normal', null, null),
+(29 ,null, 'Avaliable', 'normal', null, null),
+(30 ,null, 'Avaliable', 'normal', null, null),
+(31 ,null, 'Avaliable', 'normal', null, null),
+(32 ,null, 'Avaliable', 'normal', null, null),
+(33 ,null, 'Avaliable', 'normal', null, null),
+(34 ,null, 'Avaliable', 'normal', null, null),
+(35 ,null, 'Avaliable', 'normal', null, null);
 
-
-
-insert into parking(uid, pStatus, pType, startDate, endDate);
-insert into reservation(Uid, rnumber, startDate, startDate);
+insert into parking(uName,pStatus, pType, startDate, endDate);
+insert into reservation(uName, rnumber, startDate, startDate);
 insert into USER(uName);
 insert into facilities(fName, rNumber,fStatus, Handicap);
 insert into room(rNumber, rStatus, price, rType, handicap);

@@ -3,28 +3,14 @@ package sampleUser;
 import java.sql.Timestamp;
 
 public class User {
-	private int uID;
 	private String uName;
 	private int uStars = 5;
 	private Timestamp memberSince;
 	private boolean isBanned = false;
 	private int days = 0;
 	private int referrals = 0;
-	private int refrence = 0;
-	/**
-	 * gets the user id
-	 * @return uID the user id
-	 */
-	public int getuID() {
-		return uID;
-	}
-	/**
-	 * sets the user id
-	 * @param uID the user id
-	 */
-	public void setuID(int uID) {
-		this.uID = uID;
-	}
+	private String refrence;
+
 	/**
 	 * gets the user name
 	 * @return uName user name
@@ -113,14 +99,14 @@ public class User {
 	 * gets the user refrence
 	 * @return refrence the user that refrenced
 	 */
-	public int getRefrence() {
+	public String getRefrence() {
 		return refrence;
 	}
 	/**
 	 * sets a refrence for user
 	 * @param refrence the user that refrenced
 	 */
-	public void setRefrence(int refrence) {
+	public void setRefrence(String refrence) {
 		this.refrence = refrence;
 	}
 	

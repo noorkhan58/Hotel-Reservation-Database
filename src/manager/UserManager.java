@@ -22,7 +22,6 @@ public class UserManager {
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append(rs.getInt("uID") + ": ");
 				bf.append(rs.getString("uName") + " ");
 				bf.append(rs.getInt("uStars"));
 				bf.append("\t");
@@ -54,14 +53,11 @@ public class UserManager {
 			stmt.setBoolean(4, false);
 			stmt.setInt(5, user.getDays());
 			stmt.setInt(6, user.getReferrals());
-			stmt.setInt(7, user.getRefrence());
+			stmt.setString(7, user.getRefrence());
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {
-				rs = stmt.getGeneratedKeys();
-				rs.next();
-				int newKey = rs.getInt(1);
-				user.setuID(newKey);
+				return true;
 			} else {
 				System.err.println("No rows affected");
 				return false;
@@ -75,7 +71,6 @@ public class UserManager {
 				rs.close();
 			}
 		}
-		return true;
 	}
 
 	/**
@@ -88,15 +83,16 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean update(User user) throws SQLException {
-		String sql = "Update user set uName = ?, uStars = ?, memberSince = ? where uID = ?";
+		String sql = "Update user set uStars = ?, memberSince = ?, Days = ?, Referrals = ?, refrence = ?,  where uNAME = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
-
-			stmt.setString(1, user.getuName());
-			stmt.setInt(2, user.getuStars());
-			stmt.setTimestamp(3, user.getMemberSince());
-			stmt.setInt(4, user.getuID());
+			stmt.setInt(1, user.getuStars());
+			stmt.setTimestamp(2, user.getMemberSince());
+			stmt.setInt(3, user.getDays());
+			stmt.setInt(4, user.getReferrals());
+			stmt.setString(5, user.getRefrence());
+			stmt.setString(6, user.getuName());
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;

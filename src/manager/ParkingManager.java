@@ -23,7 +23,7 @@ public class ParkingManager {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
 				bf.append(rs.getInt("pID") + " ");
-				bf.append(rs.getInt("uID") + ": ");
+				bf.append(rs.getString("uNAME") + ": ");
 				bf.append(rs.getString("pStatus") + " ");
 				bf.append(rs.getString("pType") + " ");
 				bf.append(rs.getDate("startDate") + " ");
@@ -41,12 +41,12 @@ public class ParkingManager {
 	 * @throws SQLException
 	 */
 	public static boolean update(Parking Parking) throws SQLException {
-		String sql = "Update Parking set uID = ?, pStatus = ?, pType = ?, StartDate = ?, EndDate = ?,  where pID = ?";
+		String sql = "Update Parking set uNAME = ?, pStatus = ?, pType = ?, StartDate = ?, EndDate = ?,  where pID = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
 
-			stmt.setInt(1, Parking.getuID() );
+			stmt.setString(1, Parking.getuName() );
 			stmt.setString(2, Parking.getpStatus() );
 			stmt.setString(3, Parking.getpType() );
 			stmt.setDate(4, Parking.getStartDate() );

@@ -39,10 +39,10 @@ public class Main {
     	newUser.setBanned(false);
     	newUser.setDays(InputHelper.getIntegerInput("Enter the number of days: "));
     	newUser.setReferrals(InputHelper.getIntegerInput("Enter referrals code number: "));
-    	newUser.setRefrence(InputHelper.getIntegerInput("Enter reference number: "));
+    	newUser.setRefrence(InputHelper.getInput("Enter reference user: "));
     	boolean result = UserManager.insertUser(newUser);
     	if(result) {
-     	   System.out.println("New user has been added with user id: " + newUser.getuID());
+     	   System.out.println("New user has been added with user your username: " + newUser.getuName());
         }else {
         	System.out.println("Whoops, Something wrong. User not added");
         }
@@ -54,8 +54,8 @@ public class Main {
      */
     private static void updateUser(User newUser) throws SQLException {
     	System.out.println("Enter following, press enter if answer is none\n");
-    	int uID = InputHelper.getIntegerInput("Enter the row/uID you want to update:");
-    	newUser.setuID(uID);
+    	String uname = InputHelper.getInput("Enter the row/uName you want to update:");
+    	newUser.setuName(uname);
     	String uName = InputHelper.getInput("Enter new user name: ");
         newUser.setuName(uName);
         int uStars = InputHelper.getIntegerInput("Enter new rating: ");

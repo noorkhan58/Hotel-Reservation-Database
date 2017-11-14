@@ -4,7 +4,8 @@ import java.sql.Date;
 
 public class Reservation {
 
-	private int uID;
+	@SuppressWarnings("unused")
+	private String uName;
 	private int rNumber;
 	private int reservationID;
 	private boolean checkedIn;
@@ -17,15 +18,15 @@ public class Reservation {
 	 * gets the users id on the reservation
 	 * @return uID the users ID
 	 */
-	public int getuID() {
-		return uID;
+	public String getuName() {
+		return uName;
 	}
 	/**
 	 * sets the user ID to room
 	 * @param uID new user id
 	 */
-	public void setuID(int uID) {
-		this.uID = uID;
+	public void setuName(String uName) {
+		this.uName = uName;
 	}
 	/**
 	 * gets the room number on reservation

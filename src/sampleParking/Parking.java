@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Parking {
 
 	private int pID;
-	private int uID;
+	private String uName;
 	private String pStatus;
 	private String pType;
 	private Date startDate;
@@ -28,15 +28,15 @@ public class Parking {
 	 * uID on the Parking spot
 	 * @return uID user on spot
 	 */
-	public int getuID() {
-		return uID;
+	public String getuName() {
+		return uName;
 	}
 	/**
 	 * sets the users ID on spot
 	 * @param uID user to get spot for
 	 */
-	public void setuID(int uID) {
-		this.uID = uID;
+	public void setuName(String uName) {
+		this.uName = uName;
 	}
 	/**
 	 * gets the status of Parking
