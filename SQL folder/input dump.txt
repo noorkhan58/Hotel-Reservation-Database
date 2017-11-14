@@ -78,7 +78,7 @@ insert into USER(uName) value
 
 
 insert into reservation(uNAme, rnumber, startDate, endDate) Value
-(19, 105, '2017-11-20', '2017-11-25');
+('geoff', 105, '2017-11-20', '2017-11-25');
 
 
 
