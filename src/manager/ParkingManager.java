@@ -22,7 +22,7 @@ public class ParkingManager {
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append(rs.getInt("pID") + " ");
+				bf.append(rs.getInt("pNumber") + " ");
 				bf.append(rs.getString("uNAME") + ": ");
 				bf.append(rs.getString("pStatus") + " ");
 				bf.append(rs.getString("pType") + " ");
@@ -45,7 +45,7 @@ public class ParkingManager {
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);) {
-			stmt.setInt(1, Parking.getpID());
+			stmt.setInt(1, Parking.getpNumber());
 			stmt.setString(2, Parking.getuName());
 			stmt.setString(3, Parking.getpStatus());
 			stmt.setString(4, Parking.getpType());
@@ -87,7 +87,7 @@ public class ParkingManager {
 			stmt.setString(3, Parking.getpType() );
 			stmt.setDate(4, Parking.getStartDate() );
 			stmt.setDate(5, Parking.getEndDate() );
-			stmt.setInt(6, Parking.getpID());
+			stmt.setInt(6, Parking.getpNumber());
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;
@@ -109,11 +109,11 @@ public class ParkingManager {
 	 * @return returns if done or not
 	 * @throws Exception
 	 */
-	public static boolean deleteParking(int pID) throws Exception {
-		String sql = "Delete from parking where pID = ?";
+	public static boolean deleteParking(int pNumber) throws Exception {
+		String sql = "Delete from parking where pNumber = ?";
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
-			stmt.setInt(1, pID);
+			stmt.setInt(1, pNumber);
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;

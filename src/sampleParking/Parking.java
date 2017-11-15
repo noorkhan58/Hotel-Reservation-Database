@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Parking {
 
-	private int pID;
+	private int pNumber;
 	private String uName;
 	private String pStatus;
 	private String pType;
@@ -14,15 +14,15 @@ public class Parking {
 	 * gets the pID
 	 * @return pID current Parking ID
 	 */
-	public int getpID() {
-		return pID;
+	public int getpNumber() {
+		return pNumber;
 	}
 	/**
 	 * sets the Parking id
 	 * @param pID new Parking id
 	 */
-	public void setpID(int pID) {
-		this.pID = pID;
+	public void setpNumber(int pNumber) {
+		this.pNumber = pNumber;
 	}
 	/**
 	 * uID on the Parking spot

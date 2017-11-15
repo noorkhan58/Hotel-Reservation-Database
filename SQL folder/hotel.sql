@@ -58,15 +58,9 @@ CREATE TABLE facilities(
 
 drop table if exists Parking;
 create table Parking(
-<<<<<<< Updated upstream
 	pNumber INT,
 	uNAME VARCHAR(50),
-	pStatus VARCHAR(20),
-=======
-	pID INT AUTO_INCREMENT,
-	uID int,
 	pStatus VARCHAR(20) DEFAULT 'Avaliable',
->>>>>>> Stashed changes
 	pType VARCHAR(20),
 	startDate date,
 	endDate date,
@@ -103,16 +97,6 @@ create view OpenParking as select pID, uNAME as value from Parking where pStatus
 
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
-
-<<<<<<< Updated upstream
-=======
-drop trigger IF Exists checkingIn;
-create trigger checkingIn
-after insert on reservation
-for each row
-begin
-    
->>>>>>> Stashed changes
 
 #still working on commented out stuff
 #drop trigger IF EXISTS CheckOutGoods;
