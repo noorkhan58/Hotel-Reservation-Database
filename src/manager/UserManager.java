@@ -83,7 +83,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean update(User user) throws SQLException {
-		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ?  where uNAME = ?";
+		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ? where uNAME = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
