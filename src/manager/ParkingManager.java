@@ -77,7 +77,7 @@ public class ParkingManager {
 	 * @throws SQLException
 	 */
 	public static boolean update(Parking Parking) throws SQLException {
-		String sql = "Update Parking set uNAME = ?, pStatus = ?, pType = ?, StartDate = ?, EndDate = ?,  where pID = ?";
+		String sql = "Update Parking set uNAME = ?, pStatus = ?, pType = ?, StartDate = ?, EndDate = ?,  where pNumber = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
