@@ -87,8 +87,8 @@ public class Main {
     	newUser.setBanned(false);
     	newUser.setDays(0);
     	newUser.setReferrals(0);
-    	String refer = InputHelper.getInput("Enter reference user or null in no reference: ");
-    	if(refer.isEmpty() || refer == "null") {
+    	String refer = InputHelper.getInput("Enter reference user or 0 if no reference: ");
+    	if(refer.isEmpty() || refer == "0") {
     		newUser.setRefrence(null);
     	}else {
     	newUser.setRefrence(refer);
