@@ -3,6 +3,7 @@ CREATE DATABASE HOTEL;
 USE HOTEL; 
 
 DROP TABLE IF EXISTS USER;
+
 CREATE TABLE USER
 (
     uNAME VARCHAR(50),
@@ -20,7 +21,7 @@ DROP TABLE IF EXISTS ROOMS;
 CREATE TABLE ROOMS
 (
     rNumber int,
-    rStatus VARCHAR(20),
+    rStatus VARCHAR(20) DEFAULT 'Avaliable',
     price INT,
     rType VARCHAR(20),
     HANDICAP BOOLEAN DEFAULT FALSE,
@@ -57,9 +58,15 @@ CREATE TABLE facilities(
 
 drop table if exists Parking;
 create table Parking(
+<<<<<<< Updated upstream
 	pNumber INT,
 	uNAME VARCHAR(50),
 	pStatus VARCHAR(20),
+=======
+	pID INT AUTO_INCREMENT,
+	uID int,
+	pStatus VARCHAR(20) DEFAULT 'Avaliable',
+>>>>>>> Stashed changes
 	pType VARCHAR(20),
 	startDate date,
 	endDate date,
@@ -78,7 +85,8 @@ drop view IF EXISTS DiscountRef;
 create view DiscountRef as select uNAME, uname as value from USER where Referrals > 4;
 
 drop view IF EXISTS OpenRooms;
-create view OpenRooms AS select rNumber as value from ROOMS where rNumber not in (select rNumber from ROOMS) and not rType = 'Facilities' and not rStatus = 'Taken';
+create view OpenRooms AS select rNumber as value from ROOMS where rNumber not in 
+    (select rNumber from ROOMS) and not rType = 'Facilities' and not rStatus = 'Taken';
 
 drop view IF EXISTS FacilitiesAvaliable;
 create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Avaliable';
@@ -87,7 +95,8 @@ drop view IF EXISTS RoomTypes;
 create view RoomTypes AS select rtype, count(rtype) as amount from rooms group by rtype;
 
 drop view IF EXISTS ReservationDays;
-create view ReservationDays as select reservationID, DATEDIFF(reservation.endDate, reservation.startDate) as daycount from reservation; 
+create view ReservationDays as select reservationID, DATEDIFF(reservation.endDate, reservation.startDate) as daycount 
+    from reservation; 
 
 drop view IF EXISTS OpenParking;
 create view OpenParking as select pID, uNAME as value from Parking where pStatus = 'Avaliable';
@@ -95,6 +104,15 @@ create view OpenParking as select pID, uNAME as value from Parking where pStatus
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
+<<<<<<< Updated upstream
+=======
+drop trigger IF Exists checkingIn;
+create trigger checkingIn
+after insert on reservation
+for each row
+begin
+    
+>>>>>>> Stashed changes
 
 #still working on commented out stuff
 #drop trigger IF EXISTS CheckOutGoods;
@@ -119,12 +137,22 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 
 drop trigger IF EXISTS CheckInReservation;
 delimiter //
-create trigger CheckInReservation AFTER UPDATE on reservation for each row begin if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber) THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; update Parking set pStatus = 'Taken' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber) THEN update ROOMS set rStatus = 'Avaliable' where new.rNumber = Rooms.rNumber; update Parking set pStatus = 'Avaliable' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; END IF; END;//
+create trigger CheckInReservation AFTER UPDATE on reservation 
+for each row 
+begin 
+if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber) 
+THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; 
+update Parking set pStatus = 'Taken' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
+    ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber) 
+    THEN update ROOMS set rStatus = 'Avaliable' where new.rNumber = Rooms.rNumber; 
+    update Parking set pStatus = 'Avaliable' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
+        END IF; END;//
 delimiter ;
 
 drop trigger IF EXISTS banUser;
 delimiter //
-CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
+CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
+BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
 delimiter ;
 
 

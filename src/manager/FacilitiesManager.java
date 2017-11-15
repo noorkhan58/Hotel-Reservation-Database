@@ -118,4 +118,7 @@ public class FacilitiesManager {
 
 	}
 
+	public static void displayFacilities() {
+		String sql = "Select * from facilities";
+	}
 }

@@ -25,8 +25,8 @@ public class ReservationManager {
 				bf.append(rs.getInt("reservationID") + " ");
 				bf.append(rs.getString("uName") + ": ");
 				bf.append(rs.getInt("rNumber") + " ");
-				bf.append(rs.getDate("checkedIn") + " ");
-				bf.append(rs.getDate("checkedOut") + " ");
+				bf.append(rs.getBoolean("checkedIn") + " ");
+				bf.append(rs.getBoolean("checkedOut") + " ");
 				bf.append(rs.getBoolean("paid") + " ");
 				bf.append(rs.getDate("startDate") + " ");
 				bf.append(rs.getDate("endDate"));

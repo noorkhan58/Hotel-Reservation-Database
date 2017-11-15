@@ -2,47 +2,100 @@ package sample;
 
 import java.sql.SQLException;
 import input.InputHelper;
+import manager.AdminManager;
 import manager.ReservationManager;
 import manager.RoomManager;
 import manager.UserManager;
+import sampleAdmin.Admin;
 import sampleRoom.Room;
 import sampleUser.User;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-       //UserManager.displayAllRows();
-       //RoomManager.displayRooms();
-       Room room = new Room();
-       //deleteRoom();
-       
-       User newUser = new User();
-       //System.out.println(newUser.getuStars());
-       //insertUser(newUser);
-       //updateUser(newUser);
-       //deleteUser(newUser);
-       
-       ReservationManager.dispalyReservation();
+  
+    	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2- User\n");
+    	if(firstInput ==1) {
+    		boolean trueAdmin = loginAdmin();
+    		if(trueAdmin) {
+    			adminInput();
+    		}else{
+    			System.out.println("username/password combination wrong. try again");
+    		}
+    	}else if(firstInput == 2) {
+    		userInput();
+    	}else{
+    		System.out.println("Invalid input, try again later");
+    	}
        
     }
+    
     /**
-     * 
+     * insert admin to the database
+     * @param admin
+     * @throws SQLException
+     */
+    private static void addAdmin(Admin admin) throws SQLException {
+    	admin.setUsername(InputHelper.getInput("Enter username"));
+    	admin.setPassword(InputHelper.getInput("Enter password"));
+    	boolean result = AdminManager.insertAdmin(admin);
+    	if(result) {
+    		System.out.println("New admin added to the database");
+    	}else {
+    		System.out.println("Whoops, Something wrong. Admin not added");
+    	}
+    }
+    /**
+     *  Admin log in
+     * @return true if username and password valid
+     * @throws SQLException
+     */
+    private static boolean loginAdmin() throws SQLException {
+    	String username = InputHelper.getInput("Enter your username: ");
+		String password = InputHelper.getInput("Enter your password: ");
+		boolean foundAdmin = AdminManager.login(username, password);
+		if(foundAdmin){
+			System.out.println("Admin successfully logged in");
+			return true;
+		}else{
+			return false;
+		}
+    }
+    
+    /**
+     * delete admin from database
+     */
+    private static void deleteAdmin() {
+    	String username = InputHelper.getInput("Enter the admin name: ");
+    	boolean result = AdminManager.deleteAdmin(username);
+    	if(result) {
+      	   System.out.println("Admin has been deleted from database");
+         }else {
+         	System.out.println("Whoops, Something wrong. User not deleted");
+         }	
+    }
+    /**
+     * method inserts user to the user table
      * @param newUser
      * @throws SQLException
      */
     private static void insertUser(User newUser) throws SQLException {
-    	System.out.println("Enter following, press enter if answer is none\n");
+    	System.out.println("Enter following, press just enter if answer is none\n");
     	newUser.setuName(InputHelper.getInput("Enter User Name: "));
     	newUser.setuStars(5);
     	newUser.setMemberSince(InputHelper.getTimeStamp());
     	newUser.setBanned(false);
     	newUser.setDays(InputHelper.getIntegerInput("Enter the number of days: "));
     	newUser.setReferrals(InputHelper.getIntegerInput("Enter referrals code number: "));
-    	newUser.setRefrence(InputHelper.getInput("Enter reference user: "));
+    	String refer = InputHelper.getInput("Enter reference user: ");
+    	if(refer.isEmpty()) {
+    		newUser.setRefrence(null);
+    	}else {
+    	newUser.setRefrence(refer);
+    	}
     	boolean result = UserManager.insertUser(newUser);
     	if(result) {
-     	   System.out.println("New user has been added with user your username: " + newUser.getuName());
+     	   System.out.println("New user has been added with username: " + newUser.getuName());
         }else {
         	System.out.println("Whoops, Something wrong. User not added");
         }
@@ -56,10 +109,20 @@ public class Main {
     	System.out.println("Enter following, press enter if answer is none\n");
     	String uname = InputHelper.getInput("Enter the row/uName you want to update:");
     	newUser.setuName(uname);
-    	String uName = InputHelper.getInput("Enter new user name: ");
-        newUser.setuName(uName);
         int uStars = InputHelper.getIntegerInput("Enter new rating: ");
         newUser.setuStars(uStars);
+        int days = InputHelper.getIntegerInput("Enter new number of days: ");
+        newUser.setDays(days);
+        int referals = InputHelper.getIntegerInput("Enter new referals number: ");
+        newUser.setReferrals(referals);
+        String reference = InputHelper.getInput("Enter new reference name: ");
+        if(reference.isEmpty()) {
+        	newUser.setRefrence(null);
+        }else {
+        newUser.setRefrence(reference);
+        }
+        
+        
         boolean result = UserManager.update(newUser);
         if(result) {
      	   System.out.println("User updated");
@@ -72,8 +135,8 @@ public class Main {
      * @throws Exception
      */
     private static void deleteUser() throws Exception {
-    	String uID = InputHelper.getInput("Enter the row/uname you want to delete: ");
-    	boolean result = UserManager.deleteUser( uID);
+    	String uName = InputHelper.getInput("Enter the user name: ");
+    	boolean result = UserManager.deleteUser(uName);
     	if(result) {
       	   System.out.println("User has been deleted");
          }else {
@@ -131,4 +194,97 @@ public class Main {
     }
 
 
+    private static void banCustomer(User banUser) throws SQLException {
+    	String user = InputHelper.getInput("Enter the customer name you want to ban: ");
+    	banUser.setuName(user);
+    	banUser.setBanned(true);
+    	boolean result = UserManager.update(banUser);
+    	if(result) {
+    		System.out.println(banUser.getuName() + " has been banned");
+    	}else{
+    		System.out.println("Whoops, something wrong. Banned not successful");
+    	}
+    	
+    }
+    private static void makeReservation() {
+    	
+    }
+    /**
+     * This is the options for admin. when admin log in, they can do follwoing.
+     * @throws Exception
+     */
+    private static void adminInput() throws Exception {
+    	int answer = InputHelper.getIntegerInput("Please press number from the following: \n"
+    			+ "1 - Add new admin\n"
+    			+ "2 - Add new customer informations\n"
+    			+ "3 - Delete customer informations\n"
+    			+ "4 - Update customer informations\n"
+    			+ "5 - Ban existing customer\n"
+    			+ "6 - Make reservation\n"
+    			+ "7 - Cancel reservation\n"
+    			+ "8 - Delete existing admin\n"
+    			+ "0 - quit\n");
+    	switch (answer) {
+		case 1:
+			addAdmin(new Admin());
+			adminInput();
+			break;
+		case 2:
+			insertUser(new User());
+			adminInput();
+			break;
+		case 3:
+			deleteUser();
+			adminInput();
+			break;
+		case 4:
+			updateUser(new User());
+			adminInput();
+			break;
+		case 5:
+			banCustomer(new User());
+			adminInput();
+			break;
+		case 8:
+			deleteAdmin();
+			adminInput();
+			break;
+		case 0:
+			break;
+
+		default:
+			break;
+		}
+    }
+    
+    /**
+     * This is the options for customer. they can do follwoing.
+     * @throws Exception
+     */
+    
+    private static void userInput() throws Exception {
+    	int answer = InputHelper.getIntegerInput("Please press number from the following: \n"
+    			+ "1 - Create an account\n"
+    			+ "2 - Delete account"
+    			+ "3 - Make reservation\n"
+    			+ "4 - Cancel reservation\n"
+    			+ "0 - quit\n");
+    	switch (answer) {
+		case 1:
+			insertUser(new User());
+			userInput();
+			break;
+		case 2:
+			deleteUser();
+			userInput();
+			break;
+		case 3:
+			break;
+		case 0:
+			break;
+
+		default:
+			break;
+		}
+    }
 }
