@@ -85,10 +85,10 @@ public class Main {
     	newUser.setuStars(5);
     	newUser.setMemberSince(InputHelper.getTimeStamp());
     	newUser.setBanned(false);
-    	newUser.setDays(InputHelper.getIntegerInput("Enter the number of days: "));
-    	newUser.setReferrals(InputHelper.getIntegerInput("Enter referrals code number: "));
-    	String refer = InputHelper.getInput("Enter reference user: ");
-    	if(refer.isEmpty()) {
+    	newUser.setDays(0);
+    	newUser.setReferrals(0);
+    	String refer = InputHelper.getInput("Enter reference user or null in no reference: ");
+    	if(refer.isEmpty() || refer == "null") {
     		newUser.setRefrence(null);
     	}else {
     	newUser.setRefrence(refer);
