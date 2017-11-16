@@ -114,7 +114,7 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 #begin 
 #	if(old.checkout= false and new.checkout = True and payed = True) then
 #		 update USER set Days = Days + daycount where USER.uNAME = reservation.uNAME and #need to fix logic
-#        (select daycount from daysofReservation where rID = reservation.rID); # not sure if right
+#        (select daycount from daysofReservation where rNumber = reservation.rNumber); # not sure if right
 #        update USER set u1.Referrals = u1.Referrals + 1 and u2.reference = null where #not right
 #        (select uNAME from User u1, User u2 where u1.uNAME = u2.reference);
 #        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
@@ -124,7 +124,7 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 #    end if;
 #end;//
 #delimiter ;
-#
+
 
 drop trigger IF EXISTS CheckInReservation;
 delimiter //
