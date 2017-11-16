@@ -41,7 +41,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean insertUser(User user) throws SQLException {
-		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, refrence) values"
+		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, reference) values"
 				+ "(?, ?, ?, ?, ?, ?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
@@ -53,7 +53,7 @@ public class UserManager {
 			stmt.setBoolean(4, user.isBanned());
 			stmt.setInt(5, user.getDays());
 			stmt.setInt(6, user.getReferrals());
-			stmt.setString(7, user.getRefrence());
+			stmt.setString(7, user.getReference());
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {
@@ -83,7 +83,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean update(User user) throws SQLException {
-		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ? where uNAME = ?";
+		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, reference = ? where uNAME = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -92,7 +92,7 @@ public class UserManager {
 			stmt.setBoolean(3, user.isBanned());
 			stmt.setInt(4, user.getDays());
 			stmt.setInt(5, user.getReferrals());
-			stmt.setString(6, user.getRefrence());
+			stmt.setString(6, user.getReference());
 			stmt.setString(7, user.getuName());
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {

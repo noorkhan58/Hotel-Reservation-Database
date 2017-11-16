@@ -3,7 +3,6 @@ CREATE DATABASE HOTEL;
 USE HOTEL; 
 
 DROP TABLE IF EXISTS ADMIN;
-
 CREATE TABLE ADMIN
 (
 username VARCHAR(30) NOT NULL,
@@ -12,7 +11,6 @@ PRIMARY KEY (username)
 );
 
 DROP TABLE IF EXISTS USER;
-
 CREATE TABLE USER
 (
     uNAME VARCHAR(50),
@@ -21,9 +19,9 @@ CREATE TABLE USER
     BANNED BOOLEAN DEFAULT FALSE,
     Days int DEFAULT 0,
     Referrals int DEFAULT 0,
-    refrence VARCHAR(50) DEFAULT null,
+    reference VARCHAR(50) DEFAULT null,
 	PRIMARY KEY (uNAME),
-	FOREIGN KEY (refrence) references USER (uNAME)
+	FOREIGN KEY (reference) references USER (uNAME)
 );
 
 DROP TABLE IF EXISTS ROOMS;
@@ -117,8 +115,8 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 #	if(old.checkout= false and new.checkout = True and payed = True) then
 #		 update USER set Days = Days + daycount where USER.uNAME = reservation.uNAME and #need to fix logic
 #        (select daycount from daysofReservation where rID = reservation.rID); # not sure if right
-#        update USER set u1.Referrals = u1.Referrals + 1 and u2.refrence = null where #not right
-#        (select uNAME from User u1, User u2 where u1.uNAME = u2.refrence);
+#        update USER set u1.Referrals = u1.Referrals + 1 and u2.reference = null where #not right
+#        (select uNAME from User u1, User u2 where u1.uNAME = u2.reference);
 #        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
 #    elseif(old.checkout = false and new.checkout = True and reservation.payed is False) then
 #		update USER set user.stars = 1 where user.uNAME = reservation.uNAME; 

@@ -89,9 +89,9 @@ public class Main {
     	newUser.setReferrals(0);
     	String refer = InputHelper.getInput("Enter reference user or 0 if no reference: ");
     	if(refer.isEmpty() || refer == "0") {
-    		newUser.setRefrence(null);
+    		newUser.setReference(null);
     	}else {
-    	newUser.setRefrence(refer);
+    	newUser.setReference(refer);
     	}
     	boolean result = UserManager.insertUser(newUser);
     	if(result) {
@@ -117,9 +117,9 @@ public class Main {
         newUser.setReferrals(referals);
         String reference = InputHelper.getInput("Enter new reference name: ");
         if(reference.isEmpty()) {
-        	newUser.setRefrence(null);
+        	newUser.setReference(null);
         }else {
-        newUser.setRefrence(reference);
+        newUser.setReference(reference);
         }
         
         

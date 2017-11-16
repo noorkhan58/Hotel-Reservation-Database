@@ -9,7 +9,7 @@ public class User {
 	private boolean isBanned = false;
 	private int days = 0;
 	private int referrals = 0;
-	private String refrence;
+	private String reference;
 
 	/**
 	 * gets the user name
@@ -99,15 +99,15 @@ public class User {
 	 * gets the user refrence
 	 * @return refrence the user that refrenced
 	 */
-	public String getRefrence() {
-		return refrence;
+	public String getReference() {
+		return reference;
 	}
 	/**
 	 * sets a refrence for user
 	 * @param refrence the user that refrenced
 	 */
-	public void setRefrence(String refrence) {
-		this.refrence = refrence;
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 	
 	
