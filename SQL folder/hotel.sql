@@ -75,10 +75,6 @@ create table Parking(
 	FOREIGN KEY (uNAME) references USER (uNAME)
 );
 
-
-drop view IF EXISTS BanV;
-create view banV as select uNAME, uName as value from user where banned is false;
- 
 drop view IF EXISTS DiscountDay;
 create view DiscountDay as select uNAME, uname as value from USER where Days > 9;
 
@@ -104,6 +100,16 @@ create view OpenParking as select pID, uNAME as value from Parking where pStatus
 
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
+
+
+Drop PROCEDURE IF EXISTS CHECKBANNED;
+delimiter //
+CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50))
+begin 
+Select * from user
+where uNAME = USERNAME;
+end//
+delimiter ;
 
 #still working on commented out stuff
 #drop trigger IF EXISTS CheckOutGoods;
