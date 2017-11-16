@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS ROOMS;
 CREATE TABLE ROOMS
 (
     rNumber int,
-    rStatus VARCHAR(20) DEFAULT 'Avaliable',
+    rStatus VARCHAR(20) DEFAULT 'Available',
     price INT,
     rType VARCHAR(20),
     HANDICAP BOOLEAN DEFAULT FALSE,
@@ -67,7 +67,7 @@ drop table if exists Parking;
 create table Parking(
 	pNumber INT,
 	uNAME VARCHAR(50),
-	pStatus VARCHAR(20) DEFAULT 'Avaliable',
+	pStatus VARCHAR(20) DEFAULT 'Available',
 	pType VARCHAR(20),
 	startDate date,
 	endDate date,
@@ -87,10 +87,10 @@ create view DiscountRef as select uNAME, uname as value from USER where Referral
 
 drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber as value from ROOMS where rNumber not in 
-    (select rNumber from ROOMS) and not rType = 'Facilities' and not rStatus = 'Taken';
+    (select rNumber from ROOMS) and not rType = 'Facilities' and rStatus = 'Available';
 
 drop view IF EXISTS FacilitiesAvaliable;
-create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Avaliable';
+create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Available';
 
 drop view IF EXISTS RoomTypes;
 create view RoomTypes AS select rtype, count(rtype) as amount from rooms group by rtype;
@@ -100,7 +100,7 @@ create view ReservationDays as select reservationID, DATEDIFF(reservation.endDat
     from reservation; 
 
 drop view IF EXISTS OpenParking;
-create view OpenParking as select pID, uNAME as value from Parking where pStatus = 'Avaliable';
+create view OpenParking as select pID, uNAME as value from Parking where pStatus = 'Available';
 
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
@@ -135,8 +135,8 @@ if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber)
 THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; 
 update Parking set pStatus = 'Taken' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
     ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber) 
-    THEN update ROOMS set rStatus = 'Avaliable' where new.rNumber = Rooms.rNumber; 
-    update Parking set pStatus = 'Avaliable' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
+    THEN update ROOMS set rStatus = 'Available' where new.rNumber = Rooms.rNumber; 
+    update Parking set pStatus = 'Available' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
         END IF; END;//
 delimiter ;
 
