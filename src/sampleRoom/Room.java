@@ -3,7 +3,7 @@ package sampleRoom;
 public class Room {
 
 	private int rNumber;
-	private String rStatus = "Availabl";
+	private String rStatus = "Available";
 	private int price;
 	private String rType;
 	private boolean handicap = true;
