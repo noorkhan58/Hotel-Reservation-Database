@@ -96,7 +96,7 @@ create view ReservationDays as select reservationID, DATEDIFF(reservation.endDat
     from reservation; 
 
 drop view IF EXISTS OpenParking;
-create view OpenParking as select pID, uNAME as value from Parking where pStatus = 'Available';
+create view OpenParking as select pNumber, uNAME as value from Parking where pStatus = 'Available';
 
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
