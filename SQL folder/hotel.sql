@@ -86,7 +86,7 @@ drop view IF EXISTS DiscountRef;
 create view DiscountRef as select uNAME, uname as value from USER where Referrals > 4;
 
 drop view IF EXISTS OpenRooms;
-create view OpenRooms AS select rNumber as value from ROOMS where rNumber not in 
+create view OpenRooms AS select rNumber, rType as value from ROOMS where rNumber not in 
     (select rNumber from ROOMS) and not rType = 'Facilities' and rStatus = 'Available';
 
 drop view IF EXISTS FacilitiesAvaliable;

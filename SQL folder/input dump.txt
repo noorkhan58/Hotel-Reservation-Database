@@ -120,7 +120,7 @@ insert into parking(pNumber ,uName, pStatus, pType, startDate, endDate) value
 (35 ,null, 'Avaliable', 'normal', null, null);
 
 insert into parking(pNumber,uName,pStatus, pType, startDate, endDate);
-insert into reservation(uName, rnumber, startDate, startDate);
+insert into reservation(uName, rnumber, startDate, endDate);
 insert into USER(uName);
 insert into facilities(fName, rNumber,fStatus, Handicap);
 insert into room(rNumber, rStatus, price, rType, handicap);
