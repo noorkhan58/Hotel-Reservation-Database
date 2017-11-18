@@ -104,9 +104,11 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 
 Drop PROCEDURE IF EXISTS CHECKBANNED;
 delimiter //
-CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50))
+CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50), OUT bool BOOLEAN)
 begin 
-Select * from user
+Select BANNED 
+INTO bool
+from user
 where uNAME = USERNAME;
 end//
 delimiter ;

@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
   
-    	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2- User\n");
+    	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2 - User\n");
     	if(firstInput ==1) {
     		boolean trueAdmin = loginAdmin();
     		if(trueAdmin) {
@@ -209,6 +209,26 @@ public class Main {
     private static void makeReservation() {
     	
     }
+
+	/**
+     * 
+     * @param user 
+     * @return boolean value to see if the User can go onto the next step.
+     * @throws Exception
+     */  
+    private static boolean checkBanned(User user) throws Exception{
+	    	String u = InputHelper.getInput("Enter in your username: ");
+	    	user.setuName(u);
+	    	boolean result = UserManager.checkBanned(user);
+	    	if(result) {
+	    		System.out.println(user.getuName() + " is banned");
+	    		return true;
+	    	}
+	    	else {
+	    		return false;
+	    	}
+    }
+
     /**
      * This is the options for admin. when admin log in, they can do follwoing.
      * @throws Exception
@@ -265,7 +285,7 @@ public class Main {
     private static void userInput() throws Exception {
     	int answer = InputHelper.getIntegerInput("Please press number from the following: \n"
     			+ "1 - Create an account\n"
-    			+ "2 - Delete account"
+    			+ "2 - Delete account\n"
     			+ "3 - Make reservation\n"
     			+ "4 - Cancel reservation\n"
     			+ "0 - quit\n");
@@ -279,6 +299,7 @@ public class Main {
 			userInput();
 			break;
 		case 3:
+			if(checkBanned(new User())) makeReservation();
 			break;
 		case 0:
 			break;
