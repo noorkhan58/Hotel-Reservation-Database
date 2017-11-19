@@ -16,8 +16,8 @@ public class RoomManager {
 	 * @throws SQLException
 	 *             error
 	 */
-	public static void displayRooms() throws SQLException {
-		String sql = "Select * from rooms";
+	public static void displayOpenRooms() throws SQLException {
+		String sql = "select * from rooms where rStatus = 'Avaliable'";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
@@ -124,4 +124,8 @@ public class RoomManager {
 			return false;
 		}
 	}
+	
+	public static void displayAvailableRoom() throws SQLException {
+    	RoomManager.displayOpenRooms();
+    }
 }

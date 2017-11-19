@@ -50,7 +50,6 @@ CREATE TABLE reservation
 	FOREIGN KEY (uNAME) references USER (uNAME),
     FOREIGN KEY (rNumber) references ROOMS (rNumber)
 );
-set AUTO_INCREMENT = 1;
 
 drop table if exists facilities;
 CREATE TABLE facilities(
@@ -66,15 +65,142 @@ CREATE TABLE facilities(
 drop table if exists Parking;
 create table Parking(
 	pNumber INT,
+    roomNumber int NOT NULL,
 	uNAME VARCHAR(50),
+<<<<<<< Updated upstream
 	pStatus VARCHAR(20) DEFAULT 'Available',
 	pType VARCHAR(20),
+=======
+	pStatus VARCHAR(20) DEFAULT 'Avaliable',
+>>>>>>> Stashed changes
 	startDate date,
 	endDate date,
 	PRIMARY KEY (pNumber),
-	FOREIGN KEY (uNAME) references USER (uNAME)
+    UNIQUE (roomNumber),
+	FOREIGN KEY (uNAME) references USER (uNAME),
+    FOREIGN KEY (rNumber) references ROOMS (rNumber)
 );
 
+<<<<<<< Updated upstream
+=======
+
+drop trigger IF EXISTS populateParking;
+DELIMITER //
+CREATE TRIGGER populateParking
+AFTER insert ON ROOMS
+FOR EACH ROW
+BEGIN
+INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
+ VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
+END //
+DELIMITER ;
+
+
+drop trigger IF EXISTS cancelReservation;
+DELIMITER //
+CREATE TRIGGER cancelReservation
+AFTER DELETE ON reservation
+FOR EACH ROW
+BEGIN
+UPDATE ROOMS SET rStatus = 'Avaliable' WHERE old.rNumber = ROOMS.rNumber;
+END //
+DELIMITER ;
+
+
+drop trigger IF EXISTS checkIn;
+DELIMITER //
+CREATE TRIGGER checkIn
+AFTER UPDATE ON reservation
+FOR EACH ROW
+BEGIN
+if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber)
+THEN
+UPDATE Parking SET uNAME = new.uNAME, 
+Parking.startDate = new.startDate, Parking.endDate = new.endDate, pStatus = 'Taken'
+WHERE old.rNumber = Parking.roomNumber;
+ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber)
+THEN
+UPDATE Parking SET uNAME = NULL, 
+Parking.startDate = NULL, Parking.endDate = NULL, pStatus = 'Avaliable'
+WHERE old.rNumber = Parking.roomNumber;
+ END IF;
+END //
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS addAdmin;
+DELIMITER //
+CREATE PROCEDURE addAdmin(
+IN username varchar(50),
+IN password varchar(50)
+)
+BEGIN
+INSERT INTO ADMIN VALUES(username, password);
+END //
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS checkBanUser;
+DELIMITER //
+CREATE PROCEDURE checkBanUser(
+IN username varchar(50)
+)
+BEGIN
+SELECT uNAME FROM USER WHERE uNAME = username and BANNED = true;
+END //
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS getAvailabledates;
+DELIMITER //
+CREATE PROCEDURE getAvailabledates(
+IN date1 Varchar(20),
+IN date2 varchar(20),
+IN roomNumber int
+)
+BEGIN
+SELECT count(uName) as total FROM reservation where (date1 < startDate and date2 < endDate
+and rNumber = roomNumber)
+ or(date1 > startDate and date2 > endDate
+  and rNumber = roomNumber);
+END //
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS getTotalDates;
+DELIMITER //
+CREATE PROCEDURE getTotalDates(
+IN roomNumber int
+)
+BEGIN
+SELECT count(*) FROM reservation where rNumber = roomNumber;
+END //
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS displayUnavailableDate;
+DELIMITER //
+CREATE PROCEDURE displayUnavailableDate(
+IN roomNumber int
+)
+BEGIN
+SELECT startDate, endDate FROM reservation where rNumber = roomNumber;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
+drop view IF EXISTS BanV;
+create view banV as select uNAME, uName as value from user where banned is false;
+ 
+>>>>>>> Stashed changes
 drop view IF EXISTS DiscountDay;
 create view DiscountDay as select uNAME, uname as value from USER where Days > 9;
 
@@ -102,6 +228,7 @@ drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
 
+<<<<<<< Updated upstream
 Drop PROCEDURE IF EXISTS CHECKBANNED;
 delimiter //
 CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50), OUT bool BOOLEAN)
@@ -113,6 +240,8 @@ where uNAME = USERNAME;
 end//
 delimiter ;
 
+=======
+>>>>>>> Stashed changes
 #still working on commented out stuff
 #drop trigger IF EXISTS CheckOutGoods;
 #delimiter //
@@ -153,8 +282,6 @@ delimiter //
 CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
 BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
 delimiter ;
-
-
 
 
 

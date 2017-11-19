@@ -1,18 +1,25 @@
 package sample;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import input.InputHelper;
 import manager.AdminManager;
 import manager.ReservationManager;
 import manager.RoomManager;
 import manager.UserManager;
 import sampleAdmin.Admin;
+import sampleReservation.Reservation;
 import sampleRoom.Room;
 import sampleUser.User;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+    	
+    	
   
     	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2 - User\n");
     	if(firstInput ==1) {
@@ -27,7 +34,7 @@ public class Main {
     	}else{
     		System.out.println("Invalid input, try again later");
     	}
-       
+    	
     }
     
     /**
@@ -36,8 +43,20 @@ public class Main {
      * @throws SQLException
      */
     private static void addAdmin(Admin admin) throws SQLException {
-    	admin.setUsername(InputHelper.getInput("Enter username"));
-    	admin.setPassword(InputHelper.getInput("Enter password"));
+    	String username = InputHelper.getInput("Enter username");
+    	if(username.isEmpty()) {
+    		System.out.println("You must enter new username");
+    		username = InputHelper.getInput("Enter username");
+    	}else{
+    		admin.setUsername(username);	
+    	}
+    	String password = InputHelper.getInput("Enter password");
+    	if(password.isEmpty()) {
+    		System.out.println("You must enter new password");
+    		password = InputHelper.getInput("Enter password");
+    	}else{
+    		admin.setPassword(password);	
+    	}
     	boolean result = AdminManager.insertAdmin(admin);
     	if(result) {
     		System.out.println("New admin added to the database");
@@ -81,7 +100,13 @@ public class Main {
      */
     private static void insertUser(User newUser) throws SQLException {
     	System.out.println("Enter following, press just enter if answer is none\n");
-    	newUser.setuName(InputHelper.getInput("Enter User Name: "));
+    	String uName = InputHelper.getInput("Enter User Name: ");
+    	if(uName.isEmpty()) {
+    		System.out.println("You must enter your name");
+    		uName = InputHelper.getInput("Enter User Name: ");
+    	}else {
+    	newUser.setuName(uName);
+    	}
     	newUser.setuStars(5);
     	newUser.setMemberSince(InputHelper.getTimeStamp());
     	newUser.setBanned(false);
@@ -194,21 +219,81 @@ public class Main {
     }
 
 
-    private static void banCustomer(User banUser) throws SQLException {
+    private static boolean banCustomer(User banUser) throws SQLException {
     	String user = InputHelper.getInput("Enter the customer name you want to ban: ");
     	banUser.setuName(user);
     	banUser.setBanned(true);
     	boolean result = UserManager.update(banUser);
     	if(result) {
     		System.out.println(banUser.getuName() + " has been banned");
+    		return true;
     	}else{
-    		System.out.println("Whoops, something wrong. Banned not successful");
+    		return false;
     	}
     	
     }
-    private static void makeReservation() {
+    
+    /**
+     * this make new reservation
+     * @param newReservation
+     * @throws SQLException
+     */
+    private static void makeReservation(Reservation newReservation) throws SQLException {
+    	Boolean haveAccount = InputHelper.getBooleanInput("Do you have an account? yes/no");
+    	if(haveAccount) {
+    	ReservationManager.makeReservation(newReservation);
+    	}else{
+    	System.out.println("You must create an account to make reservation");
+    	insertUser(new User());
+    	ReservationManager.makeReservation(newReservation);
+    	}
+    }
+    
+    private static void cancelReservation() throws Exception {
+    	String username = InputHelper.getInput("Please enter name to cancel existing reservation: ");
+    	boolean result = ReservationManager.deleteReservation(username);
+    	if(result) {
+    		System.out.println("Reservation has been cancelled");
+    	}else{
+    		System.out.println("Whoops, Something wrong. Reservation not cancelled");
+    	}
+    }
+    
+    
+    
+    private static void checkIn(Reservation reservation) throws SQLException {
+    	String userName = InputHelper.getInput("Please enter user name to check in: ");
+    	
+    	int reservationID = ReservationManager.getReservationId(userName);
+    	reservation.setCheckIn(true);
+    	reservation.setPaid(true);
+    	boolean result = ReservationManager.update(reservation, reservationID);
+    	if(result) {
+    		System.out.println("You have checked In");
+    	}else{
+    		System.out.println("Whoops, Something wrong. Check In not complete");
+    	}
+    }
+    
+    private static void checkOut(Reservation reservation) throws Exception {
+    	String username = InputHelper.getInput("Please enter user name");
+    	reservation.setuName(username);
+    	int reservationID = ReservationManager.getReservationId(username);
+    	reservation.setCheckOut(true);
+    	boolean result = ReservationManager.update(reservation, reservationID);
+    	if(result) {
+    		System.out.println("You have checked out");
+    	}else{
+    		System.out.println("Whoops, Something wrong. Checking out not complete");
+    	}
     	
     }
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    
+=======
+>>>>>>> Stashed changes
 
 	/**
      * 
@@ -229,6 +314,10 @@ public class Main {
 	    	}
     }
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
     /**
      * This is the options for admin. when admin log in, they can do follwoing.
      * @throws Exception
@@ -242,7 +331,9 @@ public class Main {
     			+ "5 - Ban existing customer\n"
     			+ "6 - Make reservation\n"
     			+ "7 - Cancel reservation\n"
-    			+ "8 - Delete existing admin\n"
+    			+ "8 - Check In\n"
+    			+ "9 - Check Out\n"
+    			+ "10 - Delete existing admin\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -265,7 +356,23 @@ public class Main {
 			banCustomer(new User());
 			adminInput();
 			break;
+		case 6:
+			makeReservation(new Reservation());
+			adminInput();
+			break;
+		case 7:
+			cancelReservation();
+			adminInput();
+			break;
 		case 8:
+			checkIn(new Reservation());
+			adminInput();
+			break;
+		case 9:
+			checkOut(new Reservation());
+			adminInput();
+			break;
+		case 10:
 			deleteAdmin();
 			adminInput();
 			break;
@@ -299,7 +406,20 @@ public class Main {
 			userInput();
 			break;
 		case 3:
+<<<<<<< Updated upstream
 			if(checkBanned(new User())) makeReservation();
+=======
+<<<<<<< HEAD
+			makeReservation(new Reservation());
+			userInput();
+			break;
+		case 4:
+			cancelReservation();
+			userInput();
+=======
+			if(checkBanned(new User())) makeReservation();
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 			break;
 		case 0:
 			break;

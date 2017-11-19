@@ -37,7 +37,7 @@ public class AdminManager {
 	 * @throws SQLException
 	 */
 	public static boolean insertAdmin(Admin admin) throws SQLException {
-		String sql = "insert into admin values(?, ?)";
+		String sql = "CALL addAdmin(?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,

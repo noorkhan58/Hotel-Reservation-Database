@@ -2,6 +2,7 @@ package input;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class InputHelper {
