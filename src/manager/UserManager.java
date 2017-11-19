@@ -41,7 +41,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean insertUser(User user) throws SQLException {
-		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, reference) values"
+		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, refrence) values"
 				+ "(?, ?, ?, ?, ?, ?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
@@ -83,7 +83,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean update(User user) throws SQLException {
-		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, reference = ? where uNAME = ?";
+		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ? where uNAME = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -134,28 +134,5 @@ public class UserManager {
 
 	}
 	
-	public static boolean checkBanned(User user) throws Exception{
-		String sql ="Call CHECKBANNED(?, ?)";
-		try(Connection conn = SQLConnection.getConnection();
-				CallableStatement stmt = conn.prepareCall(sql);) {
-			stmt.setString(1, user.getuName());
-			stmt.registerOutParameter(2, Types.VARCHAR);
-			boolean hasNoResults = stmt.execute();
-			if(stmt.getString(2) != null)
-			{
-				if(stmt.getString(2).equals("1"))
-				{
-					return true;
-				}
-				else return false;
-			}
-			else {
-				System.out.println("Whoops, something went wrong. " + user.getuName() + " is not a registered user");
-				return false;
-			}
-		} catch(Exception e) {
-			System.err.println(e);
-			return false;
-		}
-	}
+
 }

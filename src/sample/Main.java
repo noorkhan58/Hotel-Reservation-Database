@@ -21,7 +21,7 @@ public class Main {
     	
     	
   
-    	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2 - User\n");
+    	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2- User\n");
     	if(firstInput ==1) {
     		boolean trueAdmin = loginAdmin();
     		if(trueAdmin) {
@@ -110,10 +110,10 @@ public class Main {
     	newUser.setuStars(5);
     	newUser.setMemberSince(InputHelper.getTimeStamp());
     	newUser.setBanned(false);
-    	newUser.setDays(0);
-    	newUser.setReferrals(0);
-    	String refer = InputHelper.getInput("Enter reference user or 0 if no reference: ");
-    	if(refer.isEmpty() || refer == "0") {
+    	newUser.setDays(InputHelper.getIntegerInput("Enter the number of days: "));
+    	newUser.setReferrals(InputHelper.getIntegerInput("Enter referrals code number: "));
+    	String refer = InputHelper.getInput("Enter reference user: ");
+    	if(refer.isEmpty()) {
     		newUser.setReference(null);
     	}else {
     	newUser.setReference(refer);
@@ -288,36 +288,7 @@ public class Main {
     	}
     	
     }
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
     
-=======
->>>>>>> Stashed changes
-
-	/**
-     * 
-     * @param user 
-     * @return boolean value to see if the User can go onto the next step.
-     * @throws Exception
-     */  
-    private static boolean checkBanned(User user) throws Exception{
-	    	String u = InputHelper.getInput("Enter in your username: ");
-	    	user.setuName(u);
-	    	boolean result = UserManager.checkBanned(user);
-	    	if(result) {
-	    		System.out.println(user.getuName() + " is banned");
-	    		return true;
-	    	}
-	    	else {
-	    		return false;
-	    	}
-    }
-
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
     /**
      * This is the options for admin. when admin log in, they can do follwoing.
      * @throws Exception
@@ -406,20 +377,12 @@ public class Main {
 			userInput();
 			break;
 		case 3:
-<<<<<<< Updated upstream
-			if(checkBanned(new User())) makeReservation();
-=======
-<<<<<<< HEAD
 			makeReservation(new Reservation());
 			userInput();
 			break;
 		case 4:
 			cancelReservation();
 			userInput();
-=======
-			if(checkBanned(new User())) makeReservation();
->>>>>>> origin/master
->>>>>>> Stashed changes
 			break;
 		case 0:
 			break;

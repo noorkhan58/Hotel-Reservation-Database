@@ -7,7 +7,7 @@ public class Parking {
 	private int pNumber;
 	private String uName;
 	private String pStatus;
-	private String pType;
+	private int roomNumber;
 	private Date startDate;
 	private Date endDate;
 	/**
@@ -56,15 +56,15 @@ public class Parking {
 	 * gets Parking type
 	 * @return pType Parking type
 	 */
-	public String getpType() {
-		return pType;
+	public int getRoomNumber() {
+		return roomNumber;
 	}
 	/**
 	 * sets Parking type
 	 * @param pType Parking type
 	 */
-	public void setpType(String pType) {
-		this.pType = pType;
+	public void setpType(int roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 	/**
 	 * gets the state date of reservation of spot

@@ -39,18 +39,17 @@ public class ParkingManager {
 	 * @throws SQLException
 	 */
 	public static boolean insertUser(Parking Parking) throws SQLException {
-		String sql = "insert into Parking(pNumber, uName, pStatus, pType, startDate, endDate) values"
-				+ "(?,?, ?, ?, ?, ?)";
+		String sql = "insert into Parking(roomNumber, uName, pStatus, startDate, endDate) values"
+				+ "(?, ?, ?, ?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);) {
-			stmt.setInt(1, Parking.getpNumber());
+			stmt.setInt(1, Parking.getRoomNumber());
 			stmt.setString(2, Parking.getuName());
 			stmt.setString(3, Parking.getpStatus());
-			stmt.setString(4, Parking.getpType());
-			stmt.setDate(5, Parking.getStartDate());
-			stmt.setDate(6, Parking.getEndDate());
+			stmt.setDate(4, Parking.getStartDate());
+			stmt.setDate(5, Parking.getEndDate());
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {
@@ -77,17 +76,16 @@ public class ParkingManager {
 	 * @throws SQLException
 	 */
 	public static boolean update(Parking Parking) throws SQLException {
-		String sql = "Update Parking set uNAME = ?, pStatus = ?, pType = ?, StartDate = ?, EndDate = ? where pNumber = ?";
+		String sql = "Update Parking set uNAME = ?, pStatus = ?, StartDate = ?, EndDate = ? where roomNumber = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
 
 			stmt.setString(1, Parking.getuName() );
 			stmt.setString(2, Parking.getpStatus() );
-			stmt.setString(3, Parking.getpType() );
-			stmt.setDate(4, Parking.getStartDate() );
-			stmt.setDate(5, Parking.getEndDate() );
-			stmt.setInt(6, Parking.getpNumber());
+			stmt.setDate(3, Parking.getStartDate() );
+			stmt.setDate(4, Parking.getEndDate() );
+			stmt.setInt(5, Parking.getRoomNumber());
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;
