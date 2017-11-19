@@ -67,12 +67,7 @@ create table Parking(
 	pNumber INT,
     roomNumber int NOT NULL,
 	uNAME VARCHAR(50),
-<<<<<<< Updated upstream
 	pStatus VARCHAR(20) DEFAULT 'Available',
-	pType VARCHAR(20),
-=======
-	pStatus VARCHAR(20) DEFAULT 'Avaliable',
->>>>>>> Stashed changes
 	startDate date,
 	endDate date,
 	PRIMARY KEY (pNumber),
@@ -80,9 +75,6 @@ create table Parking(
 	FOREIGN KEY (uNAME) references USER (uNAME),
     FOREIGN KEY (rNumber) references ROOMS (rNumber)
 );
-
-<<<<<<< Updated upstream
-=======
 
 drop trigger IF EXISTS populateParking;
 DELIMITER //
@@ -228,20 +220,17 @@ drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
 
-<<<<<<< Updated upstream
-Drop PROCEDURE IF EXISTS CHECKBANNED;
-delimiter //
-CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50), OUT bool BOOLEAN)
-begin 
-Select BANNED 
-INTO bool
-from user
-where uNAME = USERNAME;
-end//
-delimiter ;
+-- Drop PROCEDURE IF EXISTS CHECKBANNED;
+-- delimiter //
+-- CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50), OUT bool BOOLEAN)
+-- begin 
+-- Select BANNED 
+-- INTO bool
+-- from user
+-- where uNAME = USERNAME;
+-- end//
+-- delimiter ;
 
-=======
->>>>>>> Stashed changes
 #still working on commented out stuff
 #drop trigger IF EXISTS CheckOutGoods;
 #delimiter //
@@ -263,25 +252,25 @@ delimiter ;
 #delimiter ;
 
 
-drop trigger IF EXISTS CheckInReservation;
-delimiter //
-create trigger CheckInReservation AFTER UPDATE on reservation 
-for each row 
-begin 
-if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber) 
-THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; 
-update Parking set pStatus = 'Taken' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
-    ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber) 
-    THEN update ROOMS set rStatus = 'Available' where new.rNumber = Rooms.rNumber; 
-    update Parking set pStatus = 'Available' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
-        END IF; END;//
-delimiter ;
+-- drop trigger IF EXISTS CheckInReservation;
+-- delimiter //
+-- create trigger CheckInReservation AFTER UPDATE on reservation 
+-- for each row 
+-- begin 
+-- if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber) 
+-- THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; 
+-- update Parking set pStatus = 'Taken' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
+--     ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber) 
+--     THEN update ROOMS set rStatus = 'Available' where new.rNumber = Rooms.rNumber; 
+--     update Parking set pStatus = 'Available' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
+--         END IF; END;//
+-- delimiter ;
 
-drop trigger IF EXISTS banUser;
-delimiter //
-CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
-BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
-delimiter ;
+-- drop trigger IF EXISTS banUser;
+-- delimiter //
+-- CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
+-- BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
+-- delimiter ;
 
 
 
