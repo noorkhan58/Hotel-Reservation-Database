@@ -71,33 +71,38 @@ create table Parking(
 	startDate date,
 	endDate date,
 	PRIMARY KEY (pNumber),
-    UNIQUE (roomNumber),
 	FOREIGN KEY (uNAME) references USER (uNAME),
-    FOREIGN KEY (rNumber) references ROOMS (rNumber)
+    FOREIGN KEY (roomNumber) references ROOMS (rNumber)
 );
 
-drop trigger IF EXISTS populateParking;
-DELIMITER //
-CREATE TRIGGER populateParking
-AFTER insert ON ROOMS
-FOR EACH ROW
-BEGIN
-INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
- VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
-END //
-DELIMITER ;
+-- how does this work the parking spot is the primary key and there is not one added?
+--drop trigger IF EXISTS populateParking;
+--DELIMITER //
+--CREATE TRIGGER populateParking
+--AFTER insert ON ROOMS
+--FOR EACH ROW
+--BEGIN
+--INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
+--VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
+--END //
+--DELIMITER ;
 
+--doesn't need this because cancelReservation shouldn't set the room to avaliable if the reservation is in 3 weeks
+--drop trigger IF EXISTS cancelReservation;
+--DELIMITER //
+--CREATE TRIGGER cancelReservation
+--AFTER DELETE ON reservation
+--FOR EACH ROW
+--BEGIN
+--UPDATE ROOMS SET rStatus = 'Avaliable' WHERE old.rNumber = ROOMS.rNumber;
+--END //
+--DELIMITER ;
 
-drop trigger IF EXISTS cancelReservation;
-DELIMITER //
-CREATE TRIGGER cancelReservation
-AFTER DELETE ON reservation
-FOR EACH ROW
-BEGIN
-UPDATE ROOMS SET rStatus = 'Avaliable' WHERE old.rNumber = ROOMS.rNumber;
-END //
-DELIMITER ;
-
+drop trigger IF EXISTS banUser;
+delimiter //
+CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
+BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
+delimiter ;
 
 drop trigger IF EXISTS checkIn;
 DELIMITER //
@@ -119,7 +124,6 @@ WHERE old.rNumber = Parking.roomNumber;
 END //
 DELIMITER ;
 
-
 DROP PROCEDURE IF EXISTS addAdmin;
 DELIMITER //
 CREATE PROCEDURE addAdmin(
@@ -131,7 +135,6 @@ INSERT INTO ADMIN VALUES(username, password);
 END //
 DELIMITER ;
 
-
 DROP PROCEDURE IF EXISTS checkBanUser;
 DELIMITER //
 CREATE PROCEDURE checkBanUser(
@@ -141,8 +144,6 @@ BEGIN
 SELECT uNAME FROM USER WHERE uNAME = username and BANNED = true;
 END //
 DELIMITER ;
-
-
 
 DROP PROCEDURE IF EXISTS getAvailabledates;
 DELIMITER //
@@ -159,7 +160,6 @@ and rNumber = roomNumber)
 END //
 DELIMITER ;
 
-
 DROP PROCEDURE IF EXISTS getTotalDates;
 DELIMITER //
 CREATE PROCEDURE getTotalDates(
@@ -169,8 +169,6 @@ BEGIN
 SELECT count(*) FROM reservation where rNumber = roomNumber;
 END //
 DELIMITER ;
-
-
 
 DROP PROCEDURE IF EXISTS displayUnavailableDate;
 DELIMITER //
@@ -182,17 +180,9 @@ SELECT startDate, endDate FROM reservation where rNumber = roomNumber;
 END //
 DELIMITER ;
 
-
-
-
-
-
-
-
 drop view IF EXISTS BanV;
 create view banV as select uNAME, uName as value from user where banned is false;
  
->>>>>>> Stashed changes
 drop view IF EXISTS DiscountDay;
 create view DiscountDay as select uNAME, uname as value from USER where Days > 9;
 
@@ -266,11 +256,6 @@ create view OpenParkingNumber as select pType, count(pType) as amount from Parki
 --         END IF; END;//
 -- delimiter ;
 
--- drop trigger IF EXISTS banUser;
--- delimiter //
--- CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
--- BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
--- delimiter ;
 
 
 
