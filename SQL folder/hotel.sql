@@ -75,28 +75,27 @@ create table Parking(
     FOREIGN KEY (roomNumber) references ROOMS (rNumber)
 );
 
--- how does this work the parking spot is the primary key and there is not one added?
---drop trigger IF EXISTS populateParking;
---DELIMITER //
---CREATE TRIGGER populateParking
---AFTER insert ON ROOMS
---FOR EACH ROW
---BEGIN
---INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
---VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
---END //
---DELIMITER ;
 
---doesn't need this because cancelReservation shouldn't set the room to avaliable if the reservation is in 3 weeks
---drop trigger IF EXISTS cancelReservation;
---DELIMITER //
---CREATE TRIGGER cancelReservation
---AFTER DELETE ON reservation
---FOR EACH ROW
---BEGIN
---UPDATE ROOMS SET rStatus = 'Avaliable' WHERE old.rNumber = ROOMS.rNumber;
---END //
---DELIMITER ;
+drop trigger IF EXISTS populateParking;
+DELIMITER //
+CREATE TRIGGER populateParking
+AFTER insert ON ROOMS
+FOR EACH ROW
+BEGIN
+INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
+VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
+END //
+DELIMITER ;
+
+drop trigger IF EXISTS cancelReservation;
+DELIMITER //
+CREATE TRIGGER cancelReservation
+AFTER DELETE ON reservation
+FOR EACH ROW
+BEGIN
+UPDATE ROOMS SET rStatus = 'Avaliable' WHERE old.rNumber = ROOMS.rNumber;
+END //
+DELIMITER ;
 
 drop trigger IF EXISTS banUser;
 delimiter //
