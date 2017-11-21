@@ -10,6 +10,7 @@ import manager.AdminManager;
 import manager.ReservationManager;
 import manager.RoomManager;
 import manager.UserManager;
+import manager.ArchiveManager;
 import sampleAdmin.Admin;
 import sampleReservation.Reservation;
 import sampleRoom.Room;
@@ -295,11 +296,11 @@ public class Main {
 				+ "2 - User\n");
 		if(option == 1)
 		{
-			ReservationManager.displayArchiveReservation();
+			ArchiveManager.displayArchiveReservation();
 		}
 		else if(option == 2)
 		{
-			UserManager.displayArchiveUser();
+			ArchiveManager.displayArchiveUser();
 		}
 		else {
 			System.out.println("Whoops, something went wrong");

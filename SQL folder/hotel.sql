@@ -75,6 +75,77 @@ create table Parking(
     FOREIGN KEY (roomNumber) references ROOMS (rNumber)
 );
 
+DROP TABLE IF EXISTS archiveReservation; 
+CREATE TABLE archiveReservation
+(
+    updatedAt timestamp,
+    reservationID INT,
+    uNAME VARCHAR(50),
+    rNumber int,
+    CheckedIn boolean default false,
+    CheckedOut boolean default false,
+    paid boolean default false,
+    startDate date,
+	endDate date,
+	FOREIGN KEY (uNAME) references USER (uNAME),
+    FOREIGN KEY (rNumber) references ROOMS (rNumber)
+);
+
+DROP TABLE IF EXISTS archiveUser;
+CREATE TABLE archiveUser
+(
+    updatedAt DATETIME,
+    uNAME VARCHAR(50),
+    uStars int DEFAULT 5,
+    memberSince timestamp,
+    BANNED BOOLEAN DEFAULT FALSE,
+    Days int DEFAULT 0,
+    Referrals int DEFAULT 0,
+    reference VARCHAR(50) DEFAULT null,
+	FOREIGN KEY (reference) references USER (uNAME)
+);
+
+drop trigger if exists updateArchiveReservation;
+delimiter //
+CREATE TRIGGER updateArchiveReservation AFTER UPDATE ON reservation FOR EACH ROW
+BEGIN 
+    INSERT INTO archiveReservation 
+    values(CURRENT_TIMESTAMP, new.reservationID, new.uName, new.rNumber, 
+    new.CheckedIn, new.CheckedOut, new.paid, new.startDate, new.endDate);
+END; //
+delimiter ;
+
+
+drop trigger if exists addArchiveReservation;
+delimiter //
+CREATE TRIGGER addArchiveReservation AFTER INSERT ON reservation FOR EACH ROW
+BEGIN 
+    INSERT INTO archiveReservation 
+    values(CURRENT_TIMESTAMP, new.reservationID, new.uName, new.rNumber, 
+    new.CheckedIn, new.CheckedOut, new.paid, new.startDate, new.endDate);
+END;//
+delimiter ;
+
+DROP TRIGGER IF EXISTS updateArchiveUser;
+delimiter //
+CREATE TRIGGER updateArchiveUser AFTER UPDATE ON User FOR EACH ROW
+BEGIN
+    INSERT INTO archiveUser
+    VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, old.memberSince,
+    new.Banned, new.Days, new.Referrals, new.reference);
+END; //
+delimiter ;
+
+DROP TRIGGER IF EXISTS addArchiveUser;
+delimiter //
+CREATE TRIGGER addArchiveUser AFTER INSERT ON User FOR EACH ROW
+BEGIN 
+    INSERT INTO archiveUser
+    VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, old.memberSince,
+    new.Banned, new.Days, new.Referrals, new.reference);
+END; //
+delimiter ;
+
 
 drop trigger IF EXISTS populateParking;
 DELIMITER //
