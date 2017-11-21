@@ -288,6 +288,23 @@ public class Main {
     	}
     	
     }
+
+	private static void selectArchive() throws SQLException {
+		int option = InputHelper.getIntegerInput("Press the number to select the archives\n"
+				+ "1 - Reservation\n"
+				+ "2 - User\n");
+		if(option == 1)
+		{
+			ReservationManager.displayArchiveReservation();
+		}
+		else if(option == 2)
+		{
+			UserManager.displayArchiveUser();
+		}
+		else {
+			System.out.println("Whoops, something went wrong");
+		}
+    }
     
     /**
      * This is the options for admin. when admin log in, they can do follwoing.
@@ -305,6 +322,7 @@ public class Main {
     			+ "8 - Check In\n"
     			+ "9 - Check Out\n"
     			+ "10 - Delete existing admin\n"
+				+ "11 - Check Archives\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -347,6 +365,10 @@ public class Main {
 			deleteAdmin();
 			adminInput();
 			break;
+		case 11:
+			selectArchive();
+			adminInput();
+			break;	
 		case 0:
 			break;
 
