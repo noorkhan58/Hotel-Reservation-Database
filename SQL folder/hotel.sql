@@ -5,9 +5,9 @@ USE HOTEL;
 DROP TABLE IF EXISTS ADMIN;
 CREATE TABLE ADMIN
 (
-username VARCHAR(30) NOT NULL,
-password VARCHAR(30) NOT NULL,
-PRIMARY KEY (username)
+    username VARCHAR(30) NOT NULL,
+    password VARCHAR(30) NOT NULL,
+    PRIMARY KEY (username)
 );
 
 DROP TABLE IF EXISTS USER;
@@ -15,7 +15,7 @@ CREATE TABLE USER
 (
     uNAME VARCHAR(50),
     uStars int DEFAULT 5,
-    memberSince timestamp,
+    memberSince timestamp DEFAULT CURRENT_TIMESTAMP,
     BANNED BOOLEAN DEFAULT FALSE,
     Days int DEFAULT 0,
     Referrals int DEFAULT 0,
@@ -105,6 +105,8 @@ CREATE TABLE archiveUser
 	FOREIGN KEY (reference) references USER (uNAME)
 );
 
+
+
 drop trigger if exists updateArchiveReservation;
 delimiter //
 CREATE TRIGGER updateArchiveReservation AFTER UPDATE ON reservation FOR EACH ROW
@@ -114,7 +116,6 @@ BEGIN
     new.CheckedIn, new.CheckedOut, new.paid, new.startDate, new.endDate);
 END; //
 delimiter ;
-
 
 drop trigger if exists addArchiveReservation;
 delimiter //
@@ -126,12 +127,22 @@ BEGIN
 END;//
 delimiter ;
 
+drop trigger if exists removedArchiveReservation;
+delimiter //
+CREATE TRIGGER removedArchiveReservation AFTER DELETE ON reservation FOR EACH ROW
+BEGIN 
+    INSERT INTO archiveReservation 
+    values(CURRENT_TIMESTAMP, old.reservationID, old.uName, old.rNumber, 
+    old.CheckedIn, old.CheckedOut, old.paid, old.startDate, old.endDate);
+END;//
+delimiter ;
+
 DROP TRIGGER IF EXISTS updateArchiveUser;
 delimiter //
 CREATE TRIGGER updateArchiveUser AFTER UPDATE ON User FOR EACH ROW
 BEGIN
     INSERT INTO archiveUser
-    VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, old.memberSince,
+    VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, new.memberSince,
     new.Banned, new.Days, new.Referrals, new.reference);
 END; //
 delimiter ;
@@ -141,9 +152,19 @@ delimiter //
 CREATE TRIGGER addArchiveUser AFTER INSERT ON User FOR EACH ROW
 BEGIN 
     INSERT INTO archiveUser
-    VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, old.memberSince,
+    VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, new.memberSince,
     new.Banned, new.Days, new.Referrals, new.reference);
 END; //
+delimiter ;
+
+DROP TRIGGER IF EXISTS removedArchiveUser;
+delimiter //
+CREATE TRIGGER removedArchiveUser AFTER DELETE ON User FOR EACH ROW
+BEGIN 
+    INSERT INTO archiveUser
+    VALUES(CURRENT_TIMESTAMP, old.uName, old.uStars, old.memberSince,
+    old.Banned, old.Days, old.Referrals, old.refrence);
+END;//
 delimiter ;
 
 
