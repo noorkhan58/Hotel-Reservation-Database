@@ -83,17 +83,16 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean update(User user) throws SQLException {
-		String sql = "Update user set uStars = ?, memberSince = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ? where uNAME = ?";
+		String sql = "Update user set uStars = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ? where uNAME = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setInt(1, user.getuStars());
-			stmt.setTimestamp(2, user.getMemberSince());
-			stmt.setBoolean(3, user.isBanned());
-			stmt.setInt(4, user.getDays());
-			stmt.setInt(5, user.getReferrals());
-			stmt.setString(6, user.getReference());
-			stmt.setString(7, user.getuName());
+			stmt.setBoolean(2, user.isBanned());
+			stmt.setInt(3, user.getDays());
+			stmt.setInt(4, user.getReferrals());
+			stmt.setString(5, user.getReference());
+			stmt.setString(6, user.getuName());
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;
