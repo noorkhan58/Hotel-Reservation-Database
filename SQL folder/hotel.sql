@@ -20,8 +20,7 @@ CREATE TABLE USER
     Days int DEFAULT 0,
     Referrals int DEFAULT 0,
     reference VARCHAR(50) DEFAULT null,
-	PRIMARY KEY (uNAME),
-	FOREIGN KEY (reference) references USER (uNAME)
+	PRIMARY KEY (uNAME)
 );
 
 DROP TABLE IF EXISTS ROOMS;
@@ -62,18 +61,18 @@ CREATE TABLE facilities(
     FOREIGN KEY (rNumber) references rooms(rNumber)
 );
 
-drop table if exists Parking;
-create table Parking(
-	pNumber INT,
-    roomNumber int NOT NULL,
-	uNAME VARCHAR(50),
-	pStatus VARCHAR(20) DEFAULT 'Available',
-	startDate date,
-	endDate date,
-	PRIMARY KEY (pNumber),
-	FOREIGN KEY (uNAME) references USER (uNAME),
-    FOREIGN KEY (roomNumber) references ROOMS (rNumber)
-);
+	drop table if exists Parking;
+	create table Parking(
+		pNumber INT,
+		roomNumber int NOT NULL,
+		uNAME VARCHAR(50),
+		pStatus VARCHAR(20) DEFAULT 'Available',
+		startDate date,
+		endDate date,
+		UNIQUE (roomNumber),
+		FOREIGN KEY (uNAME) references USER (uNAME),
+		FOREIGN KEY (roomNumber) references ROOMS (rNumber)
+	);
 
 DROP TABLE IF EXISTS archiveReservation; 
 CREATE TABLE archiveReservation

@@ -41,19 +41,14 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean insertUser(User user) throws SQLException {
-		String sql = "insert into user (uName,uStars, membersince, banned, days, Referrals, refrence) values"
-				+ "(?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into user (uName, refrence) values"
+				+ "(?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);) {
 			stmt.setString(1, user.getuName());
-			stmt.setInt(2, user.getuStars());
-			stmt.setTimestamp(3, user.getMemberSince());
-			stmt.setBoolean(4, user.isBanned());
-			stmt.setInt(5, user.getDays());
-			stmt.setInt(6, user.getReferrals());
-			stmt.setString(7, user.getReference());
+			stmt.setString(2, user.getReference());
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {

@@ -111,13 +111,15 @@ public class Main {
     	newUser.setuStars(5);
     	newUser.setMemberSince(InputHelper.getTimeStamp());
     	newUser.setBanned(false);
-    	newUser.setDays(InputHelper.getIntegerInput("Enter the number of days: "));
-    	newUser.setReferrals(InputHelper.getIntegerInput("Enter referrals code number: "));
+    	newUser.setDays(0);
+    	newUser.setReferrals(0);
     	String refer = InputHelper.getInput("Enter reference user: ");
     	if(refer.isEmpty()) {
+    		System.out.println("yes");
     		newUser.setReference(null);
     	}else {
     	newUser.setReference(refer);
+    	System.out.println("no");
     	}
     	boolean result = UserManager.insertUser(newUser);
     	if(result) {
@@ -324,6 +326,7 @@ public class Main {
     			+ "9 - Check Out\n"
     			+ "10 - Delete existing admin\n"
 				+ "11 - Check Archives\n"
+    			+ "12 - list all current users"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -370,9 +373,12 @@ public class Main {
 			selectArchive();
 			adminInput();
 			break;	
+		case 12:
+			UserManager.displayAllRows();
+			break;
 		case 0:
 			break;
-
+			
 		default:
 			break;
 		}
