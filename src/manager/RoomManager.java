@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import connection.SQLConnection;
+import sampleReservation.Reservation;
 import sampleRoom.Room;
 
 public class RoomManager {
@@ -33,6 +34,18 @@ public class RoomManager {
 			}
 		}
 	}
+	
+//	public static int getCostOfRoom(Reservation reservation) throws SQLException{
+//		String sql ="select price from room where roomNumber = ?";
+//		try (Connection conn = SQLConnection.getConnection();
+//				Statement stmt = conn.createStatement();
+//				rs = stmt.executeQuery(sql);) {
+//			while (rs.next()) {
+//				return (rs.getInt("price"));
+//			}
+//		}
+//		return 0;
+//	}
 	
 	public static void displayOpenRoomsType() throws SQLException {
 		String sql = "select * from RoomTypes";

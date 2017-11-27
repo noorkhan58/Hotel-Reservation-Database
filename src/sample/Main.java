@@ -264,12 +264,11 @@ public class Main {
     }
     
     
-    
     private static void checkIn(Reservation reservation) throws SQLException {
     	String userName = InputHelper.getInput("Please enter user name to check in: ");
-    	
     	int reservationID = ReservationManager.getReservationId(userName);
     	reservation.setCheckIn(true);
+    	
     	reservation.setPaid(true);
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {

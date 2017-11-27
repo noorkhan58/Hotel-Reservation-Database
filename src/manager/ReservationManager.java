@@ -159,6 +159,15 @@ public class ReservationManager {
 		}
 
 	}
+	
+	
+//    public static boolean getRoomForPayment(Reservation reservation)throws SQLException{
+//    	String sql ="select daycount from ReservationDays where reservationID = ?";
+//    	System.out.println("The cost of your reservation is $"+ x);
+//    	String userName = InputHelper.getInput("Do you accept this charge yes/no: ");  	
+//    		return true;
+//    }
+	
 
 	/**
 	 * deletes the reservation
