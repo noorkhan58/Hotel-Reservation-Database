@@ -15,7 +15,7 @@ public class FacilitiesManager {
 	 * 
 	 * @throws SQLException
 	 */
-	public static void dispalyReservation() throws SQLException {
+	public static void displayFacilites() throws SQLException {
 		String sql = "Select * from facilities";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
@@ -25,9 +25,21 @@ public class FacilitiesManager {
 				bf.append(rs.getString("fName") + " ");
 				bf.append(rs.getInt("rNumber") + ": ");
 				bf.append(rs.getString("fType") + " ");
-				bf.append(rs.getString("fStatus") + " ");
-				bf.append(rs.getDate("startDate") + " ");
-				bf.append(rs.getDate("endDate") + " ");
+				bf.append(rs.getString("fStatus"));
+				System.out.println(bf.toString());
+			}
+		}
+	}
+	
+	public static void displayFacilitesStatus() throws SQLException {
+		String sql = "Select * from facilities";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("fName") + ": ");
+				bf.append(rs.getString("fStatus"));
 				System.out.println(bf.toString());
 			}
 		}

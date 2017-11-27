@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 import input.InputHelper;
 import manager.AdminManager;
+import manager.FacilitiesManager;
 import manager.ReservationManager;
 import manager.RoomManager;
 import manager.UserManager;
@@ -291,6 +292,10 @@ public class Main {
     	}
     	
     }
+    
+    private static void facilitestatus() throws SQLException{
+    	
+    }
 
 	private static void selectArchive() throws SQLException {
 		int option = InputHelper.getIntegerInput("Press the number to select the archives\n"
@@ -395,6 +400,7 @@ public class Main {
     			+ "2 - Delete account\n"
     			+ "3 - Make reservation\n"
     			+ "4 - Cancel reservation\n"
+    			+ "5 - check facilites\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -413,6 +419,9 @@ public class Main {
 			cancelReservation();
 			userInput();
 			break;
+		case 5:
+			FacilitiesManager.displayFacilitesStatus();
+			userInput();
 		case 0:
 			break;
 
