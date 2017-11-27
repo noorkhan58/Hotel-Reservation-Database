@@ -215,7 +215,9 @@ public class ReservationManager {
 			System.out.println("The customer is banned. Customer not allowed to make reservation.");
 			return;
 		}
-		RoomManager.displayAvailableRoom();
+		RoomManager.displayOpenRoomsType();
+		String roomType = InputHelper.getInput("Enter room type you want: ");
+		RoomManager.displayAvailableRoom(roomType);
 		int roomNumber = InputHelper.getIntegerInput("Select room number from above: ");
 
 		if(roomNumber == 0) {

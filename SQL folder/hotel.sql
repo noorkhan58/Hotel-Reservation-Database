@@ -287,7 +287,7 @@ drop view IF EXISTS FacilitiesAvaliable;
 create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Available';
 
 drop view IF EXISTS RoomTypes;
-create view RoomTypes AS select rtype, count(rtype) as amount from rooms group by rtype;
+create view RoomTypes AS select rtype, count(rtype) as amount from rooms where not rType = 'Facilities' and  rStatus = 'Avaliable' group by rtype;
 
 drop view IF EXISTS ReservationDays;
 create view ReservationDays as select reservationID, DATEDIFF(reservation.endDate, reservation.startDate) as daycount 

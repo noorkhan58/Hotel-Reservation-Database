@@ -33,6 +33,22 @@ public class RoomManager {
 			}
 		}
 	}
+	
+	public static void displayOpenRoomsType() throws SQLException {
+		String sql = "select * from RoomTypes";
+		int i = 1;
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();	
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("rType"));
+				bf.append((": "));
+				bf.append(rs.getInt("Amount"));
+				System.out.println(bf.toString());
+			}
+		}
+	}
 
 	/**
 	 * adds a room into the table
@@ -125,7 +141,43 @@ public class RoomManager {
 		}
 	}
 	
-	public static void displayAvailableRoom() throws SQLException {
-    	RoomManager.displayOpenRooms();
+	public static void displayAvailableRoom(String s) throws SQLException {
+		StringBuffer bf = new StringBuffer();
+		bf.append("select * from rooms where rStatus = 'Avaliable' and rType = '");
+		bf.append(s + "'");
+		String sql = bf.toString();
+		System.out.println(bf.toString());
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				bf = new StringBuffer();
+				bf.append(rs.getInt("rNumber") + ": ");
+				bf.append(rs.getString("rStatus") + " ");
+				bf.append("$");
+				bf.append(rs.getInt("price"));
+				bf.append(" ");
+				bf.append(rs.getString("rType"));
+				System.out.println(bf.toString());
+			}
+		}
     }
+	
+	public static void showRoomTypes() throws SQLException{
+		String sql = "select * from rooms where rStatus = 'Avaliable'";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getInt("rNumber") + ": ");
+				bf.append(rs.getString("rStatus") + " ");
+				bf.append("$");
+				bf.append(rs.getInt("price"));
+				bf.append(" ");
+				bf.append(rs.getString("rType"));
+				System.out.println(bf.toString());
+			}
+		}
+	}
 }
