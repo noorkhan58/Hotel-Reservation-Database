@@ -25,8 +25,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
     	
-    	
-  
     	int firstInput = InputHelper.getIntegerInput("Are You Admin/User?\nPress\n1 - Admin\n2- User\n");
     	if(firstInput ==1) {
     		boolean trueAdmin = loginAdmin();

@@ -15,7 +15,7 @@ import input.InputHelper;
 import sampleReservation.Reservation;
 
 public class ReservationManager {
-	/**
+	/** 
 	 * displaces the reservation page
 	 * 
 	 * @throws SQLException
