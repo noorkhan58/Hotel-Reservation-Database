@@ -41,16 +41,22 @@ public class ReservationManager {
 	}
 	
 	public static int getReservationId(String username) throws SQLException {
-		String sql = "select reservationID from reservation where uName = '"+ username+"'";
-		StringBuffer bf = new StringBuffer();
+		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"'";
+		System.out.println("pick the reservationID of check in");
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
-				bf.append(rs.getInt("reservationID"));
+				StringBuffer bf = new StringBuffer();
+				bf.append("Number = ");
+				bf.append(rs.getInt("reservationID")+ " ");
+				bf.append(rs.getInt("rNumber")+ " Start: ");
+				bf.append(rs.getDate("startDate") + " End: ");
+				bf.append(rs.getDate("endDate"));
+				System.out.println(bf.toString());
 			}
 		}
-		int reservationId = Integer.parseInt(bf.toString());
+		int reservationId = InputHelper.getIntegerInput("What is the number of the reservation needed: ");
 		return reservationId;
 	}
 	
@@ -190,11 +196,11 @@ public class ReservationManager {
 	 * @return boolean of done
 	 * @throws Exception
 	 */
-	public static boolean deleteReservation(String userName) throws Exception {
-		String sql = "Delete from reservation where uName = ?";
+	public static boolean deleteReservation(int rID) throws Exception {
+		String sql = "Delete from reservation where reservationID = ?";
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
-			stmt.setString(1, userName);
+			stmt.setInt(1, rID);
 			int affected = stmt.executeUpdate();
 			if (affected == 1) {
 				return true;

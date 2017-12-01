@@ -257,7 +257,8 @@ public class Main {
     
     private static void cancelReservation() throws Exception {
     	String username = InputHelper.getInput("Please enter name to cancel existing reservation: ");
-    	boolean result = ReservationManager.deleteReservation(username);
+    	int reservationID = ReservationManager.getReservationId(username);
+    	boolean result = ReservationManager.deleteReservation(reservationID);
     	if(result) {
     		System.out.println("Reservation has been cancelled");
     	}else{
