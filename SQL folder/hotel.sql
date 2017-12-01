@@ -225,6 +225,16 @@ INSERT INTO ADMIN VALUES(username, password);
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS GroupPrices;
+DELIMITER //
+CREATE PROCEDURE GroupPrices(
+IN inRID int
+)
+BEGIN
+select reservationID, price from ROOMS natural join reservation where inRID = reservation.reservationID;
+END //
+DELIMITER ;	
+
 DROP PROCEDURE IF EXISTS checkBanUser;
 DELIMITER //
 CREATE PROCEDURE checkBanUser(
@@ -283,8 +293,8 @@ drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber, rType as value from ROOMS where rNumber not in 
     (select rNumber from ROOMS) and not rType = 'Facilities' and rStatus = 'Available';
 
-drop view IF EXISTS FacilitiesAvaliable;
-create view FacilitiesAvaliable AS select fName, rNumber as value from facilities where fStatus = 'Available';
+drop view IF EXISTS FacilitiesStatus;
+create view FacilitiesStatus AS select fName, fStatus from facilities;
 
 drop view IF EXISTS RoomTypes;
 create view RoomTypes AS select rtype, count(rtype) as amount from rooms where not rType = 'Facilities' and  rStatus = 'Avaliable' group by rtype;

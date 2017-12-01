@@ -41,7 +41,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean insertUser(User user) throws SQLException {
-		String sql = "insert into user (uName, refrence) values"
+		String sql = "insert into user (uName, reference) values"
 				+ "(?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
@@ -78,7 +78,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean update(User user) throws SQLException {
-		String sql = "Update user set uStars = ?, Banned = ?, Days = ?, Referrals = ?, refrence = ? where uNAME = ?";
+		String sql = "Update user set uStars = ?, Banned = ?, Days = ?, Referrals = ?, reference = ? where uNAME = ?";
 
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {

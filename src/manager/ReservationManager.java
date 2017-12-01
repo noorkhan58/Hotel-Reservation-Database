@@ -52,7 +52,20 @@ public class ReservationManager {
 		}
 		int reservationId = Integer.parseInt(bf.toString());
 		return reservationId;
-		
+	}
+	
+	public static int getrNumber(int reservationId) throws SQLException {
+		String sql = "select rNumber from reservation where reservationID = '"+ reservationId+"'";
+		StringBuffer bf = new StringBuffer();
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				bf.append(rs.getInt("rNumber"));
+			}
+		}
+		int rNumber = Integer.parseInt(bf.toString());
+		return rNumber;
 	}
 	
 	public static int getTotalRow(int roomNumber) throws SQLException {

@@ -41,16 +41,16 @@ insert into rooms(rNumber, rStatus, price, rType, handicap) value
 (215,'Avaliable', 220, 'triple',false);
 
 insert into facilities(fName, rNumber, fStatus, Handicap) value
-('Lobby', 001, 'open', true),
-('Gym', 002, 'open', true),
-('Pool', 003, 'open', true),
-('Landry Room', 004, 'open', true),
-('Meeting Room 1', 005, 'open', true),
-('Meeting Room 2', 006, 'open', true),
-('Meeting Room 3', 007, 'open', true),
-('Resturant', 008, 'open', true),
-('Gift Shop', 009, 'open', true),
-('Game Room', 010, 'open', true);
+('Lobby', 001, 'Avaliable', true),
+('Gym', 002, 'Avaliable', true),
+('Pool', 003, 'Avaliable', true),
+('Landry Room', 004, 'Avaliable', true),
+('Meeting Room 1', 005, 'Avaliable', true),
+('Meeting Room 2', 006, 'Avaliable', true),
+('Meeting Room 3', 007, 'Avaliable', true),
+('Resturant', 008, 'Avaliable', true),
+('Gift Shop', 009, 'Avaliable', true),
+('Game Room', 010, 'Avaliable', true);
 
 
 insert into USER(uName) value

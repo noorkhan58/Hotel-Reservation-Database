@@ -35,17 +35,28 @@ public class RoomManager {
 		}
 	}
 	
-//	public static int getCostOfRoom(Reservation reservation) throws SQLException{
-//		String sql ="select price from room where roomNumber = ?";
-//		try (Connection conn = SQLConnection.getConnection();
-//				Statement stmt = conn.createStatement();
-//				rs = stmt.executeQuery(sql);) {
-//			while (rs.next()) {
-//				return (rs.getInt("price"));
-//			}
-//		}
-//		return 0;
-//	}
+public static int getCostOfRoom(int reservationID) throws SQLException{
+	String sql = "CALL GroupPrices(" + reservationID + ")";
+	String sql2 = "Select * from ReservationDays where reservationID = "+ reservationID;
+	int price =0; int daycount =0; 
+	try (Connection conn = SQLConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);) {
+		if (rs.next()) {
+			int rID = rs.getInt("reservationID");
+			price = rs.getInt("price");
+		}
+	}
+	try (Connection conn = SQLConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql2);) {
+		if (rs.next()) {
+			int rID = rs.getInt("reservationID");
+			daycount = rs.getInt("daycount");
+		}
+	}
+	return price * daycount;
+}
 	
 	public static void displayOpenRoomsType() throws SQLException {
 		String sql = "select * from RoomTypes";

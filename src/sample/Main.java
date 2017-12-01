@@ -1,10 +1,14 @@
 package sample;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import connection.SQLConnection;
 import input.InputHelper;
 import manager.AdminManager;
 import manager.FacilitiesManager;
@@ -114,13 +118,13 @@ public class Main {
     	newUser.setBanned(false);
     	newUser.setDays(0);
     	newUser.setReferrals(0);
-    	String refer = InputHelper.getInput("Enter reference user: ");
-    	if(refer.isEmpty()) {
-    		System.out.println("yes");
+    	String refer = InputHelper.getInput("Enter reference name more press enter with nothing: ");
+    	if(refer.isEmpty() || refer == "none") {
     		newUser.setReference(null);
+    		System.out.println("yes");
     	}else {
-    	newUser.setReference(refer);
-    	System.out.println("no");
+    		newUser.setReference(null);
+    		System.out.println("no");
     	}
     	boolean result = UserManager.insertUser(newUser);
     	if(result) {
@@ -263,13 +267,19 @@ public class Main {
     	}
     }
     
-    
     private static void checkIn(Reservation reservation) throws SQLException {
     	String userName = InputHelper.getInput("Please enter user name to check in: ");
     	int reservationID = ReservationManager.getReservationId(userName);
-    	reservation.setCheckIn(true);
-    	
-    	reservation.setPaid(true);
+    	int room = ReservationManager.getrNumber(reservationID);
+    	int cost = RoomManager.getCostOfRoom(reservationID);
+    	String paying = InputHelper.getInput("Do you accept the "+cost+" charge for room "+ room + " yes/no: ");
+    	if(paying == "yes"){
+    		System.out.println("payed");
+    		reservation.setPaid(true);
+        	reservation.setCheckIn(true);}
+    	else{
+    		System.out.println("you cant checkin unless you pay");
+    		return;}
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {
     		System.out.println("You have checked In");
@@ -293,7 +303,17 @@ public class Main {
     }
     
     private static void facilitestatus() throws SQLException{
-    	
+    	String sql = "Select * from FacilitiesStatus";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("fName") + " ");
+				bf.append(rs.getString("fStatus"));
+				System.out.println(bf.toString());
+			}
+		}
     }
 
 	private static void selectArchive() throws SQLException {
@@ -330,7 +350,8 @@ public class Main {
     			+ "9 - Check Out\n"
     			+ "10 - Delete existing admin\n"
 				+ "11 - Check Archives\n"
-    			+ "12 - list all current users"
+    			+ "12 - list all current users\n"
+				+ "13 - All Facilite\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -379,6 +400,9 @@ public class Main {
 			break;	
 		case 12:
 			UserManager.displayAllRows();
+			break;
+		case 13:
+			facilitestatus();
 			break;
 		case 0:
 			break;

@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class SQLConnection {
 
-	private static final String USERNAME = "---";
-    private static final String PASSWORD = "---@";
+	private static final String USERNAME = "root";
+    private static final String PASSWORD = "Swoper1@";
     private static final String M_CONN_STRING =
             "jdbc:mysql://localhost/hotel";
     
