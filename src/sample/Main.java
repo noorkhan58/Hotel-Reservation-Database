@@ -298,6 +298,8 @@ public class Main {
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {
     		System.out.println("You have checked out");
+    		int days =RoomManager.getStayDays(reservationID);
+    		UserManager.addDays(username, days);
     	}else{
     		System.out.println("Whoops, Something wrong. Checking out not complete");
     	}

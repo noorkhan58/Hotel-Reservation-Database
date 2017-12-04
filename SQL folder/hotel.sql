@@ -225,6 +225,19 @@ INSERT INTO ADMIN VALUES(username, password);
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS addDays;
+DELIMITER //
+CREATE PROCEDURE addDays(
+IN username varchar(50),
+in Dcount int
+)
+BEGIN
+update user set days = days + Dcount where uNAME = username;
+select days from user where uNAME = username;
+END //
+DELIMITER ;
+
+
 DROP PROCEDURE IF EXISTS GroupPrices;
 DELIMITER //
 CREATE PROCEDURE GroupPrices(
@@ -287,7 +300,7 @@ drop view IF EXISTS DiscountDay;
 create view DiscountDay as select uNAME, uname as value from USER where Days > 9;
 
 drop view IF EXISTS DiscountRef;
-create view DiscountRef as select uNAME, uname as value from USER where Referrals > 4;
+create view DiscountRef as select uNAME, uname as value from USER where Referrals > 9;
 
 drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber, rType as value from ROOMS where rNumber not in 

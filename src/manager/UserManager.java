@@ -127,4 +127,17 @@ public class UserManager {
 		}
 
 	}
+	
+	public static void addDays(String uName, int Dcount) throws Exception{
+	String sql = "Call addDays('"+uName+"', "+ Dcount +")";
+	StringBuffer bf = new StringBuffer();
+	try (Connection conn = SQLConnection.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);) {
+		while (rs.next()) {
+			bf.append("You have "+rs.getInt("days"));
+			System.out.println(bf);
+		}
+	}
+}
 }
