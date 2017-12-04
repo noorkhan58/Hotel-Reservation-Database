@@ -35,6 +35,20 @@ public class RoomManager {
 		}
 	}
 	
+	
+	public static void displayHandicapRooms() throws SQLException {
+		String sql = "select rNumber, rType from rooms where rStatus = 'Avaliable' and Handicap = 1";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append("Room: "+rs.getInt("rNumber")+" Type: "+ rs.getString("rType") + " Is handicap ");
+				System.out.println(bf.toString());
+			}
+		}
+	}
+	
 public static int getCostOfRoom(int reservationID) throws SQLException{
 	String sql = "CALL GroupPrices(" + reservationID + ")";
 	int price =0; int daycount =0; 

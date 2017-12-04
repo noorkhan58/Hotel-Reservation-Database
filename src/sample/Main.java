@@ -306,7 +306,11 @@ public class Main {
     		System.out.println("Whoops, Something wrong. Check In not complete");
     	}
     }
-    
+    private static void getHandicap() throws SQLException{
+    	System.out.println("all Rooms that are handicap are below");
+    	RoomManager.displayHandicapRooms();
+    	
+    }
     
     private static void checkOut(Reservation reservation) throws Exception {
     	String username = InputHelper.getInput("Please enter user name");
@@ -374,6 +378,7 @@ public class Main {
 				+ "11 - Check Archives\n"
     			+ "12 - list all current users\n"
 				+ "13 - All Facilite\n"
+				+ "13 - All Handicap rooms\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -425,6 +430,9 @@ public class Main {
 			break;
 		case 13:
 			facilitestatus();
+			break;
+		case 14:
+			getHandicap();
 			break;
 		case 0:
 			break;
