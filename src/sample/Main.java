@@ -12,6 +12,7 @@ import connection.SQLConnection;
 import input.InputHelper;
 import manager.AdminManager;
 import manager.FacilitiesManager;
+import manager.ParkingManager;
 import manager.ReservationManager;
 import manager.RoomManager;
 import manager.UserManager;
@@ -271,8 +272,8 @@ public class Main {
     	int reservationID = ReservationManager.getReservationId(userName);
     	int room = ReservationManager.getrNumber(reservationID);
     	int cost = RoomManager.getCostOfRoom(reservationID);
-    	String paying = InputHelper.getInput("Do you accept the "+cost+" charge for room "+ room + " yes/no: ");
-    	if(paying == "yes"){
+    	boolean paying = InputHelper.getBooleanInput("Do you accept the "+cost+" charge for room "+ room + " yes/no: ");
+    	if(paying){
     		System.out.println("payed");
     		reservation.setPaid(true);
         	reservation.setCheckIn(true);}
@@ -282,15 +283,17 @@ public class Main {
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {
     		System.out.println("You have checked In");
+    		ParkingManager.getParkingSpot(room);
     	}else{
     		System.out.println("Whoops, Something wrong. Check In not complete");
     	}
     }
     
+    
     private static void checkOut(Reservation reservation) throws Exception {
     	String username = InputHelper.getInput("Please enter user name");
-    	reservation.setuName(username);
-    	int reservationID = ReservationManager.getReservationId(username);
+    	int reservationID = ReservationManager.getReservationIdEnd(username);
+    	reservation.setReservationID(reservationID);
     	reservation.setCheckOut(true);
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {

@@ -98,6 +98,19 @@ public class ParkingManager {
 		}
 
 	}
+	
+	public static void getParkingSpot(int rNumber) throws SQLException{
+		String sql = "Select pNumber from parking where roomNumber = '" + rNumber +"'";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append("Parking spot Number: "+ rs.getInt("pNumber"));
+				System.out.println(bf.toString());
+			}
+		}
+	}
 
 	/**
 	 * deletes parking spot in table

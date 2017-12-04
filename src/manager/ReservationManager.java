@@ -41,7 +41,7 @@ public class ReservationManager {
 	}
 	
 	public static int getReservationId(String username) throws SQLException {
-		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"'";
+		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = '0'";
 		System.out.println("pick the reservationID of check in");
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
@@ -59,6 +59,27 @@ public class ReservationManager {
 		int reservationId = InputHelper.getIntegerInput("What is the number of the reservation needed: ");
 		return reservationId;
 	}
+	
+	public static int getReservationIdEnd(String username) throws SQLException {
+		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = '1' and CheckedOut = '0'";
+		System.out.println("pick the reservationID of check out");
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append("Number = ");
+				bf.append(rs.getInt("reservationID")+ " ");
+				bf.append(rs.getInt("rNumber")+ " Start: ");
+				bf.append(rs.getDate("startDate") + " End: ");
+				bf.append(rs.getDate("endDate"));
+				System.out.println(bf.toString());
+			}
+		}
+		int reservationId = InputHelper.getIntegerInput("What is the number of the reservation needed: ");
+		return reservationId;
+	}
+	
 	
 	public static int getrNumber(int reservationId) throws SQLException {
 		String sql = "select rNumber from reservation where reservationID = '"+ reservationId+"'";
@@ -178,14 +199,6 @@ public class ReservationManager {
 		}
 
 	}
-	
-	
-//    public static boolean getRoomForPayment(Reservation reservation)throws SQLException{
-//    	String sql ="select daycount from ReservationDays where reservationID = ?";
-//    	System.out.println("The cost of your reservation is $"+ x);
-//    	String userName = InputHelper.getInput("Do you accept this charge yes/no: ");  	
-//    		return true;
-//    }
 	
 
 	/**
