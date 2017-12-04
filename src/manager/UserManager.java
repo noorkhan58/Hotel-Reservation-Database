@@ -129,7 +129,7 @@ public class UserManager {
 
 	public static void RefManagement(String uName) throws SQLException {
 		String sql = "Select reference from USER where uNAME = '" + uName + "'";
-		//System.out.println(sql);
+		System.out.println(sql);
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
@@ -138,15 +138,14 @@ public class UserManager {
 				bf.append(rs.getString("reference"));
 				//System.out.println(bf);
 				if (!bf.toString().equals("null")){
+					setNullRef(uName);
 					System.out.println(bf.toString());
-					String name = setNullRef(bf.toString());
-					System.out.println(name);
-					GiveRefPoints(name);				
+					GiveRefPoints(bf.toString());				
 				}
 			}
 		}
 	}
-	public static String setNullRef(String uName) throws SQLException{
+	public static void setNullRef(String uName) throws SQLException{
 		String sql = "Call clearReference('" + uName +"')";
 		StringBuffer bf = new StringBuffer();
 		try (Connection conn = SQLConnection.getConnection();
@@ -155,14 +154,12 @@ public class UserManager {
 			while (rs.next()) {
 				bf.append(rs.getString("reference"));
 				System.out.println(bf.toString() + "  temp");
-				return bf.toString();
 			}
 		}
-		return null;
 	}
 	
 	public static void GiveRefPoints(String uName) throws SQLException{
-		String sql = "Call addRefDays("+ uName +")";
+		String sql = "Call addRefDays('"+ uName +"')";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
