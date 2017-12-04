@@ -135,22 +135,19 @@ public class ReservationManager {
 	 * @throws SQLException
 	 */
 	public static boolean insertUser(Reservation reservation) throws SQLException {
-		String sql = "insert into Reservation (uName,rNumber, CheckedIn, CheckedOut, paid, startDate, endDate) values"
-				+ "(?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into Reservation (uName,rNumber, startDate, endDate) values"
+				+ "(?, ?, ?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);) {
 			stmt.setString(1, reservation.getuName());
 			stmt.setInt(2, reservation.getrNumber());
-			stmt.setBoolean(3, reservation.getCheckIn());
-			stmt.setBoolean(4, reservation.getCheckOut());
-			stmt.setBoolean(5, reservation.isPaid());
 			if(reservation.getStartDate().equals(null) && reservation.getStartDate().equals(null)) {
 				System.out.println("Invalid dates.");
 			}else{
-				stmt.setDate(6, reservation.getStartDate());
-				stmt.setDate(7, reservation.getEndDate());
+				stmt.setDate(3, reservation.getStartDate());
+				stmt.setDate(4, reservation.getEndDate());
 			}
 			int affected = stmt.executeUpdate();
 
