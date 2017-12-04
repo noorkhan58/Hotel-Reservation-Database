@@ -175,7 +175,7 @@ return daycount;
 		bf.append("select * from rooms where rStatus = 'Avaliable' and rType = '");
 		bf.append(s + "'");
 		String sql = bf.toString();
-		System.out.println(bf.toString());
+		//System.out.println(bf.toString());
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {

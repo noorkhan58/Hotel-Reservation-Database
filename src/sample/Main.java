@@ -284,6 +284,7 @@ public class Main {
     	if(paying){
     		System.out.println("payed");
     		reservation.setPaid(true);
+    		UserManager.RefManagement(userName);
         	reservation.setCheckIn(true);}
     	else{
     		System.out.println("you cant checkin unless you pay");

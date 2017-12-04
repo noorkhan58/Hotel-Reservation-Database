@@ -41,8 +41,7 @@ public class UserManager {
 	 *             error
 	 */
 	public static boolean insertUser(User user) throws SQLException {
-		String sql = "insert into user (uName, reference) values"
-				+ "(?, ?)";
+		String sql = "insert into user (uName, reference) values" + "(?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,
@@ -127,54 +126,103 @@ public class UserManager {
 		}
 
 	}
-	
-	public static void addDays(String uName, int Dcount) throws Exception{
-	String sql = "Call addDays('"+uName+"', "+ Dcount +")";
-	StringBuffer bf = new StringBuffer();
-	try (Connection conn = SQLConnection.getConnection();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);) {
-		while (rs.next()) {
-			bf.append("You have "+rs.getInt("days") +" Days");
-			System.out.println(bf);
-		}
-	}
-}
-	public static void getdaycount(String uName) throws SQLException{
-		String sql = "Select Days from User where uName = '" +uName +"'";
+
+	public static void RefManagement(String uName) throws SQLException {
+		String sql = "Select reference from USER where uNAME = '" + uName + "'";
+		//System.out.println(sql);
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append(rs.getInt("days"));
-				System.out.println(bf);
+				bf.append(rs.getString("reference"));
+				//System.out.println(bf);
+				if (!bf.toString().equals("null")){
+					System.out.println(bf.toString());
+					String name = setNullRef(bf.toString());
+					System.out.println(name);
+					GiveRefPoints(name);				
+				}
 			}
 		}
 	}
-	
-	public static void removeDays(String uName) throws SQLException{
-		String sql = "Call RemoveDays('"+uName+"', "+ 10 +")";
+	public static String setNullRef(String uName) throws SQLException{
+		String sql = "Call clearReference('" + uName +"')";
 		StringBuffer bf = new StringBuffer();
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
-				bf.append("You now have "+rs.getInt("days")+ " Days");
+				bf.append(rs.getString("reference"));
+				System.out.println(bf.toString() + "  temp");
+				return bf.toString();
+			}
+		}
+		return null;
+	}
+	
+	public static void GiveRefPoints(String uName) throws SQLException{
+		String sql = "Call addRefDays("+ uName +")";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			System.out.println("test");
+		}
+
+	}
+	
+	
+
+	public static void addDays(String uName, int Dcount) throws Exception {
+		String sql = "Call addDays('" + uName + "', " + Dcount + ")";
+		StringBuffer bf = new StringBuffer();
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				bf.append("You have " + rs.getInt("days") + " Days");
 				System.out.println(bf);
 			}
 		}
 	}
-	
-	public static boolean haveDiscount(String uName) throws SQLException{
-		String sql = "Select uName from DiscountDay where uName = '" +uName +"'";
+
+
+	public static void removeDays(String uName) throws SQLException {
+		String sql = "Call RemoveDays('" + uName + "', " + 10 + ")";
+		StringBuffer bf = new StringBuffer();
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				bf.append("You now have " + rs.getInt("days") + " Days");
+				System.out.println(bf);
+			}
+		}
+	}
+
+	public static void removeRefs(String uName) throws SQLException {
+		String sql = "Call removeRefDays('" + uName + "', " + 3 + ")";
+		StringBuffer bf = new StringBuffer();
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				bf.append("You now have " + rs.getInt("days") + " Ref points");
+				System.out.println(bf);
+			}
+		}
+	}
+
+	public static boolean haveDiscount(String uName) throws SQLException {
+		String sql = "Select uName from DiscountDay where uName = '" + uName
+				+ "'";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
 				bf.append(rs.getString("uName"));
-				if(uName.equals(bf.toString()))
+				if (uName.equals(bf.toString()))
 					return true;
 			}
 		}

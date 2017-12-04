@@ -225,6 +225,17 @@ INSERT INTO ADMIN VALUES(username, password);
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS clearReference;
+DELIMITER //
+CREATE PROCEDURE clearReference(
+IN username varchar(50)
+)
+BEGIN 
+Select reference from USER where uNAME = username;
+update USER set reference = null where uNAME = username;
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS addDays;
 DELIMITER //
 CREATE PROCEDURE addDays(
@@ -237,6 +248,17 @@ select days from user where uNAME = username;
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS addRefDays;
+DELIMITER //
+CREATE PROCEDURE addRefDays(
+IN username varchar(50)
+)
+BEGIN
+update user set Referrals = Referrals + 1 where uNAME = username;
+END //
+DELIMITER ;
+
+
 DROP PROCEDURE IF EXISTS RemoveDays;
 DELIMITER //
 CREATE PROCEDURE RemoveDays(
@@ -246,6 +268,18 @@ in Dcount int
 BEGIN
 update user set days = days - Dcount where uNAME = username;
 select days from user where uNAME = username;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS removeRefDays;
+DELIMITER //
+CREATE PROCEDURE removeRefDays(
+IN username varchar(50),
+in Dcount int
+)
+BEGIN
+update user set Referrals = Referrals - Dcount where uNAME = username;
+select Referrals from user where uNAME = username;
 END //
 DELIMITER ;
 
@@ -312,7 +346,7 @@ drop view IF EXISTS DiscountDay;
 create view DiscountDay as select uNAME from USER where Days > 9;
 
 drop view IF EXISTS DiscountRef;
-create view DiscountRef as select uNAME from USER where Referrals > 9;
+create view DiscountRef as select uNAME from USER where Referrals > 2;
 
 drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber, rType as value from ROOMS where rNumber not in 
