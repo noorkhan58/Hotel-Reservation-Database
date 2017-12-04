@@ -41,7 +41,7 @@ public class ReservationManager {
 	}
 	
 	public static int getReservationId(String username) throws SQLException {
-		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = '0'";
+		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = 0 and  CheckedOut = 0";
 		System.out.println("pick the reservationID of check in");
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
@@ -61,7 +61,7 @@ public class ReservationManager {
 	}
 	
 	public static int getReservationIdEnd(String username) throws SQLException {
-		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = '1' and CheckedOut = '0'";
+		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = 1 and CheckedOut = 0";
 		System.out.println("pick the reservationID of check out");
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();

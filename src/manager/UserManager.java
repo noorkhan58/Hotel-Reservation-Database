@@ -135,9 +135,49 @@ public class UserManager {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);) {
 		while (rs.next()) {
-			bf.append("You have "+rs.getInt("days"));
+			bf.append("You have "+rs.getInt("days") +" Days");
 			System.out.println(bf);
 		}
 	}
 }
+	public static void getdaycount(String uName) throws SQLException{
+		String sql = "Select Days from User where uName = '" +uName +"'";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getInt("days"));
+				System.out.println(bf);
+			}
+		}
+	}
+	
+	public static void removeDays(String uName) throws SQLException{
+		String sql = "Call RemoveDays('"+uName+"', "+ 10 +")";
+		StringBuffer bf = new StringBuffer();
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				bf.append("You now have "+rs.getInt("days")+ " Days");
+				System.out.println(bf);
+			}
+		}
+	}
+	
+	public static boolean haveDiscount(String uName) throws SQLException{
+		String sql = "Select uName from DiscountDay where uName = '" +uName +"'";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("uName"));
+				if(uName.equals(bf.toString()))
+					return true;
+			}
+		}
+		return false;
+	}
 }

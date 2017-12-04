@@ -271,7 +271,15 @@ public class Main {
     	String userName = InputHelper.getInput("Please enter user name to check in: ");
     	int reservationID = ReservationManager.getReservationId(userName);
     	int room = ReservationManager.getrNumber(reservationID);
-    	int cost = RoomManager.getCostOfRoom(reservationID);
+    	double cost = RoomManager.getCostOfRoom(reservationID);
+    	boolean discount = UserManager.haveDiscount(userName);
+    	if(discount){
+    		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount yes/no: ");
+        	if(slash){
+        		UserManager.removeDays(userName);
+        		cost = cost * .80;
+        	}
+    	}
     	boolean paying = InputHelper.getBooleanInput("Do you accept the "+cost+" charge for room "+ room + " yes/no: ");
     	if(paying){
     		System.out.println("payed");

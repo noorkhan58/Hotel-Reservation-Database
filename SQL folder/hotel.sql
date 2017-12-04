@@ -237,6 +237,18 @@ select days from user where uNAME = username;
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS RemoveDays;
+DELIMITER //
+CREATE PROCEDURE RemoveDays(
+IN username varchar(50),
+in Dcount int
+)
+BEGIN
+update user set days = days - Dcount where uNAME = username;
+select days from user where uNAME = username;
+END //
+DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS GroupPrices;
 DELIMITER //
@@ -294,13 +306,13 @@ END //
 DELIMITER ;
 
 drop view IF EXISTS BanV;
-create view banV as select uNAME, uName as value from user where banned is false;
+create view banV as select uNAME from user where banned is false;
  
 drop view IF EXISTS DiscountDay;
-create view DiscountDay as select uNAME, uname as value from USER where Days > 9;
+create view DiscountDay as select uNAME from USER where Days > 9;
 
 drop view IF EXISTS DiscountRef;
-create view DiscountRef as select uNAME, uname as value from USER where Referrals > 9;
+create view DiscountRef as select uNAME from USER where Referrals > 9;
 
 drop view IF EXISTS OpenRooms;
 create view OpenRooms AS select rNumber, rType as value from ROOMS where rNumber not in 
