@@ -209,6 +209,22 @@ public class UserManager {
 			}
 		}
 	}
+	
+	public static boolean haveRefDiscount(String uName) throws SQLException{
+		String sql2 = "Select uName from DiscountRef where uName = '" + uName
+				+ "'";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql2);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("uName"));
+				if (uName.equals(bf.toString()))
+					return true;
+			}
+		}
+		return false;
+	}
 
 	public static boolean haveDiscount(String uName) throws SQLException {
 		String sql = "Select uName from DiscountDay where uName = '" + uName

@@ -273,6 +273,7 @@ public class Main {
     	int room = ReservationManager.getrNumber(reservationID);
     	double cost = RoomManager.getCostOfRoom(reservationID);
     	boolean discount = UserManager.haveDiscount(userName);
+    	boolean rDiscount =UserManager.haveRefDiscount(userName);
     	if(discount){
     		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount yes/no: ");
         	if(slash){
@@ -280,6 +281,14 @@ public class Main {
         		cost = cost * .80;
         	}
     	}
+    	if(rDiscount){
+    		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount yes/no: ");
+        	if(slash){
+        		UserManager.removeRefs(userName);
+        		cost = cost * .80;
+        	}
+    	}
+    	
     	boolean paying = InputHelper.getBooleanInput("Do you accept the "+cost+" charge for room "+ room + " yes/no: ");
     	if(paying){
     		System.out.println("payed");
