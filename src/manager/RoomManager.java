@@ -194,12 +194,18 @@ return daycount;
 	 *            the room to delete
 	 * @return returns if delete or not
 	 */
-	public static boolean deleteRoom(int rNumber) {
-		String sql = "Delete from rooms where rNumber = ?";
+	public static boolean deleteRoom(int rNumber) throws SQLException{
+		String sql = "Delete from Parking where roomNumber = ?";
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setInt(1, rNumber);
-			int affected = stmt.executeUpdate();
+			int affected = stmt.executeUpdate();}
+		//System.out.println("yeeh");
+		sql = "Delete from rooms where rNumber = ?";
+		try (Connection conn2 = SQLConnection.getConnection();
+				PreparedStatement stmt2 = conn2.prepareStatement(sql);) {
+			stmt2.setInt(1, rNumber);
+			int affected = stmt2.executeUpdate();
 			if (affected == 1) {
 				return true;
 			} else {

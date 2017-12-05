@@ -211,19 +211,6 @@ public class Main {
          }
     	
     }
-    /**
-     * 
-     */
-    private static void deleteRoom() {
-    	int rNumber = InputHelper.getIntegerInput("Enter the row/uID you want to delete: ");
-    	boolean result = RoomManager.deleteRoom(rNumber);
-    	if(result) {
-      	   System.out.println("Room has been deleted");
-         }else {
-         	System.out.println("Whoops, Something wrong. Room not deleted");
-         }	
-    }
-
 
     private static boolean banCustomer(User banUser) throws SQLException {
     	String user = InputHelper.getInput("Enter the customer name you want to ban: ");
@@ -329,6 +316,13 @@ public class Main {
     	System.out.println("room "+rNumber + " and parking spot " + pNumber + " has been added");
     }
     
+    private static void DeleteOldRoom(Room room, Parking park) throws SQLException{
+    	System.out.println("These are the current rooms");
+    	RoomManager.displayAllRoomNumber();
+    	int rNumber = InputHelper.getIntegerInput("Enter the room number to delete: ");
+    	RoomManager.deleteRoom(rNumber);
+    }
+    
     private static void checkOut(Reservation reservation) throws Exception {
     	String username = InputHelper.getInput("Please enter user name");
     	int reservationID = ReservationManager.getReservationIdEnd(username);
@@ -397,6 +391,7 @@ public class Main {
 				+ "13 - All Facilite\n"
 				+ "14 - All Handicap rooms\n"
 				+ "15 - add a new room\n"
+				+ "16 - delete a room\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -457,6 +452,9 @@ public class Main {
 			break;
 		case 15:
 			makeNewRoom(new Room() ,new Parking());
+			adminInput();
+		case 16:
+			DeleteOldRoom(new Room() ,new Parking());
 			adminInput();
 		case 0:
 			break;
