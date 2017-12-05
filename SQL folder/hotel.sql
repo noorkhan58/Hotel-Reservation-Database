@@ -166,6 +166,18 @@ BEGIN
 END;//
 delimiter ;
 
+
+drop trigger IF EXISTS populateParking;
+DELIMITER //
+CREATE TRIGGER populateParking
+AFTER insert ON ROOMS
+FOR EACH ROW
+BEGIN
+INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
+VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
+END //
+DELIMITER ;
+
 drop trigger IF EXISTS cancelReservation;
 DELIMITER //
 CREATE TRIGGER cancelReservation
@@ -199,7 +211,7 @@ THEN
 UPDATE Parking SET uNAME = NULL, 
 Parking.startDate = NULL, Parking.endDate = NULL, pStatus = 'Avaliable'
 WHERE old.rNumber = Parking.roomNumber;
-UPDATE rooms set rStatus = 'Avaliable' where Rooms.rNumber = old.rNumber;
+UPDATE rooms set rStatus = 'Taken' where Rooms.rNumber = old.rNumber;
  END IF;
 END //
 DELIMITER ;

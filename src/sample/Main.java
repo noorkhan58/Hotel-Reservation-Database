@@ -315,6 +315,7 @@ public class Main {
     	int reservationID = ReservationManager.getReservationIdEnd(username);
     	reservation.setReservationID(reservationID);
     	reservation.setCheckOut(true);
+    	reservation.setPaid(true);
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {
     		System.out.println("You have checked out");
