@@ -65,11 +65,11 @@ CREATE TABLE facilities(
 	create table Parking(
 		pNumber INT,
 		roomNumber int NOT NULL,
-		uNAME VARCHAR(50),
+		uNAME VARCHAR(50) DEFAULT NULL,
 		pStatus VARCHAR(20) DEFAULT 'Available',
-		startDate date,
-		endDate date,
-		UNIQUE (roomNumber),
+		startDate date DEFAULT NULL,
+		endDate date DEFAULT NULL,
+		PRIMARY KEY (pNumber),
 		FOREIGN KEY (uNAME) references USER (uNAME),
 		FOREIGN KEY (roomNumber) references ROOMS (rNumber)
 	);

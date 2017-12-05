@@ -32,6 +32,21 @@ public class ParkingManager {
 			}
 		}
 	}
+	
+	public static void displayAllpNumber() throws SQLException {
+		String sql = "select pNumber from parking";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			StringBuffer bf = new StringBuffer();
+			while (rs.next()) {
+				bf.append(rs.getInt("pNumber") + ", ");
+				System.out.println(bf.toString());
+			}
+		}
+	}
+	
+	
 	/**
 	 * adds the parking into the table
 	 * @param Parking the parking to add
@@ -39,17 +54,14 @@ public class ParkingManager {
 	 * @throws SQLException
 	 */
 	public static boolean insertUser(Parking Parking) throws SQLException {
-		String sql = "insert into Parking(roomNumber, uName, pStatus, startDate, endDate) values"
-				+ "(?, ?, ?, ?, ?)";
+		String sql = "insert into Parking(pNumber ,roomNumber) values"
+				+ "(?, ?)";
 		ResultSet rs = null;
 		try (Connection conn = SQLConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);) {
-			stmt.setInt(1, Parking.getRoomNumber());
-			stmt.setString(2, Parking.getuName());
-			stmt.setString(3, Parking.getpStatus());
-			stmt.setDate(4, Parking.getStartDate());
-			stmt.setDate(5, Parking.getEndDate());
+			stmt.setInt(1, Parking.getpNumber());
+			stmt.setInt(2, Parking.getRoomNumber());
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {

@@ -18,6 +18,7 @@ import manager.RoomManager;
 import manager.UserManager;
 import manager.ArchiveManager;
 import sampleAdmin.Admin;
+import sampleParking.Parking;
 import sampleReservation.Reservation;
 import sampleRoom.Room;
 import sampleUser.User;
@@ -244,7 +245,7 @@ public class Main {
      * @throws SQLException
      */
     private static void makeReservation(Reservation newReservation) throws SQLException {
-    	Boolean haveAccount = InputHelper.getBooleanInput("Do you have an account? yes/no");
+    	Boolean haveAccount = InputHelper.getBooleanInput("Do you have an account? yes/no: ");
     	if(haveAccount) {
     	ReservationManager.makeReservation(newReservation);
     	}else{
@@ -307,7 +308,25 @@ public class Main {
     private static void getHandicap() throws SQLException{
     	System.out.println("all Rooms that are handicap are below");
     	RoomManager.displayHandicapRooms();
-    	
+    }
+    
+    private static void makeNewRoom(Room room, Parking park) throws SQLException{
+    	System.out.println("These are the current rooms");
+    	RoomManager.displayAllRoomNumber();
+    	int rNumber = InputHelper.getIntegerInput("Enter the room number of new room: ");
+    	RoomManager.displayAllrType();
+    	String rType = InputHelper.getInput("Enter type of room: ");
+    	int P = InputHelper.getIntegerInput("Enter Price of room: ");
+    	room.setrNumber(rNumber);
+    	room.setPrice(P);
+    	room.setrType(rType);
+    	RoomManager.insertRoom(room);
+    	ParkingManager.displayAllpNumber();
+    	int pNumber = InputHelper.getIntegerInput("Enter the parking number of new parking spot: ");
+    	park.setpNumber(pNumber);
+    	park.setRnumber(rNumber);
+    	ParkingManager.insertUser(park);
+    	System.out.println("room "+rNumber + " and parking spot " + pNumber + " has been added");
     }
     
     private static void checkOut(Reservation reservation) throws Exception {
@@ -377,6 +396,7 @@ public class Main {
     			+ "12 - list all current users\n"
 				+ "13 - All Facilite\n"
 				+ "14 - All Handicap rooms\n"
+				+ "15 - add a new room\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -435,6 +455,9 @@ public class Main {
 			getHandicap();
 			adminInput();
 			break;
+		case 15:
+			makeNewRoom(new Room() ,new Parking());
+			adminInput();
 		case 0:
 			break;
 			

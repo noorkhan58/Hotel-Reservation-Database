@@ -63,7 +63,7 @@ public class Parking {
 	 * sets Parking type
 	 * @param pType Parking type
 	 */
-	public void setpType(int roomNumber) {
+	public void setRnumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
 	/**

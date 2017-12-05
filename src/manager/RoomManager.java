@@ -35,6 +35,33 @@ public class RoomManager {
 		}
 	}
 	
+	public static void displayAllRoomNumber() throws SQLException {
+		String sql = "select rNumber from rooms";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getInt("rNumber") + ", ");
+				System.out.println(bf.toString());
+			}
+		}
+	}
+	
+	public static void displayAllrType() throws SQLException {
+		String sql = "select rType, price from rooms";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("rType") + ", $");
+				bf.append(rs.getInt("price") + ", ");
+				System.out.println(bf.toString());
+			}
+		}
+	}
+	
 	
 	public static void displayHandicapRooms() throws SQLException {
 		String sql = "select rNumber, rType from rooms where rStatus = 'Avaliable' and Handicap = 1";
