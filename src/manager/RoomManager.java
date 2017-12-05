@@ -186,7 +186,7 @@ return daycount;
 	
 	public static void displayAvailableRoom(String s) throws SQLException {
 		StringBuffer bf = new StringBuffer();
-		bf.append("select * from rooms where rStatus = 'Avaliable' and rType = '");
+		bf.append("select * from rooms where rType = '");
 		bf.append(s + "'");
 		String sql = bf.toString();
 		//System.out.println(bf.toString());

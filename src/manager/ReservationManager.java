@@ -168,7 +168,6 @@ public class ReservationManager {
 			}
 		}
 	}
-
 	/**
 	 * update reservation of existing 
 	 * @param Reservation the reservation to updated
@@ -312,6 +311,7 @@ public class ReservationManager {
 	
 	public static boolean checkBanned(String name) throws SQLException {
 		String sql = "Call checkBanUser('"+name+ "')";
+		//System.out.println(sql);
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {

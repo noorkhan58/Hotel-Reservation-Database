@@ -166,18 +166,6 @@ BEGIN
 END;//
 delimiter ;
 
-
-drop trigger IF EXISTS populateParking;
-DELIMITER //
-CREATE TRIGGER populateParking
-AFTER insert ON ROOMS
-FOR EACH ROW
-BEGIN
-INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
-VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
-END //
-DELIMITER ;
-
 drop trigger IF EXISTS cancelReservation;
 DELIMITER //
 CREATE TRIGGER cancelReservation
@@ -205,11 +193,13 @@ THEN
 UPDATE Parking SET uNAME = new.uNAME, 
 Parking.startDate = new.startDate, Parking.endDate = new.endDate, pStatus = 'Taken'
 WHERE old.rNumber = Parking.roomNumber;
+UPDATE rooms set rStatus = 'Taken' where Rooms.rNumber = old.rNumber;
 ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber)
 THEN
 UPDATE Parking SET uNAME = NULL, 
 Parking.startDate = NULL, Parking.endDate = NULL, pStatus = 'Avaliable'
 WHERE old.rNumber = Parking.roomNumber;
+UPDATE rooms set rStatus = 'Avaliable' where Rooms.rNumber = old.rNumber;
  END IF;
 END //
 DELIMITER ;
@@ -368,52 +358,6 @@ create view OpenParking as select pNumber, uNAME as value from Parking where pSt
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
-
--- Drop PROCEDURE IF EXISTS CHECKBANNED;
--- delimiter //
--- CREATE PROCEDURE CHECKBANNED(IN USERNAME VARCHAR(50), OUT bool BOOLEAN)
--- begin 
--- Select BANNED 
--- INTO bool
--- from user
--- where uNAME = USERNAME;
--- end//
--- delimiter ;
-
-#still working on commented out stuff
-#drop trigger IF EXISTS CheckOutGoods;
-#delimiter //
-#create trigger CheckOutGoods
-#After Update on reservation
-#for each row 
-#begin 
-#	if(old.checkout= false and new.checkout = True and payed = True) then
-#		 update USER set Days = Days + daycount where USER.uNAME = reservation.uNAME and #need to fix logic
-#        (select daycount from daysofReservation where rNumber = reservation.rNumber); # not sure if right
-#        update USER set u1.Referrals = u1.Referrals + 1 and u2.reference = null where #not right
-#        (select uNAME from User u1, User u2 where u1.uNAME = u2.reference);
-#        update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
-#    elseif(old.checkout = false and new.checkout = True and reservation.payed is False) then
-#		update USER set user.stars = 1 where user.uNAME = reservation.uNAME; 
-#       update Rooms set Rooms.rstatus = 'Avaliable' where Rooms.rNumber = reservation.rNumber;
-#    end if;
-#end;//
-#delimiter ;
-
-
--- drop trigger IF EXISTS CheckInReservation;
--- delimiter //
--- create trigger CheckInReservation AFTER UPDATE on reservation 
--- for each row 
--- begin 
--- if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber) 
--- THEN update ROOMS set rStatus = 'Taken' where new.rNumber = Rooms.rNumber; 
--- update Parking set pStatus = 'Taken' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
---     ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber) 
---     THEN update ROOMS set rStatus = 'Available' where new.rNumber = Rooms.rNumber; 
---     update Parking set pStatus = 'Available' where new.uNAME = Parking.uNAME and new.startDate = Parking.startDate; 
---         END IF; END;//
--- delimiter ;
 
 
 

@@ -76,48 +76,38 @@ insert into USER(uName) value
 ('macbook'),
 ('morningperson');
 
+insert into parking(pNumber ,roomNumber ,uName, pStatus, startDate, endDate) value
+(1 ,101 ,null, 'Avaliable', null, null),
+(2 ,102 ,null, 'Avaliable', null, null),
+(3 ,103 ,null, 'Avaliable', null, null),
+(4 ,104 ,null, 'Avaliable', null, null),
+(5 ,105 ,null, 'Avaliable', null, null),
+(6 ,106 ,null, 'Avaliable', null, null),
+(7 ,107 ,null, 'Avaliable', null, null),
+(8 ,108 ,null, 'Avaliable', null, null),
+(9 ,109 ,null, 'Avaliable', null, null),
+(10 ,110 ,null, 'Avaliable', null, null),
+(11 ,111 ,null, 'Avaliable', null, null),
+(12 ,112 ,null, 'Avaliable', null, null),
+(13 ,113 ,null, 'Avaliable', null, null),
+(14 ,114 ,null, 'Avaliable', null, null),
+(15 ,115 ,null, 'Avaliable', null, null),
+(16 ,201 ,null, 'Avaliable', null, null),
+(17 ,202 ,null, 'Avaliable', null, null),
+(18 ,203 ,null, 'Avaliable', null, null),
+(19 ,204 ,null, 'Avaliable', null, null),
+(20 ,205 ,null, 'Avaliable', null, null),
+(21 ,206 ,null, 'Avaliable', null, null),
+(22 ,207 ,null, 'Avaliable', null, null),
+(23 ,208 ,null, 'Avaliable', null, null),
+(24 ,209 ,null, 'Avaliable', null, null),
+(25 ,210 ,null, 'Avaliable', null, null),
+(26 ,211 ,null, 'Avaliable', null, null),
+(27 ,212 ,null, 'Avaliable', null, null),
+(28 ,213 ,null, 'Avaliable', null, null),
+(29 ,214 ,null, 'Avaliable', null, null),
+(30 ,215 ,null, 'Avaliable', null, null);
 
-insert into reservation(uNAme, rnumber, startDate, endDate) Value
-('geoff', 105, '2017-11-20', '2017-11-25');
-
-
-
-insert into parking(pNumber ,uName, pStatus, pType, startDate, endDate) value
-(1 ,null, 'Avaliable', 'HandiCap', null, null),
-(2 ,null, 'Avaliable', 'HandiCap', null, null),
-(3 ,null, 'Avaliable', 'HandiCap', null, null),
-(4 ,null, 'Avaliable', 'HandiCap', null, null),
-(5 ,null, 'Avaliable', 'HandiCap', null, null),
-(6 ,null, 'Avaliable', 'compact', null, null),
-(7 ,null, 'Avaliable', 'compact', null, null),
-(8 ,null, 'Avaliable', 'compact', null, null),
-(9 ,null, 'Avaliable', 'compact', null, null),
-(10 ,null, 'Avaliable', 'compact', null, null),
-(11 ,null, 'Avaliable', 'compact', null, null),
-(12 ,null, 'Avaliable', 'compact', null, null),
-(13 ,null, 'Avaliable', 'compact', null, null),
-(14 ,null, 'Avaliable', 'compact', null, null),
-(15 ,null, 'Avaliable', 'compact', null, null),
-(16 ,null, 'Avaliable', 'normal', null, null),
-(17 ,null, 'Avaliable', 'normal', null, null),
-(18 ,null, 'Avaliable', 'normal', null, null),
-(19 ,null, 'Avaliable', 'normal', null, null),
-(20 ,null, 'Avaliable', 'normal', null, null),
-(21 ,null, 'Avaliable', 'normal', null, null),
-(22 ,null, 'Avaliable', 'normal', null, null),
-(23 ,null, 'Avaliable', 'normal', null, null),
-(24 ,null, 'Avaliable', 'normal', null, null),
-(25 ,null, 'Avaliable', 'normal', null, null),
-(26 ,null, 'Avaliable', 'normal', null, null),
-(27 ,null, 'Avaliable', 'normal', null, null),
-(28 ,null, 'Avaliable', 'normal', null, null),
-(29 ,null, 'Avaliable', 'normal', null, null),
-(30 ,null, 'Avaliable', 'normal', null, null),
-(31 ,null, 'Avaliable', 'normal', null, null),
-(32 ,null, 'Avaliable', 'normal', null, null),
-(33 ,null, 'Avaliable', 'normal', null, null),
-(34 ,null, 'Avaliable', 'normal', null, null),
-(35 ,null, 'Avaliable', 'normal', null, null);
 
 insert into parking(pNumber,uName,pStatus, pType, startDate, endDate);
 insert into reservation(uName, rnumber, startDate, endDate);

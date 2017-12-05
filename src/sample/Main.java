@@ -120,10 +120,8 @@ public class Main {
     	String refer = InputHelper.getInput("Enter reference name more press enter with nothing: ");
     	if(refer.isEmpty() || refer == "none") {
     		newUser.setReference(null);
-    		System.out.println("yes");
     	}else {
-    		newUser.setReference(null);
-    		System.out.println("no");
+    		newUser.setReference(refer);
     	}
     	boolean result = UserManager.insertUser(newUser);
     	if(result) {
@@ -324,12 +322,11 @@ public class Main {
     		UserManager.addDays(username, days);
     	}else{
     		System.out.println("Whoops, Something wrong. Checking out not complete");
-    	}
-    	
+    	}   	
     }
     
     private static void facilitestatus() throws SQLException{
-    	String sql = "Select * from FacilitiesStatus";
+    	String sql = "Select fName, fStatus from FacilitiesStatus";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
@@ -378,7 +375,7 @@ public class Main {
 				+ "11 - Check Archives\n"
     			+ "12 - list all current users\n"
 				+ "13 - All Facilite\n"
-				+ "13 - All Handicap rooms\n"
+				+ "14 - All Handicap rooms\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -427,12 +424,15 @@ public class Main {
 			break;	
 		case 12:
 			UserManager.displayAllRows();
+			adminInput();
 			break;
 		case 13:
-			facilitestatus();
+			FacilitiesManager.displayFacilitesStatus();
+			adminInput();
 			break;
 		case 14:
 			getHandicap();
+			adminInput();
 			break;
 		case 0:
 			break;
@@ -454,6 +454,9 @@ public class Main {
     			+ "3 - Make reservation\n"
     			+ "4 - Cancel reservation\n"
     			+ "5 - check facilites\n"
+    			+ "6 - Check In\n"
+    			+ "7 - Check Out\n"
+				+ "8 - All Handicap rooms\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -475,6 +478,18 @@ public class Main {
 		case 5:
 			FacilitiesManager.displayFacilitesStatus();
 			userInput();
+		case 6:
+			checkIn(new Reservation());
+			userInput();
+			break;
+		case 7:
+			checkOut(new Reservation());
+			userInput();
+			break;
+		case 8:
+			getHandicap();
+			userInput();
+			break;
 		case 0:
 			break;
 

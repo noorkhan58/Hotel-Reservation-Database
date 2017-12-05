@@ -38,7 +38,7 @@ public class FacilitiesManager {
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append(rs.getString("fName") + ": ");
+				bf.append(String.format("%15s : ", rs.getString("fName")));
 				bf.append(rs.getString("fStatus"));
 				System.out.println(bf.toString());
 			}

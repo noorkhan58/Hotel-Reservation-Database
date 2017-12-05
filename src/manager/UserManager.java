@@ -129,7 +129,7 @@ public class UserManager {
 
 	public static void RefManagement(String uName) throws SQLException {
 		String sql = "Select reference from USER where uNAME = '" + uName + "'";
-		System.out.println(sql);
+		//System.out.println(sql);
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
@@ -139,7 +139,7 @@ public class UserManager {
 				//System.out.println(bf);
 				if (!bf.toString().equals("null")){
 					setNullRef(uName);
-					System.out.println(bf.toString());
+					//System.out.println(bf.toString());
 					GiveRefPoints(bf.toString());				
 				}
 			}
@@ -153,7 +153,6 @@ public class UserManager {
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				bf.append(rs.getString("reference"));
-				System.out.println(bf.toString() + "  temp");
 			}
 		}
 	}
@@ -163,7 +162,6 @@ public class UserManager {
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
-			System.out.println("test");
 		}
 
 	}
@@ -178,7 +176,6 @@ public class UserManager {
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				bf.append("You have " + rs.getInt("days") + " Days");
-				System.out.println(bf);
 			}
 		}
 	}
