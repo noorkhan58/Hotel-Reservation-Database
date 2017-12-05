@@ -252,6 +252,8 @@ public class ReservationManager {
 			System.out.println("The customer is banned. Customer not allowed to make reservation.");
 			return;
 		}
+		RoomManager.showRoomTypeOnly();
+		System.out.println("Current Open Room Status below:");
 		RoomManager.displayOpenRoomsType();
 		String roomType = InputHelper.getInput("Enter room type you want: ");
 		RoomManager.displayAvailableRoom(roomType);

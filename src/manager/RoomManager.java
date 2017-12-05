@@ -239,6 +239,19 @@ return daycount;
 		}
     }
 	
+	public static void showRoomTypeOnly() throws SQLException{
+		String sql = "select rType from rooms where not rType = 'Facilities' group by rType";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			StringBuffer bf = new StringBuffer();
+			while (rs.next()) {
+				bf.append(rs.getString("rType") + ", ");
+			}
+			System.out.println(bf.toString());
+		}
+	}
+	
 	public static void showRoomTypes() throws SQLException{
 		String sql = "select * from rooms where rStatus = 'Avaliable'";
 		try (Connection conn = SQLConnection.getConnection();
