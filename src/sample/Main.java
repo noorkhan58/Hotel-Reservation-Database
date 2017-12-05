@@ -314,7 +314,7 @@ public class Main {
     	String username = InputHelper.getInput("Please enter user name");
     	int reservationID = ReservationManager.getReservationIdEnd(username);
     	reservation.setReservationID(reservationID);
-    	reservation.setCheckOut(true);
+    	reservation.setCheckOut(true); 
     	reservation.setPaid(true);
     	boolean result = ReservationManager.update(reservation, reservationID);
     	if(result) {
