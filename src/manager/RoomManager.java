@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import connection.SQLConnection;
 import sampleReservation.Reservation;
@@ -77,14 +78,18 @@ public class RoomManager {
 	}
 	
 public static int getCostOfRoom(int reservationID) throws SQLException{
-	String sql = "CALL GroupPrices(" + reservationID + ")";
+	String sql = "CALL GetPrices(" + reservationID + ")";
 	int price =0; int daycount =0; 
 	try (Connection conn = SQLConnection.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);) {
 		if (rs.next()) {
-			int rID = rs.getInt("reservationID");
+			Date start = rs.getDate("startDate");
+			Date end = rs.getDate("endDate");
+			String room = rs.getString("rNumber");
 			price = rs.getInt("price");
+			
+			System.out.println("Reservation selected for room " + room +" for dates: "+start.toString()+" - "+end.toString());
 		}
 	}
 	daycount = getStayDays(reservationID);

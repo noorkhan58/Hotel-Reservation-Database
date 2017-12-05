@@ -290,13 +290,13 @@ END //
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS GroupPrices;
+DROP PROCEDURE IF EXISTS GetPrices;
 DELIMITER //
-CREATE PROCEDURE GroupPrices(
+CREATE PROCEDURE GetPrices(
 IN inRID int
 )
 BEGIN
-select reservationID, price from ROOMS natural join reservation where inRID = reservation.reservationID;
+select * from (ROOMS Right join reservation) on ROOMS.rNumber = reservation.rNumber where inRID = reservation.reservationID;
 END //
 DELIMITER ;	
 

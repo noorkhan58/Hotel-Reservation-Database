@@ -275,7 +275,7 @@ public class Main {
         	}
     	}
     	
-    	boolean paying = InputHelper.getBooleanInput("Do you accept the "+cost+" charge for room "+ room + " yes/no: ");
+    	boolean paying = InputHelper.getBooleanInput("Do you accept the "+cost+" charge yes/no: ");
     	if(paying){
     		System.out.println("payed");
     		reservation.setPaid(true);
