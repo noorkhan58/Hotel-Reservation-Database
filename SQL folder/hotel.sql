@@ -191,7 +191,11 @@ DELIMITER ;
 drop trigger IF EXISTS banUser;
 delimiter //
 CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
-BEGIN IF new.uStars <= 1 THEN set new.Banned = true; END IF; END;//
+BEGIN IF (new.uStars <= 1) THEN 
+set new.Banned = true;
+ELSEIF(new.banned = true) THEN
+set new.uStars = 0; 
+END IF; END;//
 delimiter ;
 
 drop trigger IF EXISTS checkIn;
