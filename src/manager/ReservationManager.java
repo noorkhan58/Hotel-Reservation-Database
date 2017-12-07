@@ -39,6 +39,35 @@ public class ReservationManager {
 			}
 		}
 	}
+	public static int getReservationIdC(String username) throws SQLException {
+		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"'";
+		System.out.println("pick the reservationID of check in");
+		int rID = 0;
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append("ReservationID: ");
+				bf.append(rs.getInt("reservationID")+ " ");
+				bf.append("Room Number: ");
+				rID = rs.getInt("rNumber");
+				bf.append(rID + " Start: ");
+				bf.append(rs.getDate("startDate") + " End: ");
+				bf.append(rs.getDate("endDate"));
+				System.out.println(bf.toString());
+			}
+		}
+		if(rID == 0) {
+			return 0;
+		}
+		int reservationId = InputHelper.getIntegerInput("Enter reservationID: ");
+		return reservationId;
+	}
+	
+	
+	
+	
 	
 	public static int getReservationId(String username) throws SQLException {
 		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = 0 and  CheckedOut = 0";

@@ -166,6 +166,17 @@ BEGIN
 END;//
 delimiter ;
 
+
+drop trigger IF EXISTS cancelReservation;
+DELIMITER //
+CREATE TRIGGER cancelReservation
+AFTER DELETE ON reservation
+FOR EACH ROW
+BEGIN
+UPDATE ROOMS SET rStatus = 'Available' WHERE old.rNumber = ROOMS.rNumber and old.CheckedIn = true and old.CheckedOut = false;
+END //
+DELIMITER ;
+
 drop trigger IF EXISTS banUser;
 delimiter //
 CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 

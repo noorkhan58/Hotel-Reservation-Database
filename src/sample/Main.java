@@ -244,7 +244,7 @@ public class Main {
     
     private static void cancelReservation() throws Exception {
     	String username = InputHelper.getInput("Please enter name to cancel existing reservation: ");
-    	int reservationID = ReservationManager.getReservationId(username);
+    	int reservationID = ReservationManager.getReservationIdC(username);
     	if(reservationID == 0) {
     		System.out.println("Invalid username, try again later");
     		return;
