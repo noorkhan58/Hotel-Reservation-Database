@@ -41,10 +41,15 @@ public class RoomManager {
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
+			int i = 0;
+			StringBuffer bf = new StringBuffer();
 			while (rs.next()) {
-				StringBuffer bf = new StringBuffer();
 				bf.append(rs.getInt("rNumber") + ", ");
-				System.out.println(bf.toString());
+				i++;
+				if(i%10 == 0){
+					System.out.println(bf.toString());
+					bf = new StringBuffer();
+				}
 			}
 		}
 	}
@@ -111,6 +116,22 @@ return daycount;
 }
 	public static void displayOpenRoomsType() throws SQLException {
 		String sql = "select * from RoomTypes";
+		int i = 1;
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();	
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getString("rType"));
+				bf.append((": "));
+				bf.append(rs.getInt("Amount"));
+				System.out.println(bf.toString());
+			}
+		}
+	}
+	
+	public static void displayRoomTypes() throws SQLException {
+		String sql = "select * from RoomTypes where not rtype = 'Facilities' group by rType";
 		int i = 1;
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();	

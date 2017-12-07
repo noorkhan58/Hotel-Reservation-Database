@@ -301,7 +301,7 @@ public class Main {
     	System.out.println("These are the current rooms");
     	RoomManager.displayAllRoomNumber();
     	int rNumber = InputHelper.getIntegerInput("Enter the room number of new room: ");
-    	RoomManager.displayAllrType();
+    	RoomManager.showRoomTypeOnly();
     	String rType = InputHelper.getInput("Enter type of room: ");
     	int P = InputHelper.getIntegerInput("Enter Price of room: ");
     	room.setrNumber(rNumber);

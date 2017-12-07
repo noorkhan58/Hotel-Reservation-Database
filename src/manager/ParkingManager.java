@@ -39,10 +39,16 @@ public class ParkingManager {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			StringBuffer bf = new StringBuffer();
+			int i =0;
 			while (rs.next()) {
 				bf.append(rs.getInt("pNumber") + ", ");
+				i++;
+				if(i%10 == 0)
+				{
+					System.out.println(bf.toString());
+					bf = new StringBuffer();
+				}
 			}
-			System.out.println(bf.toString());
 		}
 	}
 	
