@@ -274,4 +274,19 @@ return daycount;
 			}
 		}
 	}
+	
+	public static void allAvailableroomsFacilities() throws SQLException {
+		String sql = "Select * from allAvailableroomsFacilities";
+		try (Connection conn = SQLConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);) {
+			while (rs.next()) {
+				StringBuffer bf = new StringBuffer();
+				bf.append(rs.getInt("rNumber") + ": ");
+				bf.append("\t\t");
+				bf.append(rs.getString("rType"));
+				System.out.println(bf.toString());
+			}
+		}
+	}
 }

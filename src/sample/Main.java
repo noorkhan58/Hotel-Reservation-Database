@@ -368,7 +368,20 @@ public class Main {
 		else {
 			System.out.println("Whoops, something went wrong");
 		}
+		
+		
     }
+	
+	 private static void availableDateOfRoom() throws SQLException {
+	    	int roomNumber = InputHelper.getIntegerInput("Enter room number: ");
+	    	String unavailableDate = ReservationManager.displayUnavailableDate(roomNumber);
+	    	if(unavailableDate.isEmpty()) {
+	    		System.out.println("The room has not made any reservation yet.");
+	    	}else{
+	    		System.out.println("Room is reserved from: " + ReservationManager.displayUnavailableDate(roomNumber));
+	    	}
+	    	
+	    }
     
     /**
      * This is the options for admin. when admin log in, they can do follwoing.
@@ -391,6 +404,8 @@ public class Main {
 				+ "14 - All Handicap rooms\n"
 				+ "15 - add a new room\n"
 				+ "16 - delete a room\n"
+				+ "17 - Check all rooms and facilities that is available\n"
+				+ "18 - Check reserved dates for given room\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -451,6 +466,16 @@ public class Main {
 		case 16:
 			DeleteOldRoom(new Room() ,new Parking());
 			adminInput();
+		case 17:
+			System.out.println("Room number     Type");
+			RoomManager.allAvailableroomsFacilities();
+			adminInput();
+			break;
+		case 18:
+			availableDateOfRoom();
+			System.out.println();
+			adminInput();
+			break;
 		case 0:
 			break;
 			

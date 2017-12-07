@@ -167,17 +167,6 @@ END;//
 delimiter ;
 
 
-drop trigger IF EXISTS populateParking;
-DELIMITER //
-CREATE TRIGGER populateParking
-AFTER insert ON ROOMS
-FOR EACH ROW
-BEGIN
-INSERT INTO Parking(roomNumber, uName, pStatus, startDate, endDate)
-VALUES(new.rNumber, NULL, 'Avaliable', NULL, NULL);
-END //
-DELIMITER ;
-
 drop trigger IF EXISTS cancelReservation;
 DELIMITER //
 CREATE TRIGGER cancelReservation
@@ -310,18 +299,19 @@ SELECT uNAME FROM USER WHERE uNAME = username and BANNED = true;
 END //
 DELIMITER ;
 
+-- Procedure that returns number to check the availability of the reservation date
 DROP PROCEDURE IF EXISTS getAvailabledates;
 DELIMITER //
 CREATE PROCEDURE getAvailabledates(
-IN date1 Varchar(20),
-IN date2 varchar(20),
-IN roomNumber int
+IN date1 VARCHAR(20),
+IN date2 VARCHAR(20),
+IN roomNumber INT
 )
 BEGIN
-SELECT count(uName) as total FROM reservation where (date1 < startDate and date2 < endDate
-and rNumber = roomNumber)
- or(date1 > startDate and date2 > endDate
-  and rNumber = roomNumber);
+SELECT COUNT(uName) AS total FROM reservation WHERE (date1 < startDate AND (date2 < endDate AND date2 <=startDate)
+AND rNumber = roomNumber)
+ OR(((date1 > startDate AND date1 >= endDate) AND date2 > endDate)
+  AND rNumber = roomNumber);
 END //
 DELIMITER ;
 
@@ -373,6 +363,13 @@ create view OpenParking as select pNumber, uNAME as value from Parking where pSt
 
 drop view IF EXISTS OpenParkingNumber;
 create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
+
+DROP VIEW IF EXISTS allAvailableroomsFacilities;
+CREATE VIEW allAvailableroomsFacilities AS
+SELECT * FROM
+(SELECT rNumber, rType FROM rooms WHERE rStatus = 'Avaliable'
+UNION
+SELECT rNumber, fName FROM facilities WHERE fStatus = 'Avaliable') AS allRooms;
 
 
 
