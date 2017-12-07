@@ -96,7 +96,7 @@ public class Main {
     	if(result) {
       	   System.out.println("Admin has been deleted from database");
          }else {
-         	System.out.println("Whoops, Something wrong. User not deleted");
+         	System.out.println("Whoops, Admin not found");
          }	
     }
     /**
@@ -118,7 +118,7 @@ public class Main {
     	newUser.setBanned(false);
     	newUser.setDays(0);
     	newUser.setReferrals(0);
-    	String refer = InputHelper.getInput("Enter reference name more press enter with nothing: ");
+    	String refer = InputHelper.getInput("Enter reference name or press enter with nothing: ");
     	if(refer.isEmpty() || refer == "none") {
     		newUser.setReference(null);
     	}else {
@@ -245,6 +245,10 @@ public class Main {
     private static void cancelReservation() throws Exception {
     	String username = InputHelper.getInput("Please enter name to cancel existing reservation: ");
     	int reservationID = ReservationManager.getReservationId(username);
+    	if(reservationID == 0) {
+    		System.out.println("Invalid username, try again later");
+    		return;
+    	}
     	boolean result = ReservationManager.deleteReservation(reservationID);
     	if(result) {
     		System.out.println("Reservation has been cancelled");
@@ -326,6 +330,10 @@ public class Main {
     private static void checkOut(Reservation reservation) throws Exception {
     	String username = InputHelper.getInput("Please enter user name");
     	int reservationID = ReservationManager.getReservationIdEnd(username);
+    	if(reservationID == 0) {
+    		System.out.println("Invalid user name, try again later");
+    		return;
+    	}
     	reservation.setReservationID(reservationID);
     	reservation.setCheckOut(true); 
     	reservation.setPaid(true);
@@ -392,20 +400,20 @@ public class Main {
     			+ "1 - Add new admin\n"
     			+ "2 - Add new customer informations\n"
     			+ "3 - Delete customer informations\n"
-    			+ "5 - Ban existing customer\n"
-    			+ "6 - Make reservation\n"
-    			+ "7 - Cancel reservation\n"
-    			+ "8 - Check In\n"
-    			+ "9 - Check Out\n"
-    			+ "10 - Delete existing admin\n"
-				+ "11 - Check Archives\n"
-    			+ "12 - list all current users\n"
-				+ "13 - All Facilite\n"
-				+ "14 - All Handicap rooms\n"
-				+ "15 - add a new room\n"
-				+ "16 - delete a room\n"
-				+ "17 - Check all rooms and facilities that is available\n"
-				+ "18 - Check reserved dates for given room\n"
+    			+ "4 - Ban existing customer\n"
+    			+ "5 - Make reservation\n"
+    			+ "6 - Cancel reservation\n"
+    			+ "7 - Check In\n"
+    			+ "8 - Check Out\n"
+    			+ "9 - Delete existing admin\n"
+				+ "10 - Check Archives\n"
+    			+ "11 - list all current users\n"
+				+ "12 - All Facilite\n"
+				+ "13 - All Handicap rooms\n"
+				+ "14 - add a new room\n"
+				+ "15 - delete a room\n"
+				+ "16 - Check all rooms and facilities that is available\n"
+				+ "17 - Check reserved dates for given room\n"
     			+ "0 - quit\n");
     	switch (answer) {
 		case 1:
@@ -420,58 +428,58 @@ public class Main {
 			deleteUser();
 			adminInput();
 			break;
-		case 5:
+		case 4:
 			banCustomer(new User());
 			adminInput();
 			break;
-		case 6:
+		case 5:
 			makeReservation(new Reservation());
 			adminInput();
 			break;
-		case 7:
+		case 6:
 			cancelReservation();
 			adminInput();
 			break;
-		case 8:
+		case 7:
 			checkIn(new Reservation());
 			adminInput();
 			break;
-		case 9:
+		case 8:
 			checkOut(new Reservation());
 			adminInput();
 			break;
-		case 10:
+		case 9:
 			deleteAdmin();
 			adminInput();
 			break;
-		case 11:
+		case 10:
 			selectArchive();
 			adminInput();
 			break;	
-		case 12:
+		case 11:
 			UserManager.displayAllRows();
 			adminInput();
 			break;
-		case 13:
+		case 12:
 			FacilitiesManager.displayFacilitesStatus();
 			adminInput();
 			break;
-		case 14:
+		case 13:
 			getHandicap();
 			adminInput();
 			break;
-		case 15:
+		case 14:
 			makeNewRoom(new Room() ,new Parking());
 			adminInput();
-		case 16:
+		case 15:
 			DeleteOldRoom(new Room() ,new Parking());
 			adminInput();
-		case 17:
+		case 16:
 			System.out.println("Room number     Type");
 			RoomManager.allAvailableroomsFacilities();
 			adminInput();
 			break;
-		case 18:
+		case 17:
 			availableDateOfRoom();
 			System.out.println();
 			adminInput();

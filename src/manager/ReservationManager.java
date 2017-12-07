@@ -43,40 +43,53 @@ public class ReservationManager {
 	public static int getReservationId(String username) throws SQLException {
 		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = 0 and  CheckedOut = 0";
 		System.out.println("pick the reservationID of check in");
+		int rID = 0;
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append("Number = ");
+				bf.append("ReservationID: ");
 				bf.append(rs.getInt("reservationID")+ " ");
-				bf.append(rs.getInt("rNumber")+ " Start: ");
+				bf.append("Room Number: ");
+				rID = rs.getInt("rNumber");
+				bf.append(rID + " Start: ");
 				bf.append(rs.getDate("startDate") + " End: ");
 				bf.append(rs.getDate("endDate"));
 				System.out.println(bf.toString());
 			}
 		}
-		int reservationId = InputHelper.getIntegerInput("What is the number of the reservation needed: ");
+		if(rID == 0) {
+			return 0;
+		}
+		int reservationId = InputHelper.getIntegerInput("Enter reservationID: ");
 		return reservationId;
 	}
 	
 	public static int getReservationIdEnd(String username) throws SQLException {
 		String sql = "Select reservationID, rNumber, startDate, endDate from reservation where uName = '"+ username+"' and CheckedIn = 1 and CheckedOut = 0";
 		System.out.println("pick the reservationID of check out");
+		int rID = 0;
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
 				StringBuffer bf = new StringBuffer();
-				bf.append("Number = ");
+				bf.append("ReservationID: ");
 				bf.append(rs.getInt("reservationID")+ " ");
-				bf.append(rs.getInt("rNumber")+ " Start: ");
+				bf.append("Room number: ");
+				rID = rs.getInt("rNumber");
+				bf.append(rID + " Start: ");
 				bf.append(rs.getDate("startDate") + " End: ");
 				bf.append(rs.getDate("endDate"));
+				
 				System.out.println(bf.toString());
 			}
 		}
-		int reservationId = InputHelper.getIntegerInput("What is the number of the reservation needed: ");
+		if(rID == 0) {
+			return 0;
+		}
+		int reservationId = InputHelper.getIntegerInput("Enter reservationID: ");
 		return reservationId;
 	}
 	
@@ -277,10 +290,13 @@ public class ReservationManager {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date dateStart = null;
 		java.util.Date dateEnd = null;
+		java.util.Date today = null;
+		Date currentDate = new Date();
 		
 		try {
 			dateStart = df.parse(startDateString);
 			dateEnd = df.parse(endDateString);
+			today = df.parse(df.format(currentDate));
 		} catch (ParseException e) {
 			System.err.println("You must enter valid dates\n");
 			makeReservation(newReservation);
@@ -288,7 +304,11 @@ public class ReservationManager {
 		boolean checkDates = isValidDate(startDateString, endDateString, newReservation.getrNumber());
 		java.sql.Date sqlStartDate = new java.sql.Date(dateStart.getTime());
 		java.sql.Date sqlEndDate = new java.sql.Date(dateEnd.getTime());
-		
+		java.sql.Date sqlcurrentDate = new java.sql.Date(today.getTime());
+		if(sqlStartDate.before(sqlcurrentDate) || sqlStartDate.equals(sqlEndDate) || sqlStartDate.after(sqlEndDate) ) {
+			System.out.println("Invalid dates, start date must be today or future dates, end date must be after start date");
+			return;
+		}
 		if(checkDates) {
 			newReservation.setStartDate(sqlStartDate);
 			newReservation.setEndDate(sqlEndDate);
