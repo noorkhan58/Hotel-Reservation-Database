@@ -162,7 +162,7 @@ CREATE TRIGGER removedArchiveUser AFTER DELETE ON User FOR EACH ROW
 BEGIN 
     INSERT INTO archiveUser
     VALUES(CURRENT_TIMESTAMP, old.uName, old.uStars, old.memberSince,
-    old.Banned, old.Days, old.Referrals, old.refrence);
+    old.Banned, old.Days, old.Referrals, old.reference);
 END;//
 delimiter ;
 
@@ -173,7 +173,7 @@ CREATE TRIGGER cancelReservation
 AFTER DELETE ON reservation
 FOR EACH ROW
 BEGIN
-UPDATE ROOMS SET rStatus = 'Avaliable' WHERE old.rNumber = ROOMS.rNumber;
+UPDATE ROOMS SET rStatus = 'Available' WHERE old.rNumber = ROOMS.rNumber;
 END //
 DELIMITER ;
 
@@ -202,7 +202,7 @@ UPDATE rooms set rStatus = 'Taken' where Rooms.rNumber = old.rNumber;
 ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber)
 THEN
 UPDATE Parking SET uNAME = NULL, 
-Parking.startDate = NULL, Parking.endDate = NULL, pStatus = 'Avaliable'
+Parking.startDate = NULL, Parking.endDate = NULL, pStatus = 'Available'
 WHERE old.rNumber = Parking.roomNumber;
 UPDATE rooms set rStatus = 'Taken' where Rooms.rNumber = old.rNumber;
  END IF;
@@ -352,7 +352,7 @@ drop view IF EXISTS FacilitiesStatus;
 create view FacilitiesStatus AS select fName, fStatus from facilities;
 
 drop view IF EXISTS RoomTypes;
-create view RoomTypes AS select rtype, count(rtype) as amount from rooms where not rType = 'Facilities' and rStatus = 'Avaliable' group by rtype having amount > 0;
+create view RoomTypes AS select rtype, count(rtype) as amount from rooms where not rType = 'Facilities' and rStatus = 'Available' group by rtype having amount > 0;
 
 drop view IF EXISTS ReservationDays;
 create view ReservationDays as select reservationID, DATEDIFF(reservation.endDate, reservation.startDate) as daycount 
@@ -361,15 +361,13 @@ create view ReservationDays as select reservationID, DATEDIFF(reservation.endDat
 drop view IF EXISTS OpenParking;
 create view OpenParking as select pNumber, uNAME as value from Parking where pStatus = 'Available';
 
-drop view IF EXISTS OpenParkingNumber;
-create view OpenParkingNumber as select pType, count(pType) as amount from Parking group by pType;
 
 DROP VIEW IF EXISTS allAvailableroomsFacilities;
 CREATE VIEW allAvailableroomsFacilities AS
 SELECT * FROM
-(SELECT rNumber, rType FROM rooms WHERE rStatus = 'Avaliable'
+(SELECT rNumber, rType FROM rooms WHERE rStatus = 'Available'
 UNION
-SELECT rNumber, fName FROM facilities WHERE fStatus = 'Avaliable') AS allRooms;
+SELECT rNumber, fName FROM facilities WHERE fStatus = 'Available') AS allRooms;
 
 
 

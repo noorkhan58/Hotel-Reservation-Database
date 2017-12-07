@@ -19,7 +19,7 @@ public class RoomManager {
 	 *             error
 	 */
 	public static void displayOpenRooms() throws SQLException {
-		String sql = "select * from rooms where rStatus = 'Avaliable'";
+		String sql = "select * from rooms where rStatus = 'Available'";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
@@ -65,7 +65,7 @@ public class RoomManager {
 	
 	
 	public static void displayHandicapRooms() throws SQLException {
-		String sql = "select rNumber, rType from rooms where rStatus = 'Avaliable' and Handicap = 1";
+		String sql = "select rNumber, rType from rooms where rStatus = 'Available' and Handicap = 1";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
@@ -258,7 +258,7 @@ return daycount;
 	}
 	
 	public static void showRoomTypes() throws SQLException{
-		String sql = "select * from rooms where rStatus = 'Avaliable'";
+		String sql = "select * from rooms where rStatus = 'Available'";
 		try (Connection conn = SQLConnection.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
