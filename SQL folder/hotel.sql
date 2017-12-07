@@ -296,7 +296,7 @@ CREATE PROCEDURE GetPrices(
 IN inRID int
 )
 BEGIN
-select * from (ROOMS Right join reservation) on ROOMS.rNumber = reservation.rNumber where inRID = reservation.reservationID;
+select * from ROOMS RIGHT join reservation on ROOMS.rNumber = reservation.rNumber where inRID = reservation.reservationID;
 END //
 DELIMITER ;	
 

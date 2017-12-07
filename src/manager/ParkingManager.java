@@ -41,8 +41,8 @@ public class ParkingManager {
 			StringBuffer bf = new StringBuffer();
 			while (rs.next()) {
 				bf.append(rs.getInt("pNumber") + ", ");
-				System.out.println(bf.toString());
 			}
+			System.out.println(bf.toString());
 		}
 	}
 	

@@ -379,7 +379,6 @@ public class Main {
     			+ "1 - Add new admin\n"
     			+ "2 - Add new customer informations\n"
     			+ "3 - Delete customer informations\n"
-    			+ "4 - Update customer informations\n"
     			+ "5 - Ban existing customer\n"
     			+ "6 - Make reservation\n"
     			+ "7 - Cancel reservation\n"
@@ -404,10 +403,6 @@ public class Main {
 			break;
 		case 3:
 			deleteUser();
-			adminInput();
-			break;
-		case 4:
-			updateUser(new User());
 			adminInput();
 			break;
 		case 5:
@@ -472,7 +467,6 @@ public class Main {
     private static void userInput() throws Exception {
     	int answer = InputHelper.getIntegerInput("Please press number from the following: \n"
     			+ "1 - Create an account\n"
-    			+ "2 - Delete account\n"
     			+ "3 - Make reservation\n"
     			+ "4 - Cancel reservation\n"
     			+ "5 - check facilites\n"
@@ -483,10 +477,6 @@ public class Main {
     	switch (answer) {
 		case 1:
 			insertUser(new User());
-			userInput();
-			break;
-		case 2:
-			deleteUser();
 			userInput();
 			break;
 		case 3:
