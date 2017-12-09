@@ -112,11 +112,12 @@ insert into parking(pNumber ,roomNumber ,uName, pStatus, startDate, endDate) val
 
 
 insert into admin values('noor.khan@sjsu.edu', 'sample');
+insert into admin values('john', 'anderson');
 
 
 
-insert into parking(pNumber,uName,pStatus, pType, startDate, endDate);
-insert into reservation(uName, rnumber, startDate, endDate);
-insert into USER(uName);
-insert into facilities(fName, rNumber,fStatus, Handicap);
+--insert into parking(pNumber,uName,pStatus, pType, startDate, endDate);
+--insert into reservation(uName, rnumber, startDate, endDate);
+--insert into USER(uName);
+--insert into facilities(fName, rNumber,fStatus, Handicap);
 insert into room(rNumber, rStatus, price, rType, handicap);
