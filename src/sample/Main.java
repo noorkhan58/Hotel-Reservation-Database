@@ -265,14 +265,14 @@ public class Main {
     	boolean discount = UserManager.haveDiscount(userName);
     	boolean rDiscount =UserManager.haveRefDiscount(userName);
     	if(discount){
-    		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount yes/no: ");
+    		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount from your day points yes/no: ");
         	if(slash){
         		UserManager.removeDays(userName);
         		cost = cost * .80;
         	}
     	}
     	if(rDiscount){
-    		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount yes/no: ");
+    		boolean slash = InputHelper.getBooleanInput("The cost is "+cost+" do you want to use your 20% discount from your user points yes/no: ");
         	if(slash){
         		UserManager.removeRefs(userName);
         		cost = cost * .80;

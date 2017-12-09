@@ -201,7 +201,7 @@ public class UserManager {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			while (rs.next()) {
-				bf.append("You now have " + rs.getInt("days") + " Ref points");
+				bf.append("You now have " + rs.getInt("referrals") + " Ref points");
 				System.out.println(bf);
 			}
 		}
