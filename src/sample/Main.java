@@ -257,10 +257,14 @@ public class Main {
     	}
     }
     
-    private static void checkIn(Reservation reservation) throws SQLException {
+    private static void checkIn(Reservation reservation) throws Exception {
     	String userName = InputHelper.getInput("Please enter user name to check in: ");
     	int reservationID = ReservationManager.getReservationId(userName);
     	int room = ReservationManager.getrNumber(reservationID);
+    	if(room == 0){
+    		System.out.println("no reservations");
+    		userInput();
+    	}
     	double cost = RoomManager.getCostOfRoom(reservationID);
     	boolean discount = UserManager.haveDiscount(userName);
     	boolean rDiscount =UserManager.haveRefDiscount(userName);

@@ -133,6 +133,9 @@ public class ReservationManager {
 				bf.append(rs.getInt("rNumber"));
 			}
 		}
+		if(bf.toString().equals("")){
+			return 0;
+		}
 		int rNumber = Integer.parseInt(bf.toString());
 		return rNumber;
 	}
