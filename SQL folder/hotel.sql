@@ -14,19 +14,19 @@ DROP TABLE IF EXISTS USER;
 CREATE TABLE USER
 (
     uNAME VARCHAR(50),
-    uStars int DEFAULT 5,
+    uStars INT DEFAULT 5,
     memberSince timestamp DEFAULT CURRENT_TIMESTAMP,
     BANNED BOOLEAN DEFAULT FALSE,
-    Days int DEFAULT 0,
-    Referrals int DEFAULT 0,
-    reference VARCHAR(50) DEFAULT null,
+    Days INT DEFAULT 0,
+    Referrals INT DEFAULT 0,
+    reference VARCHAR(50) DEFAULT NULL,
 	PRIMARY KEY (uNAME)
 );
 
 DROP TABLE IF EXISTS ROOMS;
 CREATE TABLE ROOMS
 (
-    rNumber int,
+    rNumber INT,
     rStatus VARCHAR(20) DEFAULT 'Available',
     price INT,
     rType VARCHAR(20),
@@ -39,10 +39,10 @@ CREATE TABLE reservation
 (
 	reservationID INT AUTO_INCREMENT,
     uNAME VARCHAR(50),
-    rNumber int,
-    CheckedIn boolean default false,
-    CheckedOut boolean default false,
-    paid boolean default false,
+    rNumber INT,
+    CheckedIn BOOLEAN DEFAULT false,
+    CheckedOut BOOLEAN DEFAULT false,
+    paid BOOLEAN DEFAULT false,
     startDate date,
 	endDate date,
 	PRIMARY KEY (reservationID),
@@ -50,10 +50,10 @@ CREATE TABLE reservation
     FOREIGN KEY (rNumber) references ROOMS (rNumber)
 );
 
-drop table if exists facilities;
+DROP TABLE IF EXISTS facilities;
 CREATE TABLE facilities(
     fName VARCHAR(30),
-    rNumber int,
+    rNumber INT,
     fType VARCHAR(20),
     fStatus VARCHAR(20),
     HANDICAP BOOLEAN DEFAULT FALSE,
@@ -61,10 +61,10 @@ CREATE TABLE facilities(
     FOREIGN KEY (rNumber) references rooms(rNumber)
 );
 
-	drop table if exists Parking;
-	create table Parking(
+	DROP TABLE IF EXISTS Parking;
+	CREATE TABLE Parking(
 		pNumber INT,
-		roomNumber int NOT NULL,
+		roomNumber INT NOT NULL,
 		uNAME VARCHAR(50) DEFAULT NULL,
 		pStatus VARCHAR(20) DEFAULT 'Available',
 		startDate date DEFAULT NULL,
@@ -80,10 +80,10 @@ CREATE TABLE archiveReservation
     updatedAt timestamp,
     reservationID INT,
     uNAME VARCHAR(50),
-    rNumber int,
-    CheckedIn boolean default false,
-    CheckedOut boolean default false,
-    paid boolean default false,
+    rNumber INT,
+    CheckedIn BOOLEAN DEFAULT false,
+    CheckedOut BOOLEAN DEFAULT false,
+    paid BOOLEAN DEFAULT false,
     startDate date,
 	endDate date,
 	FOREIGN KEY (uNAME) references USER (uNAME),
@@ -95,79 +95,79 @@ CREATE TABLE archiveUser
 (
     updatedAt DATETIME,
     uNAME VARCHAR(50),
-    uStars int DEFAULT 5,
+    uStars INT DEFAULT 5,
     memberSince timestamp,
     BANNED BOOLEAN DEFAULT FALSE,
-    Days int DEFAULT 0,
-    Referrals int DEFAULT 0,
-    reference VARCHAR(50) DEFAULT null,
+    Days INT DEFAULT 0,
+    Referrals INT DEFAULT 0,
+    reference VARCHAR(50) DEFAULT NULL,
 	FOREIGN KEY (reference) references USER (uNAME)
 );
 
 
 
-drop trigger if exists updateArchiveReservation;
-delimiter //
+DROP TRIGGER IF EXISTS updateArchiveReservation;
+DELIMITER //
 CREATE TRIGGER updateArchiveReservation AFTER UPDATE ON reservation FOR EACH ROW
 BEGIN 
     INSERT INTO archiveReservation 
-    values(CURRENT_TIMESTAMP, new.reservationID, new.uName, new.rNumber, 
+    VALUES(CURRENT_TIMESTAMP, new.reservationID, new.uName, new.rNumber, 
     new.CheckedIn, new.CheckedOut, new.paid, new.startDate, new.endDate);
 END; //
-delimiter ;
+DELIMITER ;
 
-drop trigger if exists addArchiveReservation;
-delimiter //
+DROP TRIGGER IF EXISTS addArchiveReservation;
+DELIMITER //
 CREATE TRIGGER addArchiveReservation AFTER INSERT ON reservation FOR EACH ROW
 BEGIN 
     INSERT INTO archiveReservation 
-    values(CURRENT_TIMESTAMP, new.reservationID, new.uName, new.rNumber, 
+    VALUES(CURRENT_TIMESTAMP, new.reservationID, new.uName, new.rNumber, 
     new.CheckedIn, new.CheckedOut, new.paid, new.startDate, new.endDate);
 END;//
-delimiter ;
+DELIMITER ;
 
-drop trigger if exists removedArchiveReservation;
-delimiter //
+DROP TRIGGER IF EXISTS removedArchiveReservation;
+DELIMITER //
 CREATE TRIGGER removedArchiveReservation AFTER DELETE ON reservation FOR EACH ROW
 BEGIN 
     INSERT INTO archiveReservation 
-    values(CURRENT_TIMESTAMP, old.reservationID, old.uName, old.rNumber, 
+    VALUES(CURRENT_TIMESTAMP, old.reservationID, old.uName, old.rNumber, 
     old.CheckedIn, old.CheckedOut, old.paid, old.startDate, old.endDate);
 END;//
-delimiter ;
+DELIMITER ;
 
 DROP TRIGGER IF EXISTS updateArchiveUser;
-delimiter //
+DELIMITER //
 CREATE TRIGGER updateArchiveUser AFTER UPDATE ON User FOR EACH ROW
 BEGIN
     INSERT INTO archiveUser
     VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, new.memberSince,
     new.Banned, new.Days, new.Referrals, new.reference);
 END; //
-delimiter ;
+DELIMITER ;
 
 DROP TRIGGER IF EXISTS addArchiveUser;
-delimiter //
+DELIMITER //
 CREATE TRIGGER addArchiveUser AFTER INSERT ON User FOR EACH ROW
 BEGIN 
     INSERT INTO archiveUser
     VALUES(CURRENT_TIMESTAMP, new.uName, new.uStars, new.memberSince,
     new.Banned, new.Days, new.Referrals, new.reference);
 END; //
-delimiter ;
+DELIMITER ;
 
 DROP TRIGGER IF EXISTS removedArchiveUser;
-delimiter //
+DELIMITER //
 CREATE TRIGGER removedArchiveUser AFTER DELETE ON User FOR EACH ROW
 BEGIN 
     INSERT INTO archiveUser
     VALUES(CURRENT_TIMESTAMP, old.uName, old.uStars, old.memberSince,
     old.Banned, old.Days, old.Referrals, old.reference);
 END;//
-delimiter ;
+DELIMITER ;
 
 
-drop trigger IF EXISTS cancelReservation;
+DROP TRIGGER IF EXISTS cancelReservation;
 DELIMITER //
 CREATE TRIGGER cancelReservation
 AFTER DELETE ON reservation
@@ -177,43 +177,43 @@ UPDATE ROOMS SET rStatus = 'Available' WHERE old.rNumber = ROOMS.rNumber and old
 END //
 DELIMITER ;
 
-drop trigger IF EXISTS banUser;
-delimiter //
+DROP TRIGGER IF EXISTS banUser;
+DELIMITER //
 CREATE TRIGGER banUser BEFORE UPDATE ON USER FOR EACH ROW 
 BEGIN IF (new.uStars <= 1) THEN 
-set new.Banned = true;
+SET new.Banned = true;
 ELSEIF(new.banned = true) THEN
-set new.uStars = 0; 
+SET new.uStars = 0; 
 END IF; END;//
-delimiter ;
+DELIMITER ;
 
-drop trigger IF EXISTS checkIn;
+DROP TRIGGER IF EXISTS checkIn;
 DELIMITER //
 CREATE TRIGGER checkIn
 AFTER UPDATE ON reservation
 FOR EACH ROW
 BEGIN
-if(old.CheckedIn = false and new.Checkedin = true and old.rNumber = new.rNumber)
+IF(old.CheckedIn = false AND new.Checkedin = true AND old.rNumber = new.rNumber)
 THEN
 UPDATE Parking SET uNAME = new.uNAME, 
 Parking.startDate = new.startDate, Parking.endDate = new.endDate, pStatus = 'Taken'
 WHERE old.rNumber = Parking.roomNumber;
-UPDATE rooms set rStatus = 'Taken' where Rooms.rNumber = old.rNumber;
-ELSEIF(old.CheckedOut = false and new.CheckedOut = true and old.rNumber = new.rNumber)
+UPDATE rooms SET rStatus = 'Taken' WHERE Rooms.rNumber = old.rNumber;
+ELSEIF(old.CheckedOut = false AND new.CheckedOut = true AND old.rNumber = new.rNumber)
 THEN
 UPDATE Parking SET uNAME = NULL, 
 Parking.startDate = NULL, Parking.endDate = NULL, pStatus = 'Available'
 WHERE old.rNumber = Parking.roomNumber;
-UPDATE rooms set rStatus = 'Taken' where Rooms.rNumber = old.rNumber;
- END IF;
+UPDATE rooms SET rStatus = 'Taken' WHERE Rooms.rNumber = old.rNumber;
+END IF;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS addAdmin;
 DELIMITER //
 CREATE PROCEDURE addAdmin(
-IN username varchar(50),
-IN password varchar(50)
+IN username VARCHAR(50),
+IN password VARCHAR(50)
 )
 BEGIN
 INSERT INTO ADMIN VALUES(username, password);
@@ -223,33 +223,33 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS clearReference;
 DELIMITER //
 CREATE PROCEDURE clearReference(
-IN username varchar(50)
+IN username VARCHAR(50)
 )
 BEGIN 
-Select reference from USER where uNAME = username;
-update USER set reference = null where uNAME = username;
+SELECT reference FROM USER WHERE uNAME = username;
+UPDATE USER SET reference = NULL WHERE uNAME = username;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS addDays;
 DELIMITER //
 CREATE PROCEDURE addDays(
-IN username varchar(50),
-in Dcount int
+IN username VARCHAR(50),
+IN Dcount INT
 )
 BEGIN
-update user set days = days + Dcount where uNAME = username;
-select days from user where uNAME = username;
+UPDATE USER SET days = days + Dcount WHERE uNAME = username;
+SELECT days FROM user WHERE uNAME = username;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS addRefDays;
 DELIMITER //
 CREATE PROCEDURE addRefDays(
-IN username varchar(50)
+IN username VARCHAR(50)
 )
 BEGIN
-update user set Referrals = Referrals + 1 where uNAME = username;
+UPDATE user SET Referrals = Referrals + 1 WHERE uNAME = username;
 END //
 DELIMITER ;
 
@@ -257,24 +257,24 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS RemoveDays;
 DELIMITER //
 CREATE PROCEDURE RemoveDays(
-IN username varchar(50),
-in Dcount int
+IN username VARCHAR(50),
+IN Dcount INT
 )
 BEGIN
-update user set days = days - Dcount where uNAME = username;
-select days from user where uNAME = username;
+UPDATE user SET days = days - Dcount WHERE uNAME = username;
+SELECT days FROM user WHERE uNAME = username;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS removeRefDays;
 DELIMITER //
 CREATE PROCEDURE removeRefDays(
-IN username varchar(50),
-in Dcount int
+IN username VARCHAR(50),
+IN Dcount INT
 )
 BEGIN
-update user set Referrals = Referrals - Dcount where uNAME = username;
-select Referrals from user where uNAME = username;
+UPDATE user SET Referrals = Referrals - Dcount WHERE uNAME = username;
+SELECT Referrals FROM user WHERE uNAME = username;
 END //
 DELIMITER ;
 
@@ -282,20 +282,20 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS GetPrices;
 DELIMITER //
 CREATE PROCEDURE GetPrices(
-IN inRID int
+IN inRID INT
 )
 BEGIN
-select * from ROOMS RIGHT join reservation on ROOMS.rNumber = reservation.rNumber where inRID = reservation.reservationID;
+SELECT * FROM ROOMS RIGHT JOIN reservation ON ROOMS.rNumber = reservation.rNumber WHERE inRID = reservation.reservationID;
 END //
 DELIMITER ;	
 
 DROP PROCEDURE IF EXISTS checkBanUser;
 DELIMITER //
 CREATE PROCEDURE checkBanUser(
-IN username varchar(50)
+IN username VARCHAR(50)
 )
 BEGIN
-SELECT uNAME FROM USER WHERE uNAME = username and BANNED = true;
+SELECT uNAME FROM USER WHERE uNAME = username AND BANNED = true;
 END //
 DELIMITER ;
 
@@ -310,56 +310,57 @@ IN roomNumber INT
 BEGIN
 SELECT COUNT(uName) AS total FROM reservation WHERE (date1 < startDate AND (date2 < endDate AND date2 <=startDate)
 AND rNumber = roomNumber)
- OR(((date1 > startDate AND date1 >= endDate) AND date2 > endDate)
-  AND rNumber = roomNumber);
+OR(((date1 > startDate AND date1 >= endDate) AND date2 > endDate)
+AND rNumber = roomNumber);
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS getTotalDates;
 DELIMITER //
 CREATE PROCEDURE getTotalDates(
-IN roomNumber int
+IN roomNumber INT
 )
 BEGIN
-SELECT count(*) FROM reservation where rNumber = roomNumber;
+SELECT COUNT(*) FROM reservation WHERE rNumber = roomNumber;
 END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS displayUnavailableDate;
 DELIMITER //
 CREATE PROCEDURE displayUnavailableDate(
-IN roomNumber int
+IN roomNumber INT
 )
 BEGIN
-SELECT startDate, endDate FROM reservation where rNumber = roomNumber;
+SELECT startDate, endDate FROM reservation WHERE rNumber = roomNumber;
 END //
 DELIMITER ;
 
-drop view IF EXISTS BanV;
-create view banV as select uNAME from user where banned is false;
+DROP VIEW IF EXISTS BanV;
+CREATE VIEW banV AS SELECT uNAME FROM user WHERE banned is false;
  
-drop view IF EXISTS DiscountDay;
-create view DiscountDay as select uNAME from USER where Days > 9;
+DROP VIEW IF EXISTS DiscountDay;
+CREATE VIEW DiscountDay AS SELECT uNAME FROM USER WHERE Days > 9;
 
-drop view IF EXISTS DiscountRef;
-create view DiscountRef as select uNAME from USER where Referrals > 2;
+DROP VIEW IF EXISTS DiscountRef;
+CREATE VIEW DiscountRef AS SELECT uNAME FROM USER WHERE Referrals > 2;
 
-drop view IF EXISTS OpenRooms;
-create view OpenRooms AS select rNumber, rType as value from ROOMS where rNumber not in 
-    (select rNumber from ROOMS) and not rType = 'Facilities' and rStatus = 'Available';
+DROP VIEW IF EXISTS OpenRooms;
+CREATE VIEW OpenRooms AS SELECT rNumber, rType AS value FROM ROOMS WHERE rNumber NOT IN 
+(SELECT rNumber FROM ROOMS) AND NOT rType = 'Facilities' AND rStatus = 'Available';
 
-drop view IF EXISTS FacilitiesStatus;
-create view FacilitiesStatus AS select fName, fStatus from facilities;
+DROP VIEW IF EXISTS FacilitiesStatus;
+CREATE VIEW FacilitiesStatus AS SELECT fName, fStatus FROM facilities;
 
-drop view IF EXISTS RoomTypes;
-create view RoomTypes AS select rtype, count(rtype) as amount from rooms where not rType = 'Facilities' and rStatus = 'Available' group by rtype having amount > 0;
+DROP VIEW IF EXISTS RoomTypes;
+CREATE VIEW RoomTypes AS SELECT rtype, COUNT(rtype) AS amount FROM rooms WHERE NOT rType = 'Facilities' AND
+rStatus = 'Available' GROUP BY rtype HAVING amount > 0;
 
-drop view IF EXISTS ReservationDays;
-create view ReservationDays as select reservationID, DATEDIFF(reservation.endDate, reservation.startDate) as daycount 
-    from reservation; 
+DROP VIEW IF EXISTS ReservationDays;
+CREATE VIEW ReservationDays AS SELECT reservationID, DATEDIFF(reservation.endDate, reservation.startDate) AS daycount 
+FROM reservation; 
 
-drop view IF EXISTS OpenParking;
-create view OpenParking as select pNumber, uNAME as value from Parking where pStatus = 'Available';
+DROP VIEW IF EXISTS OpenParking;
+CREATE VIEW OpenParking AS SELECT pNumber, uNAME AS value FROM Parking WHERE pStatus = 'Available';
 
 
 DROP VIEW IF EXISTS allAvailableroomsFacilities;

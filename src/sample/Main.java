@@ -324,7 +324,12 @@ public class Main {
     	System.out.println("These are the current rooms");
     	RoomManager.displayAllRoomNumber();
     	int rNumber = InputHelper.getIntegerInput("Enter the room number to delete: ");
-    	RoomManager.deleteRoom(rNumber);
+    	boolean roomDeleted = RoomManager.deleteRoom(rNumber);
+    	if(roomDeleted) {
+    		System.out.println("Room " + rNumber + " has been deleted from database");
+    	}else{
+    		System.out.println("Something wrong, room not deleted");
+    	}
     }
     
     private static void checkOut(Reservation reservation) throws Exception {

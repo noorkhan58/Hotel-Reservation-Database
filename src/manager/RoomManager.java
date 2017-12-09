@@ -46,11 +46,12 @@ public class RoomManager {
 			while (rs.next()) {
 				bf.append(rs.getInt("rNumber") + ", ");
 				i++;
-				if(i%10 == 0){
-					System.out.println(bf.toString());
-					bf = new StringBuffer();
+				if(i%10 == 0) {
+					bf.append("\n");
 				}
+
 			}
+			System.out.println(bf.toString());
 		}
 	}
 	
