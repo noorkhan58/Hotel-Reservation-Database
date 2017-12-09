@@ -52,7 +52,6 @@ insert into facilities(fName, rNumber, fStatus, Handicap) value
 ('Gift Shop', 009, 'Available', true),
 ('Game Room', 010, 'Available', true);
 
-
 insert into USER(uName) value
 ('geoff'),
 ('notIt'),
@@ -109,11 +108,8 @@ insert into parking(pNumber ,roomNumber ,uName, pStatus, startDate, endDate) val
 (30 ,215 ,null, 'Available', null, null);
 
 
-
-
 insert into admin values('noor.khan@sjsu.edu', 'sample');
 insert into admin values('john', 'anderson');
-
 
 
 --insert into parking(pNumber,uName,pStatus, pType, startDate, endDate);

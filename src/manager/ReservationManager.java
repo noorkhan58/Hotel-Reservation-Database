@@ -357,11 +357,8 @@ public class ReservationManager {
 		}else{
 			System.out.println("Invalid Dates. Please try again later");
 			makeReservation(newReservation);
-			
-		}	
-		
+		}		
 	}
-
 	
 	public static boolean checkBanned(String name) throws SQLException {
 		String sql = "Call checkBanUser('"+name+ "')";
