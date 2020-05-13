@@ -13,8 +13,8 @@ pipeline {
 
 			steps {
 
-				echo 'make build ${Greetings}'
-				echo '${Environment}'
+				echo 'make build'
+				echo "${params.Environment}"
 
 			}
 
