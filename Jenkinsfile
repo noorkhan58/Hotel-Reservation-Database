@@ -14,7 +14,7 @@ pipeline {
 			steps {
 
 				echo 'make build'
-				echo "${params.Greeting} World"
+				echo "${params.Greetings} World"
 
 			}
 
