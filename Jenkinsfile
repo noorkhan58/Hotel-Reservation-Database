@@ -9,7 +9,6 @@ pipeline {
 			steps {
 
 				echo 'make build'
-				archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
 
 			}
 
