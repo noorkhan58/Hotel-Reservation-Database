@@ -8,7 +8,7 @@ pipeline {
 
 			steps {
 
-				sh 'make'
+				echo 'make build'
 				archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
 
 			}
@@ -26,7 +26,7 @@ pipeline {
 
 			steps {
 
-				sh 'make publish'
+				echo 'make publish'
 			}
 
 		}
