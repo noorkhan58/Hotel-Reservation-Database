@@ -2,5 +2,5 @@
 
 stage('Hello') {
 	echo "Hello Noor Khan"
-	echo 'Tasnim Oyshi'
+	sayHello 'Tasnim Oyshi'
 }
