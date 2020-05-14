@@ -12,7 +12,8 @@ pipeline {
 		stage('Build') {
 
 			steps {
-
+				def example = load "${rootDir}@script/test.groovy "
+				example.test1()
 				echo 'make build'
 				echo "${params.Environment}"
 
